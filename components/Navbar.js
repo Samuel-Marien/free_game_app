@@ -46,7 +46,7 @@ const Navbar = () => {
 
                 {session && (
                   <li>
-                    <Link className="underline" href="/">
+                    <Link className="underline" href="/profilePage">
                       Profile
                     </Link>
                   </li>
