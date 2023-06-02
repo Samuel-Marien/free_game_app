@@ -1,9 +1,15 @@
 import React from 'react'
 import Link from 'next/link'
+import { useSession } from 'next-auth/client'
 import { BsPersonSquare } from 'react-icons/bs'
 import { IoMdMenu } from 'react-icons/io'
 
 const Navbar = () => {
+  const [session, loading] = useSession()
+
+  console.log(session)
+  console.log(loading)
+
   return (
     <div className="flex flex-wrap place-items-top h-screen">
       <section className="relative mx-auto">
@@ -25,9 +31,28 @@ const Navbar = () => {
               </li>
             </ul>
             <div className="hidden xl:flex items-center space-x-5">
-              <Link className="hover:text-gray-200" href="/signPage">
-                <BsPersonSquare />
-              </Link>
+              <ul className="flex gap-x-2 items-center hover:text-gray-200">
+                {!session && (
+                  <li>
+                    <Link href="/signPage">
+                      <BsPersonSquare />
+                    </Link>
+                  </li>
+                )}
+
+                {session && (
+                  <li>
+                    <Link className="underline" href="/">
+                      Profile
+                    </Link>
+                  </li>
+                )}
+                {session && (
+                  <li>
+                    <button className="border p-1 rounded">Logout</button>
+                  </li>
+                )}
+              </ul>
             </div>
           </div>
 
