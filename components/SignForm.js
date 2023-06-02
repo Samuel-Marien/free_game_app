@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import { Formik, Form, useField } from 'formik'
 import { signIn } from 'next-auth/client'
 import * as Yup from 'yup'
@@ -68,6 +69,7 @@ const SignForm = () => {
   const [isLogin, setIsLogin] = useState(true)
   const [userErrorMessage, setUserErrorMessage] = useState('')
   const [userSuccessMessage, setUserSuccessMessage] = useState('')
+  const router = useRouter()
 
   function switchAuthModeHandler() {
     setIsLogin((prevState) => !prevState)
@@ -97,6 +99,9 @@ const SignForm = () => {
             email: values.email,
             password: values.password
           })
+          if (!result.error) {
+            router.replace('/')
+          }
           console.log(result)
         } else {
           try {
