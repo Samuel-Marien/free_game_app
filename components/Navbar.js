@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { useSession } from 'next-auth/client'
+import { useSession, signOut } from 'next-auth/client'
 import { BsPersonSquare } from 'react-icons/bs'
 import { IoMdMenu } from 'react-icons/io'
 
@@ -9,6 +9,10 @@ const Navbar = () => {
 
   console.log(session)
   console.log(loading)
+
+  const logoutHandler = () => {
+    signOut()
+  }
 
   return (
     <div className="flex flex-wrap place-items-top h-screen">
@@ -49,7 +53,12 @@ const Navbar = () => {
                 )}
                 {session && (
                   <li>
-                    <button className="border p-1 rounded">Logout</button>
+                    <button
+                      onClick={logoutHandler}
+                      className="border p-1 rounded"
+                    >
+                      Logout
+                    </button>
                   </li>
                 )}
               </ul>
