@@ -6,8 +6,10 @@ async function handler(req, res) {
     const data = req.body
 
     const { firstName, lastName, email, password } = data
-    console.log(data)
+    // console.log(data)
     if (
+      !firstName ||
+      !lastName ||
       !email ||
       !password ||
       !email.includes('@') ||
@@ -21,6 +23,14 @@ async function handler(req, res) {
 
     const db = client.db()
 
+    const existingUser = await db.collection('users').findOne({ email: email })
+
+    if (existingUser) {
+      res.status(422).json({ message: 'User already exist!' })
+      client.close()
+      // return
+    }
+
     const hashedPassword = await hashPassword(password)
 
     const result = await db.collection('users').insertOne({
@@ -29,7 +39,7 @@ async function handler(req, res) {
       email: email,
       password: hashedPassword
     })
-    res.status(200).json({ message: 'Successfully created new user!' })
+    res.status(201).json({ message: 'Successfully created new user!' })
   }
 }
 

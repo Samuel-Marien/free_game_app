@@ -61,7 +61,6 @@ const SignForm = () => {
 
   function switchAuthModeHandler() {
     setIsLogin((prevState) => !prevState)
-    setIsLogin((prevState) => !prevState)
   }
 
   if (isLogin) {
@@ -85,7 +84,6 @@ const SignForm = () => {
           email: values.email,
           password: values.password
         })
-
         resetForm()
         setSubmitting(false)
       }}
@@ -94,8 +92,9 @@ const SignForm = () => {
         <Form className="flex justify-center mt-10">
           <div className="border p-2 rounded">
             <h1 className="text-center mb-4 text-4xl text-slate-600 font-bold">
-              Sign in
+              Sign up
             </h1>
+
             <MyTextInput
               label="First Name"
               name="firstName"
@@ -120,9 +119,10 @@ const SignForm = () => {
               name="passwordConfirmation"
               type="password"
             />
+
             {isSubmitting || !isValid || !dirty ? (
               <div className="text-center p-2 mt-4 w-80 hover:text-slate-600">
-                Please provide all values :)
+                Please provide all values.
               </div>
             ) : (
               <button
