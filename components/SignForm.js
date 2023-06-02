@@ -4,7 +4,7 @@ import { signIn } from 'next-auth/client'
 import * as Yup from 'yup'
 import { object } from 'yup'
 
-const myValidationSchema = object().shape({
+const signInSchema = object().shape({
   firstName: Yup.string()
     .max(15, 'Must be 15 characters or less')
     .required('Required'),
@@ -22,6 +22,13 @@ const myValidationSchema = object().shape({
       return this.parent.password === value
     }
   )
+})
+
+const loginSchema = object().shape({
+  email: Yup.string().email('Invalid email address').required('Required'),
+  password: Yup.string()
+    .required('Required')
+    .min(6, 'Your password is too short.')
 })
 
 const MyTextInput = ({ label, ...props }) => {
@@ -70,7 +77,7 @@ const SignForm = () => {
     setTimeout(() => {
       setUserErrorMessage('')
       setUserSuccessMessage('')
-    }, 3000)
+    }, 2000)
   }
 
   return (
@@ -82,7 +89,7 @@ const SignForm = () => {
         password: '',
         passwordConfirmation: ''
       }}
-      validationSchema={myValidationSchema}
+      validationSchema={!isLogin ? loginSchema : signInSchema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         if (!isLogin) {
           const result = await signIn('credentials', {
@@ -90,6 +97,7 @@ const SignForm = () => {
             email: values.email,
             password: values.password
           })
+          console.log(result)
         } else {
           try {
             const result = await createUser({
@@ -98,7 +106,6 @@ const SignForm = () => {
               email: values.email,
               password: values.password
             })
-            // console.log(result.message)
             setUserSuccessMessage(result.message)
             resetForm()
             setSubmitting(false)
@@ -109,8 +116,8 @@ const SignForm = () => {
       }}
     >
       {({ isSubmitting, isValid, dirty }) => (
-        <Form className="flex justify-center mt-10">
-          <div className="border p-2 rounded">
+        <Form className="flex justify-center mt-10 ">
+          <div className="border p-2 rounded bg-slate-50 shadow-sm">
             <h1 className="text-center mb-4 text-4xl text-slate-600 font-bold">
               {isLogin ? 'Sign up' : 'Log in'}
             </h1>
