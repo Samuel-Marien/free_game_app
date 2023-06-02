@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Formik, Form, useField } from 'formik'
+import { signIn } from 'next-auth/client'
 import * as Yup from 'yup'
 import { object } from 'yup'
 
@@ -58,13 +59,18 @@ async function createUser({ firstName, lastName, email, password }) {
 
 const SignForm = () => {
   const [isLogin, setIsLogin] = useState(true)
+  const [userErrorMessage, setUserErrorMessage] = useState('')
+  const [userSuccessMessage, setUserSuccessMessage] = useState('')
 
   function switchAuthModeHandler() {
     setIsLogin((prevState) => !prevState)
   }
 
-  if (isLogin) {
-    // log user in
+  if (userErrorMessage || userSuccessMessage) {
+    setTimeout(() => {
+      setUserErrorMessage('')
+      setUserSuccessMessage('')
+    }, 3000)
   }
 
   return (
@@ -77,36 +83,55 @@ const SignForm = () => {
         passwordConfirmation: ''
       }}
       validationSchema={myValidationSchema}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        createUser({
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          password: values.password
-        })
-        resetForm()
-        setSubmitting(false)
+      onSubmit={async (values, { setSubmitting, resetForm }) => {
+        if (!isLogin) {
+          const result = await signIn('credentials', {
+            redirect: false,
+            email: values.email,
+            password: values.password
+          })
+        } else {
+          try {
+            const result = await createUser({
+              firstName: values.firstName,
+              lastName: values.lastName,
+              email: values.email,
+              password: values.password
+            })
+            // console.log(result.message)
+            setUserSuccessMessage(result.message)
+            resetForm()
+            setSubmitting(false)
+          } catch (error) {
+            setUserErrorMessage(error.message)
+          }
+        }
       }}
     >
       {({ isSubmitting, isValid, dirty }) => (
         <Form className="flex justify-center mt-10">
           <div className="border p-2 rounded">
             <h1 className="text-center mb-4 text-4xl text-slate-600 font-bold">
-              Sign up
+              {isLogin ? 'Sign up' : 'Log in'}
             </h1>
-
-            <MyTextInput
-              label="First Name"
-              name="firstName"
-              type="text"
-              placeholder="Jane"
-            />
-            <MyTextInput
-              label="Last Name"
-              name="lastName"
-              type="text"
-              placeholder="Doe"
-            />
+            <h2 className="text-center text-red-500">{userErrorMessage}</h2>
+            <h2 className="text-center text-green-500">{userSuccessMessage}</h2>
+            {isLogin && (
+              <>
+                <MyTextInput
+                  label="First Name"
+                  name="firstName"
+                  type="text"
+                  placeholder="Jane"
+                />
+                <MyTextInput
+                  label="Last Name"
+                  name="lastName"
+                  type="text"
+                  placeholder="Doe"
+                />
+              </>
+            )}
             <MyTextInput
               label="Email"
               name="email"
@@ -114,25 +139,36 @@ const SignForm = () => {
               placeholder="janedoe@gmail.com"
             />
             <MyTextInput label="Password" name="password" type="password" />
-            <MyTextInput
-              label="Confirm"
-              name="passwordConfirmation"
-              type="password"
-            />
+            {isLogin && (
+              <MyTextInput
+                label="Confirm"
+                name="passwordConfirmation"
+                type="password"
+              />
+            )}
 
             {isSubmitting || !isValid || !dirty ? (
               <div className="text-center p-2 mt-4 w-80 hover:text-slate-600">
                 Please provide all values.
               </div>
             ) : (
-              <button
-                disabled={isSubmitting || !isValid || !dirty}
-                className="border rounded p-2 mt-8 w-80 bg-slate-600 hover:bg-slate-400 text-slate-100 hover:text-slate-600 transition-all duration-200"
-                type="submit"
-              >
-                Submit
-              </button>
+              <div>
+                <button
+                  disabled={isSubmitting || !isValid || !dirty}
+                  className="border rounded p-2 mt-8 w-80 bg-slate-600 hover:bg-slate-400 text-slate-100 hover:text-slate-600 transition-all duration-200"
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </div>
             )}
+            <button
+              type="button"
+              className="mt-5 text-xs text-slate-300 underline"
+              onClick={switchAuthModeHandler}
+            >
+              {isLogin ? 'Login with existing account' : 'Create new account'}
+            </button>
           </div>
         </Form>
       )}
