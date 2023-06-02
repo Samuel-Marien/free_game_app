@@ -1,28 +1,23 @@
-import React, { useEffect, useState } from 'react'
 import { getSession } from 'next-auth/client'
 
+import Profile from '../components/Profile'
+
 const ProfilePage = () => {
-  const [isLoading, setIsLoading] = useState(true)
+  return <Profile />
+}
 
-  useEffect(() => {
-    getSession().then((session) => {
-      if (!session) {
-        window.location.href = '/signPage'
-      } else {
-        setIsLoading(false)
-      }
-    })
-  }, [])
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req })
 
-  if (isLoading) {
-    return <p className="text-3xl">Loading...</p>
+  if (!session) {
+    return {
+      redirect: { destination: '/signPage', permanent: false }
+    }
   }
 
-  return (
-    <div>
-      <h1>Your User Profile</h1>
-    </div>
-  )
+  return {
+    props: { session }
+  }
 }
 
 export default ProfilePage
