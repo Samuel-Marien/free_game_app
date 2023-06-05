@@ -7,9 +7,6 @@ import { IoMdMenu } from 'react-icons/io'
 const Navbar = () => {
   const [session, loading] = useSession()
 
-  // console.log(session)
-  // console.log(loading)
-
   const logoutHandler = () => {
     signOut()
   }

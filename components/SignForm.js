@@ -86,7 +86,6 @@ const SignForm = () => {
           })
 
           if (result.error) {
-            // console.log(result.error)
             setUserErrorMessage(result.error)
             resetForm()
           }
@@ -107,7 +106,6 @@ const SignForm = () => {
             setSubmitting(false)
             router.replace('/')
           } catch (error) {
-            console.log(error.message)
             setUserErrorMessage(error.message)
             resetForm()
           }
