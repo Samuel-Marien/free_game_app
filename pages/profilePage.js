@@ -1,9 +1,15 @@
 import { getSession } from 'next-auth/client'
 
-import Profile from '../components/Profile'
+import Navbar from '../components/Navbar'
+import ProfileForm from '../components/ProfileForm'
 
 const ProfilePage = () => {
-  return <Profile />
+  return (
+    <>
+      <Navbar />
+      <ProfileForm />
+    </>
+  )
 }
 
 export async function getServerSideProps(context) {

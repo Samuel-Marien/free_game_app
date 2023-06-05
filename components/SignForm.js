@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-import { Formik, Form, useField } from 'formik'
+import { Formik, Form } from 'formik'
 import { signIn } from 'next-auth/client'
 import * as Yup from 'yup'
 import { object } from 'yup'
+
+import MyTextInput from './MyTextInput'
 
 const signInSchema = object().shape({
   firstName: Yup.string()
@@ -31,23 +33,6 @@ const loginSchema = object().shape({
     .required('Required')
     .min(6, 'Your password is too short.')
 })
-
-const MyTextInput = ({ label, ...props }) => {
-  const [field, meta] = useField(props)
-  return (
-    <div>
-      <label className="text-slate-600" htmlFor={props.id || props.name}>
-        {label}
-      </label>
-      <div>
-        <input className="border p-1 rounded w-80" {...field} {...props} />
-        {meta.touched && meta.error ? (
-          <div className="text-red-500">{meta.error}</div>
-        ) : null}
-      </div>
-    </div>
-  )
-}
 
 async function createUser({ firstName, lastName, email, password }) {
   const response = await fetch('/api/auth/signup', {
@@ -99,10 +84,16 @@ const SignForm = () => {
             email: values.email,
             password: values.password
           })
+
+          if (result.error) {
+            // console.log(result.error)
+            setUserErrorMessage(result.error)
+            resetForm()
+          }
+
           if (!result.error) {
             router.replace('/')
           }
-          console.log(result)
         } else {
           try {
             const result = await createUser({
@@ -114,8 +105,11 @@ const SignForm = () => {
             setUserSuccessMessage(result.message)
             resetForm()
             setSubmitting(false)
+            router.replace('/')
           } catch (error) {
+            console.log(error.message)
             setUserErrorMessage(error.message)
+            resetForm()
           }
         }
       }}

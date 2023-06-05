@@ -7,15 +7,15 @@ import { IoMdMenu } from 'react-icons/io'
 const Navbar = () => {
   const [session, loading] = useSession()
 
-  console.log(session)
-  console.log(loading)
+  // console.log(session)
+  // console.log(loading)
 
   const logoutHandler = () => {
     signOut()
   }
 
   return (
-    <div className="flex flex-wrap place-items-top h-screen">
+    <div className="flex flex-wrap place-items-top">
       <section className="relative mx-auto">
         <nav className="flex justify-between bg-gray-900 text-white w-screen">
           <div className="px-5 xl:px-12 py-6 flex w-full items-center">

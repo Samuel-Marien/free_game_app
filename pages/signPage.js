@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { getSession } from 'next-auth/client'
 
+import Navbar from '../components/Navbar'
 import SignForm from '../components/SignForm'
 
 const SignPage = () => {
@@ -22,7 +23,12 @@ const SignPage = () => {
     return <p>Loading...</p>
   }
 
-  return <SignForm />
+  return (
+    <>
+      <Navbar />
+      <SignForm />
+    </>
+  )
 }
 
 export default SignPage
