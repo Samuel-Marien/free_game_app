@@ -1,11 +1,15 @@
 import React from 'react'
 import Link from 'next/link'
-import { useSession, signOut } from 'next-auth/client'
+import { useSession, signOut } from 'next-auth/react'
 import { BsPersonSquare } from 'react-icons/bs'
 import { IoMdMenu } from 'react-icons/io'
 
 const Navbar = () => {
-  const [session, loading] = useSession()
+  const { data: session, status } = useSession()
+  // const loading = status === 'loading'
+
+  // console.log(session)
+  console.log(status)
 
   const logoutHandler = () => {
     signOut()

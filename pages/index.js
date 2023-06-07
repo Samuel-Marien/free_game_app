@@ -1,8 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
+import { useSession } from 'next-auth/react'
+
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 
 export default function Home() {
+  const { data: session, status } = useSession()
+  // Show Link to Login page if NOT auth
+
+  console.log(session)
+  // console.log(status)
   return (
     <div>
       <Head>
@@ -13,6 +20,7 @@ export default function Home() {
 
       <main className=" ">
         <Navbar />
+        {session && <p>{session.user.email}</p>}
       </main>
       <footer></footer>
     </div>

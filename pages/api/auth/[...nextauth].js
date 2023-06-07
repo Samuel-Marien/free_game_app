@@ -1,15 +1,19 @@
-import NextAuth from 'next-auth'
-import Providers from 'next-auth/providers'
+import NextAuth from 'next-auth/next'
+import CredentialsProvider from 'next-auth/providers/credentials'
 import { connectToDataBase } from '../../../lib/db'
 import { verifyPassword } from '../../../lib/auth'
 
-export default NextAuth({
+export const authOptions = {
+  jwt: {
+    secret: 'helloworld'
+  },
   session: {
-    jwt: true
+    strategy: 'jwt'
   },
   providers: [
-    Providers.Credentials({
-      async authorize(credentials) {
+    CredentialsProvider({
+      name: 'credentials',
+      authorize: async (credentials) => {
         const client = await connectToDataBase()
 
         const userCollection = client.db().collection('users')
@@ -33,7 +37,13 @@ export default NextAuth({
 
         client.close()
         return { email: user.email }
+      },
+      credentials: {
+        email: {},
+        password: {}
       }
     })
   ]
-})
+}
+
+export default NextAuth(authOptions)

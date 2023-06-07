@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { getSession } from 'next-auth/client'
+import { getSession } from 'next-auth/react'
 
 import Navbar from '../components/Navbar'
 import SignForm from '../components/SignForm'

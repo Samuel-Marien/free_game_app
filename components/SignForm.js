@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { Formik, Form } from 'formik'
-import { signIn } from 'next-auth/client'
+import { signIn } from 'next-auth/react'
 import * as Yup from 'yup'
 import { object } from 'yup'
 
@@ -91,7 +91,10 @@ const SignForm = () => {
           }
 
           if (!result.error) {
-            router.replace('/')
+            setUserSuccessMessage('Successfully connected!')
+            setTimeout(() => {
+              router.replace('/')
+            }, 1500)
           }
         } else {
           try {
@@ -104,7 +107,9 @@ const SignForm = () => {
             setUserSuccessMessage(result.message)
             resetForm()
             setSubmitting(false)
-            router.replace('/')
+            setIsLogin(false)
+            // router.replace('/')
+            // router.reload()
           } catch (error) {
             setUserErrorMessage(error.message)
             resetForm()

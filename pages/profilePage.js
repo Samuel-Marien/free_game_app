@@ -1,4 +1,4 @@
-import { getSession } from 'next-auth/client'
+import { getSession } from 'next-auth/react'
 
 import Navbar from '../components/Navbar'
 import ProfileForm from '../components/ProfileForm'
