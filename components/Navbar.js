@@ -1,14 +1,18 @@
 import React from 'react'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
-import { BsPersonSquare } from 'react-icons/bs'
+import {
+  BsPersonSquare,
+  BsFillGearFill,
+  BsBoxArrowInRight
+} from 'react-icons/bs'
 import { IoMdMenu } from 'react-icons/io'
 
 const Navbar = () => {
   const { data: session, status } = useSession()
   // const loading = status === 'loading'
 
-  // console.log(session)
+  console.log(session)
   console.log(status)
 
   const logoutHandler = () => {
@@ -16,26 +20,29 @@ const Navbar = () => {
   }
 
   return (
-    <div className="flex flex-wrap place-items-top">
-      <section className="relative mx-auto">
-        <nav className="flex justify-between bg-gray-900 text-white w-screen">
-          <div className="px-5 xl:px-12 py-6 flex w-full items-center">
-            <Link className="text-3xl font-bold font-heading" href="/">
-              Logo Here.
-            </Link>
-            <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
-              <li>
-                <Link className="hover:text-gray-200" href="/">
-                  Category
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:text-gray-200" href="/">
-                  Collections
-                </Link>
-              </li>
-            </ul>
-            <div className="hidden xl:flex items-center space-x-5">
+    <div className="flex">
+      <section>
+        <nav className="flex bg-gray-900 text-white w-screen  ">
+          <div className="px-5 xl:px-12 py-3 flex justify-between w-full   items-end">
+            <div className="w-max flex justify-between items-end  ml-10  ">
+              <Link className="text-3xl font-bold font-heading" href="/">
+                Logo Here.
+              </Link>
+              <ul className="hidden md:flex font-semibold font-heading space-x-8 ml-24">
+                <li>
+                  <Link className="hover:text-gray-200" href="/">
+                    Link one
+                  </Link>
+                </li>
+                <li>
+                  <Link className="hover:text-gray-200" href="/">
+                    Link two
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className="hidden xl:flex space-x-5">
               <ul className="flex gap-x-2 items-center hover:text-gray-200">
                 {!session && (
                   <li>
@@ -46,9 +53,16 @@ const Navbar = () => {
                 )}
 
                 {session && (
-                  <li>
+                  <li className=" p-1 rounded text-slate-300 text-xl">
+                    <p className="text-xs">
+                      🟢 Connected as <span>{session.user.name[0]}</span>
+                    </p>
+                  </li>
+                )}
+                {session && (
+                  <li className=" p-1 rounded text-slate-300 text-xl">
                     <Link className="underline" href="/profilePage">
-                      Profile
+                      <BsFillGearFill />
                     </Link>
                   </li>
                 )}
@@ -56,20 +70,19 @@ const Navbar = () => {
                   <li>
                     <button
                       onClick={logoutHandler}
-                      className="border p-1 rounded"
+                      className=" p-1 rounded text-red-400 text-2xl"
                     >
-                      Logout
+                      <BsBoxArrowInRight />
                     </button>
                   </li>
                 )}
               </ul>
             </div>
+            {/* <!-- Responsive navbar --> */}
+            <button className="self-center  xl:hidden" href="#">
+              <IoMdMenu />
+            </button>
           </div>
-
-          {/* <!-- Responsive navbar --> */}
-          <a className="self-center mr-12 xl:hidden" href="#">
-            <IoMdMenu />
-          </a>
         </nav>
       </section>
     </div>
