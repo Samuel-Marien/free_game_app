@@ -12,8 +12,8 @@ const Navbar = () => {
   const { data: session, status } = useSession()
   // const loading = status === 'loading'
 
-  console.log(session)
-  console.log(status)
+  // console.log(session)
+  // console.log(status)
 
   const logoutHandler = () => {
     signOut()
@@ -60,7 +60,7 @@ const Navbar = () => {
                   </li>
                 )}
                 {session && (
-                  <li className=" p-1 rounded text-slate-300 text-xl">
+                  <li className=" p-1 rounded text-slate-300 ">
                     <Link className="underline" href="/profilePage">
                       <BsFillGearFill />
                     </Link>
@@ -70,7 +70,7 @@ const Navbar = () => {
                   <li>
                     <button
                       onClick={logoutHandler}
-                      className=" p-1 rounded text-red-400 text-2xl"
+                      className=" p-1 rounded text-red-400 text-xl"
                     >
                       <BsBoxArrowInRight />
                     </button>

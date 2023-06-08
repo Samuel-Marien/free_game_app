@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { getSession } from 'next-auth/react'
 
 import Navbar from '../components/Navbar'
-import SignForm from '../components/SignForm'
+import SignForm from '../components/forms/SignForm'
 
 const SignPage = () => {
   const router = useRouter()

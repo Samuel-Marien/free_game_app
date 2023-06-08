@@ -8,7 +8,7 @@ export default function Home() {
   const { data: session, status } = useSession()
   // Show Link to Login page if NOT auth
 
-  console.log(session)
+  // console.log(session)
   // console.log(status)
   return (
     <div>

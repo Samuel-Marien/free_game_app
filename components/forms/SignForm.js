@@ -6,6 +6,9 @@ import * as Yup from 'yup'
 import { object } from 'yup'
 
 import MyTextInput from './MyTextInput'
+import MySpinner from '../MySpinner'
+
+import { createUser } from '../../lib/api-utils'
 
 const signInSchema = object().shape({
   firstName: Yup.string()
@@ -33,22 +36,6 @@ const loginSchema = object().shape({
     .required('Required')
     .min(6, 'Your password is too short.')
 })
-
-async function createUser({ firstName, lastName, email, password }) {
-  const response = await fetch('/api/auth/signup', {
-    method: 'POST',
-    body: JSON.stringify({ firstName, lastName, email, password }),
-    headers: { 'Content-Type': 'application/json' }
-  })
-
-  const data = await response.json()
-
-  if (!response.ok) {
-    throw new Error(data.message || 'Something went wrong :(')
-  }
-
-  return data
-}
 
 const SignForm = () => {
   const [isLogin, setIsLogin] = useState(true)
@@ -108,8 +95,6 @@ const SignForm = () => {
             resetForm()
             setSubmitting(false)
             setIsLogin(false)
-            // router.replace('/')
-            // router.reload()
           } catch (error) {
             setUserErrorMessage(error.message)
             resetForm()
@@ -125,6 +110,9 @@ const SignForm = () => {
             </h1>
             <h2 className="text-center text-red-500">{userErrorMessage}</h2>
             <h2 className="text-center text-green-500">{userSuccessMessage}</h2>
+            {(!userErrorMessage || !userSuccessMessage) && isSubmitting && (
+              <MySpinner />
+            )}
             {isLogin && (
               <>
                 <MyTextInput
@@ -158,7 +146,7 @@ const SignForm = () => {
 
             {isSubmitting || !isValid || !dirty ? (
               <div className="text-center p-2 mt-4 w-80 hover:text-slate-600">
-                Please provide all values.
+                <p> Please provide all values.</p>
               </div>
             ) : (
               <div>

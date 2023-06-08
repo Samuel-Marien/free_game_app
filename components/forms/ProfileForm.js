@@ -4,7 +4,10 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { object } from 'yup'
 
+import { changePasswordHandler } from '../../lib/api-utils'
+
 import MyTextInput from './MyTextInput'
+import MySpinner from '../MySpinner'
 
 const profileSchema = object().shape({
   newPassword: Yup.string()
@@ -21,24 +24,6 @@ const profileSchema = object().shape({
     .required('Required')
     .min(6, 'Your password is too short.')
 })
-
-async function changePasswordHandler(passwordData) {
-  const response = await fetch('/api/user/change-password', {
-    method: 'PATCH',
-    body: JSON.stringify(passwordData),
-    headers: {
-      'content-type': 'application/json'
-    }
-  })
-
-  const data = await response.json()
-
-  if (!response.ok) {
-    throw new Error(data.message || 'Something went wrong :(')
-  }
-
-  return data
-}
 
 const ProfileForm = () => {
   const [userErrorMessage, setUserErrorMessage] = useState('')
@@ -69,7 +54,9 @@ const ProfileForm = () => {
           setUserSuccessMessage(result.message)
           resetForm()
           setSubmitting(false)
-          router.replace('/')
+          setTimeout(() => {
+            router.replace('/')
+          }, 1500)
         } catch (error) {
           setUserErrorMessage(error.message)
           resetForm()
@@ -84,6 +71,9 @@ const ProfileForm = () => {
             </h1>
             <h2 className="text-center text-red-500">{userErrorMessage}</h2>
             <h2 className="text-center text-green-500">{userSuccessMessage}</h2>
+            {(!userErrorMessage || !userSuccessMessage) && isSubmitting && (
+              <MySpinner />
+            )}
             <MyTextInput
               label="New Password"
               name="newPassword"
@@ -101,7 +91,9 @@ const ProfileForm = () => {
             />
             {isSubmitting || !isValid || !dirty ? (
               <div className="text-center p-2 mt-4 w-80 hover:text-slate-600">
-                Please provide all values.
+                {!userErrorMessage || !userSuccessMessage
+                  ? null
+                  : 'Please provide all values.'}
               </div>
             ) : (
               <div>
@@ -115,7 +107,6 @@ const ProfileForm = () => {
               </div>
             )}
           </div>
-          {/* {{ isSubmitting, isValid, dirty }} */}
         </Form>
       )}
     </Formik>
