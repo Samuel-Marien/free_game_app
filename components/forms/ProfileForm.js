@@ -4,7 +4,7 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { object } from 'yup'
 
-import { changePasswordHandler } from '../../lib/api-utils'
+import { changePasswordHandler } from '../../helper/user'
 
 import MyTextInput from './MyTextInput'
 import MySpinner from '../MySpinner'

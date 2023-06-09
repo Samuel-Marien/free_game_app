@@ -8,7 +8,7 @@ import { object } from 'yup'
 import MyTextInput from './MyTextInput'
 import MySpinner from '../MySpinner'
 
-import { createUser } from '../../lib/api-utils'
+import { createUser } from '../../helper/user'
 
 const signInSchema = object().shape({
   firstName: Yup.string()
