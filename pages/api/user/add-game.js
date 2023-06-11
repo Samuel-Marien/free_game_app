@@ -60,6 +60,7 @@ async function handler(req, res) {
           thumbnail: thumbnail,
           title: title,
           saved_date: myDate
+          // game
         }
       }
     }
