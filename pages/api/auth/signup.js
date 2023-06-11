@@ -37,7 +37,8 @@ async function handler(req, res) {
       firstName: firstName,
       lastName: lastName,
       email: email,
-      password: hashedPassword
+      password: hashedPassword,
+      games_collection: []
     })
     res.status(201).json({ message: 'Successfully created new user!' })
   }

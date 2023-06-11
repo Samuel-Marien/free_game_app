@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { addGame } from '../helper/game'
 
 const GameCard = (props) => {
   const { title, genre, platform, onClick } = props
@@ -24,6 +25,9 @@ const AllGamesContainer = ({ games }) => {
 
   const handleSave = (game) => {
     setGameSaved(game)
+    try {
+      const result = addGame(game)
+    } catch (error) {}
   }
 
   console.log(gameSaved)

@@ -20,8 +20,8 @@ async function handler(req, res) {
   const newPassword = req.body.newPassword
 
   const client = await connectToDataBase()
-  const userCollectioin = client.db().collection('users')
-  const user = await userCollectioin.findOne({ email: userEmail })
+  const userCollection = client.db().collection('users')
+  const user = await userCollection.findOne({ email: userEmail })
 
   if (!user) {
     res.status(404).json({ message: 'User No Found!' })
@@ -41,7 +41,7 @@ async function handler(req, res) {
 
   const hashedPassword = await hashPassword(newPassword)
 
-  const result = await userCollectioin.updateOne(
+  const result = await userCollection.updateOne(
     { email: userEmail },
     { $set: { password: hashedPassword } }
   )
