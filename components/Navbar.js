@@ -35,7 +35,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link className="hover:text-gray-200" href="/allGamePage">
+                  <Link className="hover:text-gray-200" href="/games/all-games">
                     Link two
                   </Link>
                 </li>
@@ -46,7 +46,7 @@ const Navbar = () => {
               <ul className="flex gap-x-2 items-center hover:text-gray-200">
                 {!session && (
                   <li>
-                    <Link href="/signPage">
+                    <Link href="/signin">
                       <BsPersonSquare />
                     </Link>
                   </li>
@@ -61,7 +61,7 @@ const Navbar = () => {
                 )}
                 {session && (
                   <li className=" p-1 rounded text-slate-300 ">
-                    <Link className="underline" href="/profilePage">
+                    <Link className="underline" href="/user-profile">
                       <BsFillGearFill />
                     </Link>
                   </li>

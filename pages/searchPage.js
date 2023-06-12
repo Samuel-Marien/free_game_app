@@ -6,6 +6,7 @@ const SearchPage = () => {
   return (
     <div>
       <Navbar />
+      <p>Page in construction!</p>
     </div>
   )
 }

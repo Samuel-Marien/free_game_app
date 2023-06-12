@@ -17,7 +17,7 @@ export async function getServerSideProps(context) {
 
   if (!session) {
     return {
-      redirect: { destination: '/signPage', permanent: false }
+      redirect: { destination: '/signin', permanent: false }
     }
   }
 

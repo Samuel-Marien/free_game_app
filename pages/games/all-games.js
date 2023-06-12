@@ -1,9 +1,9 @@
 import React from 'react'
 import { getSession } from 'next-auth/react'
 
-import Navbar from '../components/Navbar'
-import AllGamesContainer from '../components/AllGamesContainer'
-import { getAllGames } from './api/web-services/getAllGames'
+import Navbar from '../../components/Navbar'
+import AllGamesContainer from '../../components/games/AllGamesContainer'
+import { getAllGames } from '../api/web-services/gamesAPI'
 
 const AllGamePage = (data) => {
   return (
@@ -21,7 +21,7 @@ export async function getServerSideProps(context) {
 
   if (!session) {
     return {
-      redirect: { destination: '/signPage', permanent: false }
+      redirect: { destination: '/signin', permanent: false }
     }
   }
 
