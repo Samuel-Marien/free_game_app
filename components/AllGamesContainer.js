@@ -19,21 +19,36 @@ const GameCard = (props) => {
 }
 
 const AllGamesContainer = ({ games }) => {
-  const [gameSaved, setGameSaved] = useState([])
-
+  const [userErrorMessage, setUserErrorMessage] = useState('')
+  const [userSuccessMessage, setUserSuccessMessage] = useState('')
   // console.log(games)
 
-  const handleSave = (game) => {
-    setGameSaved(game)
+  const handleSave = async (game) => {
     try {
-      const result = addGame(game)
-    } catch (error) {}
+      const result = await addGame(game)
+      setUserSuccessMessage(result.message)
+      // console.log(result.message)
+    } catch (error) {
+      setUserErrorMessage(error.message)
+      // console.log(error.message)
+    }
   }
 
-  console.log(gameSaved)
+  if (userErrorMessage || userSuccessMessage) {
+    setTimeout(() => {
+      setUserErrorMessage('')
+      setUserSuccessMessage('')
+    }, 2000)
+  }
+
+  // console.log(gameSaved)
 
   return (
     <div className="container mx-auto mt-10">
+      <div>
+        <h2 className="text-center text-red-500">{userErrorMessage}</h2>
+        <h2 className="text-center text-green-500">{userSuccessMessage}</h2>
+      </div>
       <div className="grid grid-cols-4 gap-4">
         {games.map((game) => {
           return (

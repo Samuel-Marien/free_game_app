@@ -41,6 +41,17 @@ async function handler(req, res) {
     return
   }
 
+  const currentGamesIds = user.games_collection.map((item) => item.id)
+  const isAlreadySaved = currentGamesIds.includes(req.body.id)
+  // console.log(currentGamesIds)
+  // console.log(isAlreadySaved)
+
+  if (isAlreadySaved) {
+    res.status(422).json({ message: 'Game already saved!' })
+    client.close()
+    return
+  }
+
   const myDate = new Date()
 
   const result = await userCollection.updateOne(
@@ -60,7 +71,6 @@ async function handler(req, res) {
           thumbnail: thumbnail,
           title: title,
           saved_date: myDate
-          // game
         }
       }
     }
