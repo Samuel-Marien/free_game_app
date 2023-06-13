@@ -20,7 +20,9 @@ export default function Home() {
 
       <main className=" ">
         <Navbar />
+        welcome
         {session && <p>{session.user.email}</p>}
+        its Home page
       </main>
       <footer></footer>
     </div>

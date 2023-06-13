@@ -30,13 +30,13 @@ const Navbar = () => {
               </Link>
               <ul className="hidden md:flex font-semibold font-heading space-x-8 ml-24">
                 <li>
-                  <Link className="hover:text-gray-200" href="/searchPage">
-                    Link one
+                  <Link className="hover:text-gray-200" href="/games/all-games">
+                    Store
                   </Link>
                 </li>
                 <li>
-                  <Link className="hover:text-gray-200" href="/games/all-games">
-                    Link two
+                  <Link className="hover:text-gray-200" href="/user-librairy">
+                    Librairy
                   </Link>
                 </li>
               </ul>

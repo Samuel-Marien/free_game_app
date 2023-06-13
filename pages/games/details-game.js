@@ -8,7 +8,7 @@ import Navbar from '../../components/Navbar'
 import GameDetails from '../../components/games/GameDetails'
 
 const DetailsGamePage = (data) => {
-  console.log(data.pageProps.data)
+  // console.log(data.pageProps.data)
   return (
     <div>
       <Navbar />
@@ -16,6 +16,8 @@ const DetailsGamePage = (data) => {
     </div>
   )
 }
+
+export default DetailsGamePage
 
 export async function getServerSideProps(context) {
   const gameId = context.query.id
@@ -31,5 +33,3 @@ export async function getServerSideProps(context) {
 
   return { props: { session, data } }
 }
-
-export default DetailsGamePage
