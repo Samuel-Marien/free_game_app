@@ -6,7 +6,7 @@ async function handler(req, res) {
     const data = req.body
 
     const { firstName, lastName, email, password } = data
-    // console.log(data)
+
     if (
       !firstName ||
       !lastName ||

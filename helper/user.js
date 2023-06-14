@@ -31,3 +31,19 @@ export async function createUser({ firstName, lastName, email, password }) {
 
   return data
 }
+
+export async function createComment({ title, content, gameId, gameTitle }) {
+  const response = await fetch('/api/user/add-comment', {
+    method: 'POST',
+    body: JSON.stringify({ title, content, gameId, gameTitle }),
+    headers: { 'Content-Type': 'application/json' }
+  })
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.message || 'Something went wrong :(')
+  }
+
+  return data
+}

@@ -34,9 +34,9 @@ export const authOptions = {
           client.close()
           throw new Error('Could not log in!!')
         }
-        console.log('**************')
-        console.log(user)
-        console.log('**************')
+        // console.log('**************')
+        // console.log(user)
+        // console.log('**************')
         client.close()
         return { email: user.email, name: [user.firstName, user.lastName] }
       },

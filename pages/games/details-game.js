@@ -6,13 +6,15 @@ import { getGame } from '../api/web-services/gamesAPI'
 
 import Navbar from '../../components/Navbar'
 import GameDetails from '../../components/games/GameDetails'
+import GameCommentsContainer from '../../components/games/GameCommentsContainer'
 
 const DetailsGamePage = (data) => {
-  // console.log(data.pageProps.data)
+  console.log(data.pageProps.data)
   return (
     <div>
       <Navbar />
       <GameDetails game={data.pageProps.data} />
+      <GameCommentsContainer gameTitle={data.pageProps.data.title} />
     </div>
   )
 }
