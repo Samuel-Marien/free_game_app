@@ -10,7 +10,7 @@ import SortGameContainer from '../components/user/SortGameContainer'
 const UserLibrairy = (data) => {
   const gamesDatas = data.pageProps.result
 
-  console.log(data)
+  // console.log(data)
   // console.log(gamesDatas)
 
   return (

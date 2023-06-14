@@ -21,6 +21,8 @@ const GameCommentForm = (props) => {
   const { gameTitle } = props
   const [myId, setMyId] = useState(0)
   const [myTitle, setMyTitle] = useState('')
+  const [userErrorMessage, setUserErrorMessage] = useState('')
+  const [userSuccessMessage, setUserSuccessMessage] = useState('')
   const router = useRouter()
 
   // console.log(router.query.id)
@@ -31,7 +33,12 @@ const GameCommentForm = (props) => {
     setMyTitle(gameTitle)
   }, [myId])
 
-  // console.log(myId)
+  if (userErrorMessage || userSuccessMessage) {
+    setTimeout(() => {
+      setUserErrorMessage('')
+      setUserSuccessMessage('')
+    }, 2000)
+  }
 
   return (
     <Formik
@@ -41,7 +48,7 @@ const GameCommentForm = (props) => {
       }}
       validationSchema={commentSchema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
-        console.log(values)
+        // console.log(values)
         try {
           const result = await createComment({
             title: values.title,
@@ -49,10 +56,12 @@ const GameCommentForm = (props) => {
             gameId: myId,
             gameTitle: myTitle
           })
-          // console.log(result)
+          setUserSuccessMessage(result.message)
           resetForm()
           setSubmitting(false)
+          router.push(`/games/details-game?id=${myId}`)
         } catch (error) {
+          setUserErrorMessage(error.message)
           console.log(error.message)
           resetForm()
         }
@@ -60,6 +69,8 @@ const GameCommentForm = (props) => {
     >
       {({ isSubmitting, isValid, dirty }) => (
         <Form className="border p-1 mt-3 bg-slate-100 container w-6/12 mx-auto">
+          <h2 className="text-center text-red-500">{userErrorMessage}</h2>
+          <h2 className="text-center text-green-500">{userSuccessMessage}</h2>
           <p className="text-center text-2xl font-bold mb-2 border-b">
             Game Comment Form
           </p>
