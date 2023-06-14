@@ -10,10 +10,13 @@ import SortGameContainer from '../components/user/SortGameContainer'
 const UserLibrairy = (data) => {
   const gamesDatas = data.pageProps.result
 
+  console.log(data)
+  // console.log(gamesDatas)
+
   return (
     <div>
       <Navbar />
-      <SortGameContainer />
+      <SortGameContainer genres={data.pageProps.genresAvailable} />
       <div className="flex space-x-3">
         <GamesContainer games={gamesDatas} />
       </div>
@@ -33,7 +36,7 @@ export async function getServerSideProps(context) {
   }
   const { query } = context
   const choice = query.choice || 'sortByDateAdded'
-  const order = query.order || 'plus'
+  const option = query.option || 'plus'
 
   // console.log(context.query)
 
@@ -49,6 +52,13 @@ export async function getServerSideProps(context) {
   }
 
   const data = JSON.parse(JSON.stringify(user.games_collection))
+
+  const genresAvailableTemp = []
+  const userGenresAvailable = [...data].map((item) => {
+    genresAvailableTemp.push(item.genre)
+  })
+
+  const genresAvailable = [...new Set(genresAvailableTemp)]
 
   const datasSortedByDate = [...data].sort(function (a, b) {
     const titleA = Date.parse(a.release_date)
@@ -86,25 +96,32 @@ export async function getServerSideProps(context) {
     }
     return 0
   })
+  function sortByGenres() {
+    const test = [...data].filter((item) =>
+      item.genre.toUpperCase().includes(option.toUpperCase())
+    )
+
+    return test
+  }
 
   let result = []
 
   switch (choice) {
     case 'sortByDateAdded':
-      order === 'plus' ? (result = [...data]) : (result = [...data].reverse())
+      option === 'plus' ? (result = [...data]) : (result = [...data].reverse())
       break
     case 'sortByTitle':
-      order === 'plus'
+      option === 'plus'
         ? (result = [...datasSortedByTitles])
         : (result = [...datasSortedByTitles].reverse())
       break
     case 'sortByRealeaseDate':
-      order === 'plus'
+      option === 'plus'
         ? (result = [...datasSortedByDate])
         : (result = [...datasSortedByDate].reverse())
       break
     case 'sortByPlatform':
-      order === 'plus'
+      option === 'plus'
         ? (result = [...datasSortedByPlatefrom].filter(
             (item) =>
               item.platform === 'PC (Windows)' || item.platform === 'Windows'
@@ -113,6 +130,9 @@ export async function getServerSideProps(context) {
             (item) => item.platform === 'Web Browser'
           ))
       break
+    case 'sortByGenres':
+      result = sortByGenres()
+      break
 
     default:
       result = [...data]
@@ -120,6 +140,6 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: { choice, order, result }
+    props: { choice, option, result, genresAvailable }
   }
 }

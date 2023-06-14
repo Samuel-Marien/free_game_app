@@ -1,59 +1,60 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
-const gameGenres = [
-  'mmorpg',
-  'shooter',
-  'strategy',
-  'moba',
-  'racing',
-  'sports',
-  'social',
-  'sandbox',
-  'open-world',
-  'survival',
-  'pvp',
-  'pve',
-  'pixel',
-  'voxel',
-  'zombie',
-  'turn-based',
-  ' first-person',
-  'third-Person',
-  'top-down',
-  ' tank',
-  'space',
-  'sailing',
-  'side-scroller',
-  'superhero',
-  'permadeath',
-  'card',
-  'battle-royale',
-  'mmo',
-  'mmofps',
-  'mmotps',
-  '3d',
-  '2d',
-  'anime',
-  'fantasy',
-  'sci-fi',
-  'fighting',
-  'action-rpg',
-  'action',
-  'military',
-  'martial-arts',
-  'flight',
-  'low-spec',
-  'tower-defense',
-  'horror',
-  'mmorts'
-]
+// const gameGenres = [
+//   'mmorpg',
+//   'shooter',
+//   'strategy',
+//   'moba',
+//   'racing',
+//   'sports',
+//   'social',
+//   'sandbox',
+//   'open-world',
+//   'survival',
+//   'pvp',
+//   'pve',
+//   'pixel',
+//   'voxel',
+//   'zombie',
+//   'turn-based',
+//   ' first-person',
+//   'third-Person',
+//   'top-down',
+//   ' tank',
+//   'space',
+//   'sailing',
+//   'side-scroller',
+//   'superhero',
+//   'permadeath',
+//   'card',
+//   'battle-royale',
+//   'mmo',
+//   'mmofps',
+//   'mmotps',
+//   '3d',
+//   '2d',
+//   'anime',
+//   'fantasy',
+//   'sci-fi',
+//   'fighting',
+//   'action-rpg',
+//   'action',
+//   'military',
+//   'martial-arts',
+//   'flight',
+//   'low-spec',
+//   'tower-defense',
+//   'horror',
+//   'mmorts'
+// ]
 
-const SortGameContainer = () => {
+const SortGameContainer = (props) => {
+  const { genres } = props
   const router = useRouter()
 
-  const handleClick = (choice, order) => {
-    router.push(`/user-librairy?choice=${choice}&order=${order}`)
+  const handleClick = (choice, option) => {
+    router.push(`/user-librairy?choice=${choice}&option=${option}`)
   }
 
   return (
@@ -126,9 +127,10 @@ const SortGameContainer = () => {
       <div className="border p-2 m-2 bg-slate-100">
         <p>Genres:</p>
         <ul className="flex flex-wrap">
-          {gameGenres.map((genre, index) => {
+          {genres.map((genre, index) => {
             return (
               <li
+                onClick={() => handleClick('sortByGenres', genre)}
                 className="p-1 border m-2 w-max shadow cursor-pointer hover:shadow-none"
                 key={index}
               >
