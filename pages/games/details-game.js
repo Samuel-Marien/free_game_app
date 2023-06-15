@@ -9,6 +9,7 @@ import Navbar from '../../components/Navbar'
 import GameDetails from '../../components/games/GameDetails'
 import GameCommentsContainer from '../../components/games/GameCommentsContainer'
 import GameNotationsContainer from '../../components/games/GameNotationsContainer'
+import MembersGameInfosContainer from '../../components/games/MembersGameInfosContainer'
 
 const DetailsGamePage = (data) => {
   // console.log(data.pageProps)
@@ -17,6 +18,10 @@ const DetailsGamePage = (data) => {
     <div>
       <Navbar />
       <GameDetails game={data.pageProps.data} />
+      <MembersGameInfosContainer
+        notations={data.pageProps.notations}
+        comments={data.pageProps.comments}
+      />
       <GameNotationsContainer
         notations={data.pageProps.notations}
         gameTitle={data.pageProps.data.title}
