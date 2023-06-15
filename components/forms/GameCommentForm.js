@@ -25,9 +25,6 @@ const GameCommentForm = (props) => {
   const [userSuccessMessage, setUserSuccessMessage] = useState('')
   const router = useRouter()
 
-  // console.log(router.query.id)
-  // console.log(gameTitle)
-
   useEffect(() => {
     setMyId(router.query.id)
     setMyTitle(gameTitle)
@@ -37,7 +34,7 @@ const GameCommentForm = (props) => {
     setTimeout(() => {
       setUserErrorMessage('')
       setUserSuccessMessage('')
-    }, 2000)
+    }, 1500)
   }
 
   return (
@@ -48,7 +45,6 @@ const GameCommentForm = (props) => {
       }}
       validationSchema={commentSchema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
-        // console.log(values)
         try {
           const result = await createComment({
             title: values.title,
@@ -59,7 +55,9 @@ const GameCommentForm = (props) => {
           setUserSuccessMessage(result.message)
           resetForm()
           setSubmitting(false)
-          router.push(`/games/details-game?id=${myId}`)
+          setTimeout(() => {
+            router.push(`/games/details-game?id=${myId}`)
+          }, 1500)
         } catch (error) {
           setUserErrorMessage(error.message)
           console.log(error.message)

@@ -8,13 +8,20 @@ import { connectToDataBase } from '../../lib/db'
 import Navbar from '../../components/Navbar'
 import GameDetails from '../../components/games/GameDetails'
 import GameCommentsContainer from '../../components/games/GameCommentsContainer'
+import GameNotationsContainer from '../../components/games/GameNotationsContainer'
 
 const DetailsGamePage = (data) => {
   // console.log(data.pageProps)
+
   return (
     <div>
       <Navbar />
       <GameDetails game={data.pageProps.data} />
+      <GameNotationsContainer
+        notations={data.pageProps.notations}
+        gameTitle={data.pageProps.data.title}
+        currentUser={data.pageProps.session.user.email}
+      />
       <GameCommentsContainer
         gameTitle={data.pageProps.data.title}
         comments={data.pageProps.comments}
@@ -35,8 +42,6 @@ export async function getServerSideProps(context) {
     }
   }
 
-  // test debut
-  //check if user is really authenticated
   const userEmail = JSON.parse(JSON.stringify(session.user.email))
   const client = await connectToDataBase()
   const userCollection = client.db().collection('users')
@@ -48,19 +53,32 @@ export async function getServerSideProps(context) {
     return
   }
 
-  // fetch db with gameId
   const db = client.db()
+
   const existingComments = await db
     .collection('comments')
     .findOne({ gameId: gameId })
-  //
 
-  const comments = JSON.parse(
-    JSON.stringify(existingComments.comments_collection)
-  )
+  let comments = []
 
-  //test fin
+  if (existingComments) {
+    comments = JSON.parse(JSON.stringify(existingComments.comments_collection))
+  } else {
+    comments = null
+  }
+
+  const existingNotations = await db
+    .collection('notations')
+    .findOne({ gameId: gameId })
+
+  let notations = []
+  if (existingNotations) {
+    notations = JSON.parse(JSON.stringify(existingNotations.asVoted))
+  } else {
+    notations = null
+  }
+
   const data = await getGame(gameId)
 
-  return { props: { session, data, comments } }
+  return { props: { session, data, comments, notations } }
 }

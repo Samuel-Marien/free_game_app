@@ -47,3 +47,19 @@ export async function createComment({ title, content, gameId, gameTitle }) {
 
   return data
 }
+
+export async function addNotation({ gameId, gameTitle, note }) {
+  const response = await fetch('/api/user/add-notation', {
+    method: 'POST',
+    body: JSON.stringify({ gameId, gameTitle, note }),
+    headers: { 'Content-Type': 'application/json' }
+  })
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.message || 'Something went wrong :(')
+  }
+
+  return data
+}
