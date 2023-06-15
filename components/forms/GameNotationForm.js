@@ -17,11 +17,11 @@ const GameNotationForm = (props) => {
   const [userChoice, setUserChoice] = useState(0)
   const [asVoted, setAsVoted] = useState(false)
   const [prevNote, setPrevNote] = useState(0)
+  const [low, setLow] = useState(0)
+  const [middle, setMiddle] = useState(0)
+  const [high, setHigh] = useState(0)
 
   const router = useRouter()
-  // console.log(currentUser)
-  // console.log(notations)
-  // console.log(notations.filter((item) => item.createdBy === currentUser))
 
   useEffect(() => {
     setMyId(router.query.id)
@@ -37,7 +37,7 @@ const GameNotationForm = (props) => {
       console.log(error)
     }
 
-    console.log(existingNotation)
+    // console.log(existingNotation)
 
     if (existingNotation.length < 1) {
       setAsVoted(false)
@@ -46,77 +46,124 @@ const GameNotationForm = (props) => {
       setPrevNote(existingNotation[0] && existingNotation[0].note)
       // console.log(existingNotation[0].note)
     }
+
+    let myLow = []
+    let myMiddle = []
+    let myHigh = []
+
+    if (notations !== null) {
+      notations.map((item) => {
+        let note = parseInt(item.note)
+
+        switch (note) {
+          case 1:
+            myLow.push(note)
+            break
+          case 2:
+            myMiddle.push(note)
+            break
+          case 3:
+            myHigh.push(note)
+            break
+          default:
+            break
+        }
+      })
+
+      setLow(myLow.length)
+      setMiddle(myMiddle.length)
+      setHigh(myHigh.length)
+    }
   }, [myId, asVoted, prevNote, notations])
 
-  console.log(asVoted)
-  console.log(prevNote)
+  // console.log(asVoted)
+  // console.log(prevNote)
 
   return (
-    <Formik
-      initialValues={{
-        note: ''
-      }}
-      validationSchema={notationSchema}
-      onSubmit={async (values, { setSubmitting }) => {
-        console.log(userChoice)
-        try {
-          const result = await addNotation({
-            gameId: myId,
-            gameTitle: myTitle,
-            note: userChoice
-          })
-          router.push(`/games/details-game?id=${myId}`)
+    <>
+      <div className=" p-1  bg-slate-100 container w-6/12 mx-auto">
+        <p className="text-center text-2xl font-bold mb-2 border-b">Notes</p>
+        <div className=" p-1  bg-slate-100 container w-6/12 mx-auto">
+          <ul className="flex justify-center space-x-2">
+            <li className=" h-10 w-10 flex justify-center items-center  rounded">
+              {low}
+            </li>
+            <li className=" h-10 w-10 flex justify-center items-center  rounded">
+              {middle}
+            </li>
+            <li className=" h-10 w-10 flex justify-center items-center  rounded">
+              {high}
+            </li>
+          </ul>
+        </div>
+      </div>
 
-          setSubmitting(false)
-        } catch (error) {
-          console.log(error.message)
-        }
-      }}
-    >
-      <Form className="border p-1 mt-3 bg-slate-100 container w-6/12 mx-auto">
-        <ul className="flex space-x-2">
-          {prevNote === '1' ? (
-            <div className="bg-red-200 h-10 w-10 flex justify-center items-center border rounded">
-              😡
-            </div>
-          ) : (
-            <button
-              type="submit"
-              onClick={() => setUserChoice('1')}
-              className="cursor-pointer hover:shadow-none h-10 w-10 flex justify-center items-center border shadow-lg rounded"
-            >
-              😡
-            </button>
-          )}
-          {prevNote === '2' ? (
-            <div className="bg-red-200 h-10 w-10 flex justify-center items-center border rounded">
-              😑
-            </div>
-          ) : (
-            <button
-              type="submit"
-              onClick={() => setUserChoice('2')}
-              className="cursor-pointer hover:shadow-none h-10 w-10 flex justify-center items-center border shadow-lg rounded"
-            >
-              😑
-            </button>
-          )}
-          {prevNote === '3' ? (
-            <div className="bg-red-200 h-10 w-10 flex justify-center items-center border rounded">
-              😁
-            </div>
-          ) : (
-            <button
-              type="submit"
-              onClick={() => setUserChoice('3')}
-              className="cursor-pointer hover:shadow-none h-10 w-10 flex justify-center items-center border shadow-lg rounded"
-            >
-              😁
-            </button>
-          )}
-        </ul>
-      </Form>
-    </Formik>
+      <Formik
+        initialValues={{
+          note: ''
+        }}
+        validationSchema={notationSchema}
+        onSubmit={async (values, { setSubmitting }) => {
+          // console.log(userChoice)
+          try {
+            const result = await addNotation({
+              gameId: myId,
+              gameTitle: myTitle,
+              note: userChoice
+            })
+            router.push(`/games/details-game?id=${myId}`)
+
+            setSubmitting(false)
+          } catch (error) {
+            console.log(error.message)
+          }
+        }}
+      >
+        <Form className=" p-1 bg-slate-100 container w-6/12 mx-auto">
+          <ul className="flex justify-center space-x-2">
+            {prevNote === '1' ? (
+              <div className="bg-red-200 h-10 w-10 flex justify-center items-center border rounded">
+                😡
+              </div>
+            ) : (
+              <button
+                type="submit"
+                onClick={() => setUserChoice('1')}
+                className="cursor-pointer hover:shadow-none h-10 w-10 flex justify-center items-center border shadow-lg rounded"
+              >
+                😡
+              </button>
+            )}
+            {prevNote === '2' ? (
+              <div className="bg-red-200 h-10 w-10 flex justify-center items-center border rounded">
+                😑
+              </div>
+            ) : (
+              <button
+                type="submit"
+                onClick={() => setUserChoice('2')}
+                className="cursor-pointer hover:shadow-none h-10 w-10 flex justify-center items-center border shadow-lg rounded"
+              >
+                😑
+              </button>
+            )}
+            {prevNote === '3' ? (
+              <div className="bg-red-200 h-10 w-10 flex justify-center items-center border rounded">
+                😁
+              </div>
+            ) : (
+              <button
+                type="submit"
+                onClick={() => setUserChoice('3')}
+                className="cursor-pointer hover:shadow-none h-10 w-10 flex justify-center items-center border shadow-lg rounded"
+              >
+                😁
+              </button>
+            )}
+          </ul>
+        </Form>
+      </Formik>
+    </>
   )
 }
 
