@@ -10,7 +10,7 @@ import SortGameContainer from '../components/user/SortGameContainer'
 const UserLibrairy = (data) => {
   const gamesDatas = data.pageProps.result
 
-  // console.log(data)
+  // console.log(data.pageProps)
   // console.log(gamesDatas)
 
   return (
@@ -138,6 +138,8 @@ export async function getServerSideProps(context) {
       result = [...data]
       break
   }
+
+  // console.log(user)
 
   return {
     props: { choice, option, result, genresAvailable }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { addGame } from '../../helper/game'
+import { addGame, addGameByUser } from '../../helper/game'
 
 const GameCard = (props) => {
   const { title, genre, platform, onClick, id } = props
@@ -33,6 +33,7 @@ const AllGamesContainer = ({ games }) => {
   const handleSave = async (game) => {
     try {
       const result = await addGame(game)
+      await addGameByUser(game)
       setUserSuccessMessage(result.message)
       // console.log(result.message)
     } catch (error) {

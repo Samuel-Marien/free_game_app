@@ -1,6 +1,9 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 
 import Link from 'next/link'
+
+import { removeGame } from '../../helper/game'
 
 const GameCard = (props) => {
   const { title, genre, platform, onClick, id } = props
@@ -16,13 +19,30 @@ const GameCard = (props) => {
       >
         Detail
       </Link>
+      <button
+        onClick={onClick}
+        className="p-1 rounded border w-full shadow-lg bg-red-300"
+      >
+        Delete
+      </button>
     </div>
   )
 }
 
 const GamesContainer = (props) => {
   const { games } = props
+  const router = useRouter()
   // console.log(games)
+
+  const handleDelete = async (game) => {
+    try {
+      await removeGame(game)
+      router.push(`/user-librairy`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div>
       {games.map((game) => {
@@ -33,6 +53,7 @@ const GamesContainer = (props) => {
             genre={game.genre}
             platform={game.platform}
             id={game.id}
+            onClick={() => handleDelete(game.id)}
           />
         )
       })}
