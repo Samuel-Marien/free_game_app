@@ -21,6 +21,7 @@ const DetailsGamePage = (data) => {
       <MembersGameInfosContainer
         notations={data.pageProps.notations}
         comments={data.pageProps.comments}
+        owners={data.pageProps.owners}
       />
       <GameNotationsContainer
         notations={data.pageProps.notations}
@@ -63,9 +64,7 @@ export async function getServerSideProps(context) {
   const existingComments = await db
     .collection('comments')
     .findOne({ gameId: gameId })
-
   let comments = []
-
   if (existingComments) {
     comments = JSON.parse(JSON.stringify(existingComments.comments_collection))
   } else {
@@ -75,7 +74,6 @@ export async function getServerSideProps(context) {
   const existingNotations = await db
     .collection('notations')
     .findOne({ gameId: gameId })
-
   let notations = []
   if (existingNotations) {
     notations = JSON.parse(JSON.stringify(existingNotations.asVoted))
@@ -83,7 +81,17 @@ export async function getServerSideProps(context) {
     notations = null
   }
 
+  let owners = []
+  const existingOwners = await db
+    .collection('gamesOwners')
+    .findOne({ gameId: parseInt(gameId) })
+  if (existingOwners) {
+    owners = JSON.parse(JSON.stringify(existingOwners.owners))
+  } else {
+    owners = null
+  }
+
   const data = await getGame(gameId)
 
-  return { props: { session, data, comments, notations } }
+  return { props: { session, data, comments, notations, owners } }
 }
