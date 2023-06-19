@@ -28,7 +28,6 @@ const GameCard = (props) => {
 const AllGamesContainer = ({ games }) => {
   const [userErrorMessage, setUserErrorMessage] = useState('')
   const [userSuccessMessage, setUserSuccessMessage] = useState('')
-  // console.log(games)
 
   const handleSave = async (game) => {
     try {
@@ -51,8 +50,17 @@ const AllGamesContainer = ({ games }) => {
 
   // console.log(gameSaved)
 
+  // console.log(games.status)
+  if (games.status === 0) {
+    return (
+      <div className="container mx-auto mt-5 text-center text-3xl">
+        {games.status_message}
+      </div>
+    )
+  }
+
   return (
-    <div className="container mx-auto mt-10">
+    <div className="container mx-auto mt-5">
       <div>
         <h2 className="text-center text-red-500">{userErrorMessage}</h2>
         <h2 className="text-center text-green-500">{userSuccessMessage}</h2>

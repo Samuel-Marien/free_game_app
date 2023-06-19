@@ -7,6 +7,8 @@ const GameDetails = (props) => {
   const [userErrorMessage, setUserErrorMessage] = useState('')
   const [userSuccessMessage, setUserSuccessMessage] = useState('')
 
+  console.log(game)
+
   const handleSave = async (game) => {
     try {
       const result = await addGame(game)
@@ -34,6 +36,7 @@ const GameDetails = (props) => {
       <p>description: {game.description}</p>
       <p>developer: {game.developer}</p>
       <p>genre: {game.genre}</p>
+      <p>release date: {game.release_date}</p>
       <Link href={game.game_url}>game_url: {game.game_url}</Link>
       <button
         onClick={() => handleSave(game)}

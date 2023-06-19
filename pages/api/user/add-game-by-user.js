@@ -20,7 +20,7 @@ async function handler(req, res) {
 
   const userEmail = session.user.email
 
-  console.log(id, title, userEmail)
+  // console.log(id, title, userEmail)
 
   const client = await connectToDataBase()
   const db = client.db()
