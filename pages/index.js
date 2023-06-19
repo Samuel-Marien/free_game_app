@@ -16,6 +16,9 @@ export default function Home(data) {
 
   // console.log(session)
   // console.log(status)
+  if (!data) {
+    return <>Loading....</>
+  }
   return (
     <div>
       <Head>
@@ -95,7 +98,7 @@ export async function getServerSideProps(context) {
   const getGamesNotations = client.db().collection('notations')
   const gamesNotations = await getGamesNotations.find({}).toArray()
 
-  console.log(gamesNotations)
+  // console.log(gamesNotations)
 
   function sortByVotes(array) {
     const scoreMap = { 1: -10, 2: 0, 3: 10 }
