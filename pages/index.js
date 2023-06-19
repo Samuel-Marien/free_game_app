@@ -29,7 +29,7 @@ export default function Home(data) {
 
       <main className=" ">
         <Navbar />
-        welcome
+        {/* welcome
         {session && <p>{session.user.email}</p>}
         its Home page
         <SuggestedContainer
@@ -38,7 +38,7 @@ export default function Home(data) {
         />
         <RecentlyAddedContainer
           recentlyAddedGames={data.pageProps.recentlyAddedGames}
-        />
+        /> */}
       </main>
       <footer></footer>
     </div>
