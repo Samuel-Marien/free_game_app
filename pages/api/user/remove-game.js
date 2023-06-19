@@ -31,6 +31,7 @@ async function handler(req, res) {
     return
   }
 
+  // delete in user collection
   const currentGamesIds = user.games_collection.map((item) => item.id)
   const isSaved = currentGamesIds.includes(gameIdToDelete)
 
@@ -40,13 +41,11 @@ async function handler(req, res) {
     return
   }
 
-  // Supprimer l'élément de games_collection en utilisant l'ID
   const result = await userCollection.updateOne(
     { email: userEmail },
     { $pull: { games_collection: { id: gameIdToDelete } } }
   )
 
-  // Vérifier si l'élément a été supprimé avec succès
   if (result.modifiedCount === 1) {
     console.log(
       'Élément supprimé avec succès de la collection games_collection.'
@@ -54,6 +53,24 @@ async function handler(req, res) {
   } else {
     console.log('Élément non trouvé dans la collection games_collection.')
   }
+
+  // delate in gamesOwner collection
+  const gamesOwnersCollection = client.db().collection('gamesOwners')
+  const gameConcerned = gamesOwnersCollection.findOne({
+    gameId: gameIdToDelete
+  })
+
+  if (!gameConcerned) {
+    res.status(404).json({ message: 'Game not found!' })
+    client.close()
+    return
+  }
+  const result2 = await gamesOwnersCollection.updateOne(
+    {
+      gameId: gameIdToDelete
+    },
+    { $pull: { owners: { createdBy: userEmail } } }
+  )
 
   client.close()
   res.status(200).json({ message: 'Successfully delete game!' })
