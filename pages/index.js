@@ -2,16 +2,17 @@
 import { useSession, getSession } from 'next-auth/react'
 
 import { connectToDataBase } from '../lib/db'
-import { getSuggestedGames } from './api/web-services/gamesAPI'
+import { getSuggestedGames, getAllGames } from './api/web-services/gamesAPI'
 
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import SuggestedContainer from '../components/user/SuggestedContainer'
+import RecentlyAddedContainer from '../components/user/RecentlyAddedContainer'
 
-export default function Home(suggestedGames) {
+export default function Home(data) {
   const { data: session, status } = useSession()
 
-  // console.log(suggestedGames.pageProps.suggestedGames)
+  // console.log(data.pageProps)
 
   // console.log(session)
   // console.log(status)
@@ -30,7 +31,10 @@ export default function Home(suggestedGames) {
         its Home page
         <SuggestedContainer
           user={session}
-          suggestedGames={suggestedGames.pageProps.suggestedGames}
+          suggestedGames={data.pageProps.suggestedGames}
+        />
+        <RecentlyAddedContainer
+          recentlyAddedGames={data.pageProps.recentlyAddedGames}
         />
       </main>
       <footer></footer>
@@ -40,6 +44,9 @@ export default function Home(suggestedGames) {
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req })
+
+  const recentlyAddedPlatform = context.query.platform || 'all'
+  // console.log(recentlyAddedPlatform)
 
   const userEmail = JSON.parse(JSON.stringify(session.user.email))
 
@@ -79,7 +86,14 @@ export async function getServerSideProps(context) {
   const apiData = await getSuggestedGames(result)
   const suggestedGames = apiData.slice(0, 3)
 
+  const getRecentlyAddedGames = await getAllGames(
+    recentlyAddedPlatform,
+    'all',
+    'release-date'
+  )
+  const recentlyAddedGames = getRecentlyAddedGames.slice(0, 7)
+
   return {
-    props: { suggestedGames }
+    props: { suggestedGames, recentlyAddedGames }
   }
 }
