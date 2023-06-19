@@ -27,11 +27,6 @@ export async function getServerSideProps(context) {
   const category = query.category
   const sorted = query.sorted
 
-  // console.log(query)
-  // console.log(platform)
-  // console.log(category)
-  // console.log(sorted)
-
   if (!session) {
     return {
       redirect: { destination: '/signin', permanent: false }

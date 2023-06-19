@@ -1,12 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
-import { useSession } from 'next-auth/react'
+import { useSession, getSession } from 'next-auth/react'
+
+import { connectToDataBase } from '../lib/db'
+import { getSuggestedGames } from './api/web-services/gamesAPI'
 
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
+import SuggestedContainer from '../components/user/SuggestedContainer'
 
-export default function Home() {
+export default function Home(suggestedGames) {
   const { data: session, status } = useSession()
-  // Show Link to Login page if NOT auth
+
+  // console.log(suggestedGames.pageProps.suggestedGames)
 
   // console.log(session)
   // console.log(status)
@@ -23,8 +28,58 @@ export default function Home() {
         welcome
         {session && <p>{session.user.email}</p>}
         its Home page
+        <SuggestedContainer
+          user={session}
+          suggestedGames={suggestedGames.pageProps.suggestedGames}
+        />
       </main>
       <footer></footer>
     </div>
   )
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req })
+
+  const userEmail = JSON.parse(JSON.stringify(session.user.email))
+
+  const client = await connectToDataBase()
+  const userCollection = client.db().collection('users')
+  const user = await userCollection.findOne({ email: userEmail })
+
+  const data = JSON.parse(JSON.stringify(user.games_collection))
+
+  const genresAvailableTemp = []
+  const userGenresAvailable = [...data].map((item) => {
+    genresAvailableTemp.push(item.genre)
+  })
+
+  function classementRedondance(myArray) {
+    // Créer un objet pour stocker la fréquence de chaque élément
+    const frequencies = {}
+    myArray.forEach((element) => {
+      if (frequencies[element]) {
+        frequencies[element]++
+      } else {
+        frequencies[element] = 1
+      }
+    })
+
+    // Trier les éléments en fonction de leur fréquence (du plus grand au plus petit)
+    const sortedElements = Object.keys(frequencies).sort(
+      (a, b) => frequencies[b] - frequencies[a]
+    )
+
+    // Retourner les deux premiers éléments (ou tous les éléments s'il y en a moins de deux)
+    return sortedElements.slice(0).join('.').toLowerCase()
+  }
+
+  const result = classementRedondance(genresAvailableTemp)
+
+  const apiData = await getSuggestedGames(result)
+  const suggestedGames = apiData.slice(0, 3)
+
+  return {
+    props: { suggestedGames }
+  }
 }
