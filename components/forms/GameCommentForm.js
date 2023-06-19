@@ -28,7 +28,7 @@ const GameCommentForm = (props) => {
   useEffect(() => {
     setMyId(router.query.id)
     setMyTitle(gameTitle)
-  }, [myId])
+  }, [myId, gameTitle, router.query.id])
 
   if (userErrorMessage || userSuccessMessage) {
     setTimeout(() => {

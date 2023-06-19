@@ -28,7 +28,6 @@ const RecentlyAddedContainer = (props) => {
   // console.log(recentlyAddedGames)
 
   const handleCHangePlatform = (platform) => {
-    console.log('hello: ' + platform)
     router.push(`/?platform=${platform}`)
   }
 

@@ -60,7 +60,7 @@ const AllGamesSortContainer = () => {
     router.push(
       `/games/all-games?platform=${platform}&category=${category}&sorted=${sorted}`
     )
-  }, [platform, category, sorted])
+  }, [platform, category, sorted, router])
 
   return (
     <div className="container mx-auto mt-2">

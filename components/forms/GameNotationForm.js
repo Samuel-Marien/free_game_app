@@ -74,7 +74,15 @@ const GameNotationForm = (props) => {
       setMiddle(myMiddle.length)
       setHigh(myHigh.length)
     }
-  }, [myId, asVoted, prevNote, notations])
+  }, [
+    myId,
+    asVoted,
+    prevNote,
+    notations,
+    currentUser,
+    gameTitle,
+    router.query.id
+  ])
 
   // console.log(asVoted)
   // console.log(prevNote)

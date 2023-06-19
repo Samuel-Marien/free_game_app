@@ -7,7 +7,7 @@ const GameDetails = (props) => {
   const [userErrorMessage, setUserErrorMessage] = useState('')
   const [userSuccessMessage, setUserSuccessMessage] = useState('')
 
-  console.log(game)
+  // console.log(game)
 
   const handleSave = async (game) => {
     try {

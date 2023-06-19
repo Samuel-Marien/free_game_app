@@ -46,7 +46,6 @@ export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req })
 
   const recentlyAddedPlatform = context.query.platform || 'all'
-  // console.log(recentlyAddedPlatform)
 
   const userEmail = JSON.parse(JSON.stringify(session.user.email))
 
@@ -93,7 +92,42 @@ export async function getServerSideProps(context) {
   )
   const recentlyAddedGames = getRecentlyAddedGames.slice(0, 7)
 
+  const getGamesNotations = client.db().collection('notations')
+  const gamesNotations = await getGamesNotations.find({}).toArray()
+
+  console.log(gamesNotations)
+
+  function sortByVotes(array) {
+    const scoreMap = { 1: -10, 2: 0, 3: 10 }
+
+    // Ajouter un score à chaque élément
+    const elementsWithScores = array.map((element) => {
+      const totalScore = element.asVoted.flat().reduce((acc, vote) => {
+        const note = vote.note
+        return acc + (scoreMap[note] || 0)
+      }, 0)
+
+      return { element, totalScore }
+    })
+
+    // Trier les éléments par nombre d'éléments dans asVoted, puis par score
+    const sortedElements = elementsWithScores.sort((a, b) => {
+      if (a.element.asVoted.length !== b.element.asVoted.length) {
+        return b.element.asVoted.length - a.element.asVoted.length
+      }
+      return b.totalScore - a.totalScore
+    })
+
+    // Retourner uniquement les éléments triés
+    return sortedElements.map((elementWithScore) => elementWithScore.element)
+  }
+
+  const communityRecommendesGames = JSON.parse(
+    JSON.stringify(sortByVotes(gamesNotations))
+  )
+  // const communityRecommendesGames = sortByVotes(gamesNotations)
+
   return {
-    props: { suggestedGames, recentlyAddedGames }
+    props: { suggestedGames, recentlyAddedGames, communityRecommendesGames }
   }
 }

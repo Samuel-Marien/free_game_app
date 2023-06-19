@@ -28,11 +28,13 @@ const SuggestedContainer = (props) => {
     <div>
       <div>
         {user ? (
-          <p>Based on your preferences and games you've recently played!</p>
+          <p>
+            Based on your preferences and games you&apos;ve recently played!
+          </p>
         ) : (
           <p>
             Log In to view your personalized recommendations! Discover games
-            you'll love.
+            you&apos;ll love.
           </p>
         )}
       </div>
