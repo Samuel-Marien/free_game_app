@@ -16,9 +16,7 @@ export default function Home(data) {
 
   // console.log(session)
   // console.log(status)
-  if (!data) {
-    return <>Loading....</>
-  }
+
   return (
     <div>
       <Head>
@@ -33,7 +31,7 @@ export default function Home(data) {
         {session && <p>{session.user.email}</p>}
         its Home page
         <SuggestedContainer
-          user={session}
+          user={session && session}
           suggestedGames={data.pageProps.suggestedGames}
         />
         <RecentlyAddedContainer
@@ -47,16 +45,20 @@ export default function Home(data) {
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req })
+  // console.log(session)
 
-  const recentlyAddedPlatform = context.query.platform || 'all'
+  const recentlyAddedPlatform = context?.query?.platform || 'all'
 
-  const userEmail = JSON.parse(JSON.stringify(session.user.email))
+  const userEmail = session?.user?.email || ''
 
   const client = await connectToDataBase()
   const userCollection = client.db().collection('users')
   const user = await userCollection.findOne({ email: userEmail })
 
-  const data = JSON.parse(JSON.stringify(user.games_collection))
+  const data = user?.games_collection || [
+    { genre: 'mmorpg' },
+    { genre: 'shooter' }
+  ]
 
   const genresAvailableTemp = []
   const userGenresAvailable = [...data].map((item) => {
