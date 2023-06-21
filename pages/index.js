@@ -82,10 +82,11 @@ export async function getServerSideProps(context) {
     )
 
     // Retourner les deux premiers éléments (ou tous les éléments s'il y en a moins de deux)
-    return sortedElements.slice(0).join('.').toLowerCase()
+    return sortedElements.slice(0, 2).join('.').toLowerCase()
   }
 
   const result = classementRedondance(genresAvailableTemp)
+  // console.log(result)
 
   const apiData = await getSuggestedGames(result)
   const suggestedGames = apiData.slice(0, 3)
@@ -127,12 +128,11 @@ export async function getServerSideProps(context) {
     return sortedElements.map((elementWithScore) => elementWithScore.element)
   }
 
-  const communityRecommendesGames = JSON.parse(
+  const communityRecommendedGames = JSON.parse(
     JSON.stringify(sortByVotes(gamesNotations))
   )
-  // const communityRecommendesGames = sortByVotes(gamesNotations)
 
   return {
-    props: { suggestedGames, recentlyAddedGames, communityRecommendesGames }
+    props: { suggestedGames, recentlyAddedGames, communityRecommendedGames }
   }
 }

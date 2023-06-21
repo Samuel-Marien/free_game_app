@@ -29,7 +29,7 @@ const AllGamesContainer = ({ games }) => {
   const [userErrorMessage, setUserErrorMessage] = useState('')
   const [userSuccessMessage, setUserSuccessMessage] = useState('')
 
-  console.log(games)
+  // console.log(games)
 
   const handleSave = async (game) => {
     try {

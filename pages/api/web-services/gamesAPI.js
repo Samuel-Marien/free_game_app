@@ -37,7 +37,7 @@ export async function getGame(gameId) {
 
 export async function getSuggestedGames(genresString) {
   let data = []
-  let url = `${process.env.API_URL_MULTI_TAGS}${genresString}&platform=pc&sort-by=release-date`
+  let url = `${process.env.API_URL_MULTI_TAGS}${genresString}&platform=all&sort-by=relevance`
 
   try {
     const res = await axios.get(url).then((value) => value.data)

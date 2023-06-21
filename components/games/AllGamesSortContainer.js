@@ -63,7 +63,6 @@ const AllGamesSortContainer = (props) => {
   const handleChangePage = (option) => {
     if (currentPage === 1 && option === '-') {
       setCurrentPage(totalPages)
-      // return // Ne fait rien si currentPage est déjà à 0 et l'option est "-"
     }
     if (option === '+' && currentPage < totalPages) {
       setCurrentPage((prevPage) => prevPage + 1)
