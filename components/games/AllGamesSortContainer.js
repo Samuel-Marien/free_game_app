@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
+import AllGamesPagination from './AllGamesPagination'
+
 const genres = [
   'all',
   'mmorpg',
@@ -50,22 +52,40 @@ const genres = [
   'mmorts'
 ]
 
-const AllGamesSortContainer = () => {
+const AllGamesSortContainer = (props) => {
+  const { totalGames, itemsByPage, totalPages } = props
   const [platform, setPlatform] = useState('all')
   const [category, setCategory] = useState('all')
   const [sorted, setSorted] = useState('release-date')
+  const [currentPage, setCurrentPage] = useState(1)
   const router = useRouter()
+
+  const handleChangePage = (option) => {
+    if (currentPage === 1 && option === '-') {
+      setCurrentPage(totalPages)
+      // return // Ne fait rien si currentPage est déjà à 0 et l'option est "-"
+    }
+    if (option === '+' && currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1)
+    }
+    if (option === '-' && currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1)
+    }
+    if (currentPage === totalPages && option === '+') {
+      setCurrentPage(1)
+    }
+  }
 
   useEffect(() => {
     const redirect = () => {
       router.push(
-        `/games/all-games?platform=${platform}&category=${category}&sorted=${sorted}`
+        `/games/all-games?platform=${platform}&category=${category}&sorted=${sorted}&page=${currentPage}`
       )
     }
 
     redirect()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [platform, category, sorted])
+  }, [platform, category, sorted, currentPage])
 
   return (
     <div className="container mx-auto mt-2">
@@ -132,6 +152,14 @@ const AllGamesSortContainer = () => {
           </button>
         </div>
       </div>
+      <AllGamesPagination
+        totalGames={totalGames}
+        itemsByPage={itemsByPage}
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onClickMinus={() => handleChangePage('-')}
+        onClickMaxus={() => handleChangePage('+')}
+      />
     </div>
   )
 }

@@ -29,6 +29,8 @@ const AllGamesContainer = ({ games }) => {
   const [userErrorMessage, setUserErrorMessage] = useState('')
   const [userSuccessMessage, setUserSuccessMessage] = useState('')
 
+  console.log(games)
+
   const handleSave = async (game) => {
     try {
       const result = await addGame(game)
@@ -64,18 +66,6 @@ const AllGamesContainer = ({ games }) => {
       <div>
         <h2 className="text-center text-red-500">{userErrorMessage}</h2>
         <h2 className="text-center text-green-500">{userSuccessMessage}</h2>
-      </div>
-      <div>
-        <p>pagination:</p>
-        <div className="flex">
-          <button className="p-1 border rounded shadow-lg bg-slate-100 hover:shadow-none">
-            -
-          </button>
-          <p>page: X</p>
-          <button className="p-1 border rounded shadow-lg bg-slate-100 hover:shadow-none">
-            +
-          </button>
-        </div>
       </div>
       <div className="grid grid-cols-4 gap-4">
         {games.map((game, index) => {
