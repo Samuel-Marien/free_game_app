@@ -27,8 +27,8 @@ export default function Home(data) {
 
       <main className=" ">
         <Navbar />
-        welcome
-        {session && <p>{session.user.email}</p>}
+        welcome{' '}
+        {session ? <span>{session.user.email} </span> : <span>visitor </span>}
         its Home page
         <SuggestedContainer
           user={session && session}

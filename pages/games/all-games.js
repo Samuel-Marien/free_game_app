@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { getSession } from 'next-auth/react'
 
 import Navbar from '../../components/Navbar'
@@ -7,10 +7,11 @@ import { getAllGames } from '../api/web-services/gamesAPI'
 import AllGamesSortContainer from '../../components/games/AllGamesSortContainer'
 
 const AllGamePage = (data) => {
+  // console.log(data.pageProps.data)
   return (
     <div>
       <Navbar />
-      <AllGamesSortContainer />
+      {/* <AllGamesSortContainer /> */}
       <AllGamesContainer games={data.pageProps.data} />
     </div>
   )
@@ -23,9 +24,9 @@ export async function getServerSideProps(context) {
 
   const { query } = context
 
-  const platform = query.platform
-  const category = query.category
-  const sorted = query.sorted
+  const platform = query?.platform || 'pc'
+  const category = query?.category || 'all'
+  const sorted = query?.sorted || 'release-date'
 
   if (!session) {
     return {
@@ -33,7 +34,9 @@ export async function getServerSideProps(context) {
     }
   }
 
-  const data = await getAllGames(platform, category, sorted)
+  const allDatas = await getAllGames(platform, category, sorted)
+
+  const data = allDatas.slice(0, 10)
 
   return { props: { data, session } }
 }

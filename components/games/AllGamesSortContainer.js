@@ -57,10 +57,15 @@ const AllGamesSortContainer = () => {
   const router = useRouter()
 
   useEffect(() => {
-    router.push(
-      `/games/all-games?platform=${platform}&category=${category}&sorted=${sorted}`
-    )
-  }, [platform, category, sorted, router])
+    const redirect = () => {
+      router.push(
+        `/games/all-games?platform=${platform}&category=${category}&sorted=${sorted}`
+      )
+    }
+
+    redirect()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [platform, category, sorted])
 
   return (
     <div className="container mx-auto mt-2">

@@ -12,6 +12,7 @@ export async function getAllGames(platform, category, sorted) {
 
   try {
     const res = await axios.get(url).then((value) => value.data)
+    // data = await res
     data = await res
   } catch (error) {
     // console.log(error)

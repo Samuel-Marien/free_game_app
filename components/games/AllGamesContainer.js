@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { addGame, addGameByUser } from '../../helper/game'
 
+import AllGamesSortContainer from './AllGamesSortContainer'
+
 const GameCard = (props) => {
   const { title, genre, platform, onClick, id } = props
   return (
@@ -61,12 +63,25 @@ const AllGamesContainer = ({ games }) => {
 
   return (
     <div className="container mx-auto mt-5">
+      <AllGamesSortContainer />
       <div>
         <h2 className="text-center text-red-500">{userErrorMessage}</h2>
         <h2 className="text-center text-green-500">{userSuccessMessage}</h2>
       </div>
+      <div>
+        <p>pagination:</p>
+        <div className="flex">
+          <button className="p-1 border rounded shadow-lg bg-slate-100 hover:shadow-none">
+            -
+          </button>
+          <p>page: X</p>
+          <button className="p-1 border rounded shadow-lg bg-slate-100 hover:shadow-none">
+            +
+          </button>
+        </div>
+      </div>
       <div className="grid grid-cols-4 gap-4">
-        {games.map((game) => {
+        {games.map((game, index) => {
           return (
             <GameCard
               key={game.id}
