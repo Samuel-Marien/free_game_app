@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { getSession } from 'next-auth/react'
 
 import Navbar from '../../components/Navbar'
@@ -11,7 +11,7 @@ const AllGamePage = (data) => {
   return (
     <div>
       <Navbar />
-      {/* <AllGamesSortContainer /> */}
+      <AllGamesSortContainer />
       <AllGamesContainer games={data.pageProps.data} />
     </div>
   )
