@@ -136,15 +136,11 @@ export async function getServerSideProps(context) {
     return sortedElements.map((elementWithScore) => elementWithScore.element)
   }
 
-  const communityRecommendedGames = JSON.parse(
+  const communityGames = JSON.parse(
     JSON.stringify(sortByVotes(gamesNotations).slice(0, 2))
   )
 
-  const communityRecommendedGamesIds = communityRecommendedGames.map(
-    (id) =>
-      // parseInt(id.gameId)
-      id.gameId
-  )
+  const communityRecommendedGamesIds = communityGames.map((id) => id.gameId)
   const recoGameOne = await getGame(parseInt(communityRecommendedGamesIds[0]))
   const recoGameTwo = await getGame(parseInt(communityRecommendedGamesIds[1]))
 
@@ -174,16 +170,27 @@ export async function getServerSideProps(context) {
     comments2 = null
   }
 
-  // console.log(recoGameOneComment)
-  // console.log(recoGameTwoComment)
+  try {
+    recoGameOne.comment = recoGameOneComment.comments_collection[0].content
+    recoGameOne.commentAuthor =
+      recoGameOneComment.comments_collection[0].createdBy
+  } catch (error) {
+    recoGameOne.comment = 'no body'
+    recoGameOne.commentAuthor = 'no commented yet'
+  }
 
-  recoGameOne.comment = recoGameOneComment.comments_collection[0].content
-  recoGameOne.commentAuthor =
-    recoGameOneComment.comments_collection[0].createdBy
-  // recoGameTwo.comment = recoGameTwoComment.comment
+  try {
+    recoGameTwo.comment = recoGameTwoComment.comments_collection[0].content
+    recoGameTwo.commentAuthor =
+      recoGameTwoComment.comments_collection[0].createdBy
+  } catch (error) {
+    recoGameTwo.comment = 'no body'
+    recoGameTwo.commentAuthor = 'no commented yet'
+  }
 
-  console.log(recoGameOne)
-  // console.log(recoGameTwo)
+  const communityRecommendedGames = []
+  communityRecommendedGames[0] = recoGameOne
+  communityRecommendedGames[1] = recoGameTwo
 
   return {
     props: { suggestedGames, recentlyAddedGames, communityRecommendedGames }

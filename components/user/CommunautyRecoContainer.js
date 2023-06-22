@@ -1,7 +1,8 @@
 import React from 'react'
+import Link from 'next/link'
 
 const CommunautyRecoCard = (props) => {
-  const { title, genre, platform, id, comment } = props
+  const { title, genre, platform, id, comment, author } = props
   return (
     <div className="border p-1 rounded bg-slate-100 shadow-md">
       <h1>{title}</h1>
@@ -15,6 +16,7 @@ const CommunautyRecoCard = (props) => {
         Detail
       </Link>
       <p>{comment && comment}</p>
+      <p>{author && author}</p>
     </div>
   )
 }
@@ -23,7 +25,26 @@ const CommunautyRecoContainer = (props) => {
   const { communautyReco } = props
 
   console.log(communautyReco)
-  return <div>Communauty Reco Container</div>
+  return (
+    <div>
+      <p>CommunautyRecoContainer</p>
+      <div>
+        {communautyReco.map((item) => {
+          return (
+            <CommunautyRecoCard
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              genre={item.genre}
+              platform={item.platform}
+              comment={item.comment}
+              author={item.commentAuthor}
+            />
+          )
+        })}
+      </div>
+    </div>
+  )
 }
 
 export default CommunautyRecoContainer
