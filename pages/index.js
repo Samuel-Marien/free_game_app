@@ -2,12 +2,17 @@
 import { useSession, getSession } from 'next-auth/react'
 
 import { connectToDataBase } from '../lib/db'
-import { getSuggestedGames, getAllGames } from './api/web-services/gamesAPI'
+import {
+  getSuggestedGames,
+  getAllGames,
+  getGame
+} from './api/web-services/gamesAPI'
 
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import SuggestedContainer from '../components/user/SuggestedContainer'
 import RecentlyAddedContainer from '../components/user/RecentlyAddedContainer'
+import CommunautyRecoContainer from '../components/user/CommunautyRecoContainer'
 
 export default function Home(data) {
   const { data: session, status } = useSession()
@@ -36,6 +41,9 @@ export default function Home(data) {
         />
         <RecentlyAddedContainer
           recentlyAddedGames={data.pageProps.recentlyAddedGames}
+        />
+        <CommunautyRecoContainer
+          communautyReco={data.pageProps.communityRecommendedGames}
         />
       </main>
       <footer></footer>
@@ -96,7 +104,7 @@ export async function getServerSideProps(context) {
     'all',
     'release-date'
   )
-  const recentlyAddedGames = getRecentlyAddedGames.slice(0, 7)
+  const recentlyAddedGames = getRecentlyAddedGames.slice(0, 8)
 
   const getGamesNotations = client.db().collection('notations')
   const gamesNotations = await getGamesNotations.find({}).toArray()
@@ -129,8 +137,53 @@ export async function getServerSideProps(context) {
   }
 
   const communityRecommendedGames = JSON.parse(
-    JSON.stringify(sortByVotes(gamesNotations))
+    JSON.stringify(sortByVotes(gamesNotations).slice(0, 2))
   )
+
+  const communityRecommendedGamesIds = communityRecommendedGames.map(
+    (id) =>
+      // parseInt(id.gameId)
+      id.gameId
+  )
+  const recoGameOne = await getGame(parseInt(communityRecommendedGamesIds[0]))
+  const recoGameTwo = await getGame(parseInt(communityRecommendedGamesIds[1]))
+
+  const recoGameOneComment = await client
+    .db()
+    .collection('comments')
+    .findOne({ gameId: communityRecommendedGamesIds[0] })
+  let comments = []
+  if (recoGameOneComment) {
+    comments = JSON.parse(
+      JSON.stringify(recoGameOneComment.comments_collection)
+    )
+  } else {
+    comments = null
+  }
+
+  const recoGameTwoComment = await client
+    .db()
+    .collection('comments')
+    .findOne({ gameId: communityRecommendedGamesIds[1] })
+  let comments2 = []
+  if (recoGameTwoComment) {
+    comments2 = JSON.parse(
+      JSON.stringify(recoGameTwoComment.comments_collection)
+    )
+  } else {
+    comments2 = null
+  }
+
+  // console.log(recoGameOneComment)
+  // console.log(recoGameTwoComment)
+
+  recoGameOne.comment = recoGameOneComment.comments_collection[0].content
+  recoGameOne.commentAuthor =
+    recoGameOneComment.comments_collection[0].createdBy
+  // recoGameTwo.comment = recoGameTwoComment.comment
+
+  console.log(recoGameOne)
+  // console.log(recoGameTwo)
 
   return {
     props: { suggestedGames, recentlyAddedGames, communityRecommendedGames }
