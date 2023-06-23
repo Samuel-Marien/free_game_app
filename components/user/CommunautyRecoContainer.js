@@ -24,7 +24,7 @@ const CommunautyRecoCard = (props) => {
 const CommunautyRecoContainer = (props) => {
   const { communautyReco } = props
 
-  console.log(communautyReco)
+  // console.log(communautyReco)
   return (
     <div>
       <p>CommunautyRecoContainer</p>

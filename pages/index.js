@@ -1,24 +1,25 @@
 /* eslint-disable @next/next/no-img-element */
+import Head from 'next/head'
 import { useSession, getSession } from 'next-auth/react'
 
 import { connectToDataBase } from '../lib/db'
 import {
   getSuggestedGames,
   getAllGames,
-  getGame
+  getGame,
+  getRandomGame
 } from './api/web-services/gamesAPI'
 
-import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import SuggestedContainer from '../components/user/SuggestedContainer'
 import RecentlyAddedContainer from '../components/user/RecentlyAddedContainer'
 import CommunautyRecoContainer from '../components/user/CommunautyRecoContainer'
+import GameOfTheDayContainer from '../components/user/GameOfTheDayContainer'
 
 export default function Home(data) {
   const { data: session, status } = useSession()
 
   // console.log(data.pageProps)
-
   // console.log(session)
   // console.log(status)
 
@@ -35,6 +36,7 @@ export default function Home(data) {
         welcome{' '}
         {session ? <span>{session.user.email} </span> : <span>visitor </span>}
         its Home page
+        <GameOfTheDayContainer game={data.pageProps.gameOfTheDay} />
         <SuggestedContainer
           user={session && session}
           suggestedGames={data.pageProps.suggestedGames}
@@ -63,6 +65,8 @@ export async function getServerSideProps(context) {
   const userCollection = client.db().collection('users')
   const user = await userCollection.findOne({ email: userEmail })
 
+  // ********************************
+  // *** SUGGESTED GAMES ***
   const data = user?.games_collection || [
     { genre: 'mmorpg' },
     { genre: 'shooter' }
@@ -99,6 +103,8 @@ export async function getServerSideProps(context) {
   const apiData = await getSuggestedGames(result)
   const suggestedGames = apiData.slice(0, 3)
 
+  // ********************************
+  // *** RECENTLY ADDED GAMES ***
   const getRecentlyAddedGames = await getAllGames(
     recentlyAddedPlatform,
     'all',
@@ -106,6 +112,8 @@ export async function getServerSideProps(context) {
   )
   const recentlyAddedGames = getRecentlyAddedGames.slice(0, 8)
 
+  // ********************************
+  // *** COMMUNAUTY RECOMMENDED GAMES ***
   const getGamesNotations = client.db().collection('notations')
   const gamesNotations = await getGamesNotations.find({}).toArray()
 
@@ -192,7 +200,17 @@ export async function getServerSideProps(context) {
   communityRecommendedGames[0] = recoGameOne
   communityRecommendedGames[1] = recoGameTwo
 
+  // ********************************
+  // *** GAME OF THE DAY ***
+
+  const gameOfTheDay = await getRandomGame()
+
   return {
-    props: { suggestedGames, recentlyAddedGames, communityRecommendedGames }
+    props: {
+      suggestedGames,
+      recentlyAddedGames,
+      communityRecommendedGames,
+      gameOfTheDay
+    }
   }
 }
