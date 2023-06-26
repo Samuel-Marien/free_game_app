@@ -27,7 +27,9 @@ const DetailsGamePage = (data) => {
       <GameNotationsContainer
         notations={data.pageProps.notations}
         gameTitle={data.pageProps.data.title}
-        currentUser={data.pageProps.session.user.email}
+        currentUser={
+          data.pageProps.session && data.pageProps.session.user.email
+        }
       />
       <GameCommentsContainer
         gameTitle={data.pageProps.data.title}
@@ -43,22 +45,20 @@ export default DetailsGamePage
 export async function getServerSideProps(context) {
   const gameId = context.query.id
   const session = await getSession({ req: context.req })
-
-  if (!session) {
-    return {
-      redirect: { destination: '/signin', permanent: false }
-    }
-  }
-
-  const userEmail = JSON.parse(JSON.stringify(session.user.email))
+  console.log(session)
   const client = await connectToDataBase()
-  const userCollection = client.db().collection('users')
-  const user = await userCollection.findOne({ email: userEmail })
 
-  if (!user) {
-    res.status(404).json({ message: 'User No Found!' })
-    client.close()
-    return
+  //
+  const userCollection = client.db().collection('users')
+
+  if (session !== null) {
+    const userEmail = JSON.parse(JSON.stringify(session.user.email))
+    const user = await userCollection.findOne({ email: userEmail })
+    if (!user) {
+      res.status(404).json({ message: 'User No Found!' })
+      client.close()
+      return
+    }
   }
 
   const db = client.db()

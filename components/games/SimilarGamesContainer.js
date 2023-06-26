@@ -21,7 +21,7 @@ const SimilarGamesCard = (props) => {
 
 const SimilarGamesContainer = (props) => {
   const { similarGames } = props
-  console.log(similarGames)
+  // console.log(similarGames)
   return (
     <div>
       <p>Similar Games Container</p>
