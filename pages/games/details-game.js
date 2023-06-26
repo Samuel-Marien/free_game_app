@@ -2,7 +2,7 @@ import React from 'react'
 
 import { getSession } from 'next-auth/react'
 
-import { getGame } from '../api/web-services/gamesAPI'
+import { getGame, getAllGames } from '../api/web-services/gamesAPI'
 import { connectToDataBase } from '../../lib/db'
 
 import Navbar from '../../components/Navbar'
@@ -10,6 +10,7 @@ import GameDetails from '../../components/games/GameDetails'
 import GameCommentsContainer from '../../components/games/GameCommentsContainer'
 import GameNotationsContainer from '../../components/games/GameNotationsContainer'
 import MembersGameInfosContainer from '../../components/games/MembersGameInfosContainer'
+import SimilarGamesContainer from '../../components/games/SimilarGamesContainer'
 
 const DetailsGamePage = (data) => {
   // console.log(data.pageProps)
@@ -32,6 +33,7 @@ const DetailsGamePage = (data) => {
         gameTitle={data.pageProps.data.title}
         comments={data.pageProps.comments}
       />
+      <SimilarGamesContainer similarGames={data.pageProps.similarGames} />
     </div>
   )
 }
@@ -93,5 +95,13 @@ export async function getServerSideProps(context) {
 
   const data = await getGame(gameId)
 
-  return { props: { session, data, comments, notations, owners } }
+  // Similar games
+  const currentCategory = data.genre.toLowerCase()
+
+  const getGames = await getAllGames('all', currentCategory, 'relevance')
+  const similarGames = getGames.slice(0, 3)
+
+  return {
+    props: { session, data, comments, notations, owners, similarGames }
+  }
 }

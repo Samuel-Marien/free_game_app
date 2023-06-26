@@ -1,8 +1,7 @@
 import React from 'react'
-
 import Link from 'next/link'
 
-const GameCard = (props) => {
+const SimilarGamesCard = (props) => {
   const { title, genre, platform, id } = props
   return (
     <div className="border p-1 rounded bg-slate-100 shadow-md">
@@ -20,24 +19,27 @@ const GameCard = (props) => {
   )
 }
 
-const GameOfTheDayContainer = (props) => {
-  const { game } = props
-
-  // console.log(game)
-
+const SimilarGamesContainer = (props) => {
+  const { similarGames } = props
+  console.log(similarGames)
   return (
     <div>
-      <p>Game Of The Day Container</p>
+      <p>Similar Games Container</p>
       <div>
-        <GameCard
-          title={game.title}
-          genre={game.genre}
-          platform={game.platform}
-          id={game.id}
-        />
+        {similarGames.map((game) => {
+          return (
+            <SimilarGamesCard
+              key={game.id}
+              title={game.title}
+              genre={game.genre}
+              platform={game.platform}
+              id={game.id}
+            />
+          )
+        })}
       </div>
     </div>
   )
 }
 
-export default GameOfTheDayContainer
+export default SimilarGamesContainer
