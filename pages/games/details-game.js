@@ -34,6 +34,9 @@ const DetailsGamePage = (data) => {
       <GameCommentsContainer
         gameTitle={data.pageProps.data.title}
         comments={data.pageProps.comments}
+        currentUser={
+          data.pageProps.session && data.pageProps.session.user.email
+        }
       />
       <SimilarGamesContainer similarGames={data.pageProps.similarGames} />
     </div>
@@ -45,10 +48,8 @@ export default DetailsGamePage
 export async function getServerSideProps(context) {
   const gameId = context.query.id
   const session = await getSession({ req: context.req })
-  console.log(session)
   const client = await connectToDataBase()
 
-  //
   const userCollection = client.db().collection('users')
 
   if (session !== null) {

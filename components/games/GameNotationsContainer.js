@@ -9,7 +9,7 @@ const GameNotationsContainer = (props) => {
   if (!currentUser) {
     return (
       <div className="border p-1 mt-3 bg-slate-100 container w-6/12 mx-auto">
-        <p className="text-center   mb-2 border-b">Login for ad notation!</p>
+        <p className="text-center   mb-2 border-b">Login for add notation!</p>
       </div>
     )
   }
