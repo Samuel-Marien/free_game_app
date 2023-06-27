@@ -10,7 +10,7 @@ import {
   getRandomGame
 } from './api/web-services/gamesAPI'
 
-import Navbar from '../components/Navbar'
+import Layout from '../components/Layout'
 import SuggestedContainer from '../components/user/SuggestedContainer'
 import RecentlyAddedContainer from '../components/user/RecentlyAddedContainer'
 import CommunautyRecoContainer from '../components/user/CommunautyRecoContainer'
@@ -31,22 +31,22 @@ export default function Home(data) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className=" ">
-        <Navbar />
-        welcome{' '}
-        {session ? <span>{session.user.email} </span> : <span>visitor </span>}
-        its Home page
-        <GameOfTheDayContainer game={data.pageProps.gameOfTheDay} />
-        <SuggestedContainer
-          user={session && session}
-          suggestedGames={data.pageProps.suggestedGames}
-        />
-        <RecentlyAddedContainer
-          recentlyAddedGames={data.pageProps.recentlyAddedGames}
-        />
-        <CommunautyRecoContainer
-          communautyReco={data.pageProps.communityRecommendedGames}
-        />
+      <main>
+        <Layout>
+          <div className="">
+            <GameOfTheDayContainer game={data.pageProps.gameOfTheDay} />
+            <SuggestedContainer
+              user={session && session}
+              suggestedGames={data.pageProps.suggestedGames}
+            />
+            <RecentlyAddedContainer
+              recentlyAddedGames={data.pageProps.recentlyAddedGames}
+            />
+            <CommunautyRecoContainer
+              communautyReco={data.pageProps.communityRecommendedGames}
+            />
+          </div>
+        </Layout>
       </main>
       <footer></footer>
     </div>

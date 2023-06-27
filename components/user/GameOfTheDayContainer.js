@@ -26,7 +26,7 @@ const GameOfTheDayContainer = (props) => {
   // console.log(game)
 
   return (
-    <div>
+    <div className="">
       <p>Game Of The Day Container</p>
       <div>
         <GameCard
