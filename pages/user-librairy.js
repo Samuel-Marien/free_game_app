@@ -3,7 +3,6 @@ import React from 'react'
 import { getSession } from 'next-auth/react'
 import { connectToDataBase } from '../lib/db'
 
-import Navbar from '../components/Navbar'
 import GamesContainer from '../components/user/GamesContainer'
 import SortGameContainer from '../components/user/SortGameContainer'
 
@@ -14,13 +13,12 @@ const UserLibrairy = (data) => {
   // console.log(gamesDatas)
 
   return (
-    <div>
-      <Navbar />
+    <>
       <SortGameContainer genres={data.pageProps.genresAvailable} />
       <div className="flex space-x-3">
         <GamesContainer games={gamesDatas} />
       </div>
-    </div>
+    </>
   )
 }
 

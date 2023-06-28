@@ -9,7 +9,11 @@ module.exports = {
       colors: {
         myBg: '#393646',
         myText: '#F4EEE0',
-        myOrange: '#ECAF38'
+        myOrange: '#ECAF38',
+        myLightOrange: '#FAD285',
+        myViolet: '#AB80AD',
+        myDarkViolet: '#4F4557',
+        myBlackDarkViolet: '#403549'
       },
       boxShadow: {
         customDown: '16px 8px 16px 0 rgba(0, 0, 0, 0.20)',

@@ -1,7 +1,6 @@
 import React from 'react'
 import { getSession } from 'next-auth/react'
 
-import Navbar from '../../components/Navbar'
 import AllGamesContainer from '../../components/games/AllGamesContainer'
 import { getAllGames } from '../api/web-services/gamesAPI'
 import AllGamesSortContainer from '../../components/games/AllGamesSortContainer'
@@ -9,15 +8,14 @@ import AllGamesSortContainer from '../../components/games/AllGamesSortContainer'
 const AllGamePage = (data) => {
   // console.log(data.pageProps)
   return (
-    <div>
-      <Navbar />
+    <>
       <AllGamesSortContainer
         totalGames={data.pageProps.totalGames}
         itemsByPage={data.pageProps.itemsByPage}
         totalPages={data.pageProps.totalPages}
       />
       <AllGamesContainer games={data.pageProps.data} />
-    </div>
+    </>
   )
 }
 

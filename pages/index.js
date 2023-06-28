@@ -10,7 +10,6 @@ import {
   getRandomGame
 } from './api/web-services/gamesAPI'
 
-import Layout from '../components/Layout'
 import SuggestedContainer from '../components/user/SuggestedContainer'
 import RecentlyAddedContainer from '../components/user/RecentlyAddedContainer'
 import CommunautyRecoContainer from '../components/user/CommunautyRecoContainer'
@@ -32,21 +31,19 @@ export default function Home(data) {
       </Head>
 
       <main>
-        <Layout>
-          <div className="">
-            <GameOfTheDayContainer game={data.pageProps.gameOfTheDay} />
-            <SuggestedContainer
-              user={session && session}
-              suggestedGames={data.pageProps.suggestedGames}
-            />
-            <RecentlyAddedContainer
-              recentlyAddedGames={data.pageProps.recentlyAddedGames}
-            />
-            <CommunautyRecoContainer
-              communautyReco={data.pageProps.communityRecommendedGames}
-            />
-          </div>
-        </Layout>
+        <>
+          <GameOfTheDayContainer game={data.pageProps.gameOfTheDay} />
+          <SuggestedContainer
+            user={session && session}
+            suggestedGames={data.pageProps.suggestedGames}
+          />
+          <RecentlyAddedContainer
+            recentlyAddedGames={data.pageProps.recentlyAddedGames}
+          />
+          <CommunautyRecoContainer
+            communautyReco={data.pageProps.communityRecommendedGames}
+          />
+        </>
       </main>
       <footer></footer>
     </div>

@@ -5,7 +5,6 @@ import { getSession } from 'next-auth/react'
 import { getGame, getAllGames } from '../api/web-services/gamesAPI'
 import { connectToDataBase } from '../../lib/db'
 
-import Navbar from '../../components/Navbar'
 import GameDetails from '../../components/games/GameDetails'
 import GameCommentsContainer from '../../components/games/GameCommentsContainer'
 import GameNotationsContainer from '../../components/games/GameNotationsContainer'
@@ -16,8 +15,7 @@ const DetailsGamePage = (data) => {
   // console.log(data.pageProps)
 
   return (
-    <div>
-      <Navbar />
+    <>
       <GameDetails game={data.pageProps.data} />
       <MembersGameInfosContainer
         notations={data.pageProps.notations}
@@ -39,7 +37,7 @@ const DetailsGamePage = (data) => {
         }
       />
       <SimilarGamesContainer similarGames={data.pageProps.similarGames} />
-    </div>
+    </>
   )
 }
 
