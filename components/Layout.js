@@ -19,44 +19,58 @@ import { MdContactMail } from 'react-icons/md'
 import { GiGamepadCross } from 'react-icons/gi'
 
 const NavLink = (props) => {
-  const { href, icon, title, isVisible, isActive, onClick } = props
-  const [iconBg, setIconBg] = useState()
+  const { href, icon, title, isVisible, isActive } = props
+  const [iconBg, setIconBg] = useState('')
 
   const handleMouseEnter = () => {
-    setIconBg(
-      ' bg-myBg text-myOrange p-2 transition-all duration-300 animate-pulse'
-    )
+    setIconBg(' animate-pulse')
   }
 
   const handleMouseLeave = () => {
-    setIconBg(' bg-none')
+    setIconBg('')
   }
 
   return (
     <Link href={href}>
       <li
-        onClick={onClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        className="relative"
       >
         <button
-          className={` w-full focus:border-none ps-2 h-10 hover:bg-none 
-           
-          focus:border-l-none hover:border-none hover:text-myText 
-          transition-all duration-150 text-myViolet flex items-center 
-          justify-between  border-l-4 border-myViolet rounded-r-full ${
-            isActive && !isVisible && '  bg-opacity-0'
-          } ${isActive && 'bg-myOrange border-none  '} ${
-            isVisible
-              ? ' focus:text-myText focus:bg-myOrange hover:bg-myDarkViolet rounded-sm'
-              : ' focus:text-myOrange border-none rounded-r-none '
-          }`}
+          className={`w-full h-10  flex items-center
+          justify-between  text-myViolet
+           rounded-r-full transition-all duration-300
+           ${
+             isVisible &&
+             !isActive &&
+             ' hover:bg-myDarkViolet border-l-4 border-myViolet'
+           }
+            ${
+              isActive &&
+              isVisible &&
+              'focus:text-myText focus:bg-myOrange border-l-4 border-myLightOrange  rounded-sm bg-myOrange'
+            } 
+            
+            ${isActive && !isVisible && 'border-none '} 
+            ${!isActive && !isVisible && 'border-none  '} 
+            `}
         >
-          {isVisible && <span>{title}</span>}
+          {isVisible && (
+            <span
+              className={`font-semibold ms-2 ${isActive && ' text-myText'}`}
+            >
+              {title}
+            </span>
+          )}
           <div
-            className={`flex items-center p-1 m-0.5 rounded-full ${iconBg} `}
+            className={`flex items-center m-0.5 rounded-full bg-myBg text-myViolet p-2 hover:bg-myDarkViolet`}
           >
-            <span className={` ${isVisible ? 'text-xl' : 'text-2xl '}`}>
+            <span
+              className={`${isVisible ? 'text-xl' : 'text-2xl p-1'} ${
+                isActive && ' text-myOrange'
+              }${iconBg}`}
+            >
               {icon}
             </span>
           </div>
@@ -70,25 +84,16 @@ const Layout = ({ children }) => {
   const { data: session, status } = useSession()
   const [toggleSidebar, setToggleSidebar] = useState(true)
   const [toggleDarktheme, setToggleDarktheme] = useState(true)
-  const [myDefaultFocus, setMyDefaultFocus] = useState(true)
-  const [test, setTest] = useState('/')
-
-  const router = useRouter()
-  // console.log(router)
-  const routerPath = router.pathname
-  // console.log(routerPath)
-
   // const loading = status === 'loading'
 
+  const router = useRouter()
+  const routerPath = router.pathname
+
+  // console.log(router)
   // console.log(session)
   // console.log(status)
-
-  const handleClick = (event) => {
-    setMyDefaultFocus(false)
-    setTest(event)
-  }
-
-  console.log(test)
+  // console.log(test)
+  // console.log(routerPath)
 
   const logoutHandler = () => {
     signOut()
@@ -114,7 +119,7 @@ const Layout = ({ children }) => {
       >
         <div className="space-y-3">
           {/* Logo  */}
-          <Link href="/" className="flex  text-myOrange">
+          <Link href="/" className="flex text-myOrange">
             {toggleSidebar ? (
               <span className="text-6xl -rotate-12  transition-all duration-300 ps-5 pt-2">
                 <GiGamepadCross />
@@ -128,11 +133,11 @@ const Layout = ({ children }) => {
           {/* Content  */}
           <div className="">
             {/* View Settings  */}
-            <ul className="pt-2 pb-4 space-y-1 ">
+            <ul className="pt-2 pb-4 space-y-2 ">
               <li className="rounded-sm">
                 <button
                   onClick={handleToggleSidebar}
-                  className="flex items-center p-2 text-xl cursor-pointer"
+                  className="flex items-center p-2 ps-4 text-xl cursor-pointer"
                 >
                   <span
                     className={`text-2xl transition-all duration-300 ${
@@ -146,7 +151,7 @@ const Layout = ({ children }) => {
               <li className="rounded-sm">
                 <button
                   onClick={handleDarktheme}
-                  className="flex p-1.5 cursor-pointer"
+                  className="flex p-1.5 ps-4 cursor-pointer"
                 >
                   {toggleDarktheme ? (
                     <span
@@ -175,7 +180,7 @@ const Layout = ({ children }) => {
               </li>
 
               <li className="rounded-sm">
-                <p className="flex items-center p-2 mb-10 space-x-3 rounded-md">
+                <p className="flex items-center p-2 ps-4 mb-10 space-x-3 rounded-md">
                   {session ? (
                     <>
                       {toggleSidebar ? (
@@ -214,22 +219,21 @@ const Layout = ({ children }) => {
                 icon={<FaHome />}
                 title="Home"
                 isVisible={toggleSidebar}
-                isActive={myDefaultFocus}
-                onClick={() => handleClick('/')}
+                isActive={'/' === routerPath}
               />
               <NavLink
                 href="/games/all-games"
                 icon={<FaStore />}
                 title="Store"
                 isVisible={toggleSidebar}
-                onClick={() => handleClick('/games/all-games')}
+                isActive={'/games/all-games' === routerPath}
               />
               <NavLink
                 href="/user-librairy"
                 icon={<BsFillCollectionFill />}
                 title="Library"
                 isVisible={toggleSidebar}
-                onClick={() => handleClick('/user-librairy')}
+                isActive={'/user-librairy' === routerPath}
               />
 
               <div className="pt-10 flex flex-col space-y-4">
@@ -238,19 +242,19 @@ const Layout = ({ children }) => {
                   icon={<FaCog />}
                   title="Settings"
                   isVisible={toggleSidebar}
-                  onClick={() => handleClick('/user-profile')}
+                  isActive={'/user-profile' === routerPath}
                 />
                 <NavLink
-                  href="/"
+                  href="/contact"
                   icon={<MdContactMail />}
                   title="Contact"
                   isVisible={toggleSidebar}
-                  onClick={() => handleClick('/')}
+                  isActive={'/contact' === routerPath}
                 />
               </div>
               <div className="pt-20">
                 {session ? (
-                  <li className="rounded-lg border border-myDarkViolet shadow-lg mx-2 bg-myBlackDarkViolet">
+                  <li className="rounded-lg border border-myDarkViolet shadow mx-2 bg-myBlackDarkViolet">
                     <button
                       onClick={logoutHandler}
                       className="flex items-center p-2 space-x-5 rounded-md"
