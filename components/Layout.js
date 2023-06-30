@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
-import { BsFillCollectionFill, BsThreeDots } from 'react-icons/bs'
+import { BsFillCollectionFill } from 'react-icons/bs'
 import { RiMenuUnfoldFill } from 'react-icons/ri'
 import { HiOutlineLogout, HiOutlineLogin } from 'react-icons/hi'
 import {
@@ -81,13 +81,25 @@ const NavLink = (props) => {
 }
 
 const MobileNavLink = (props) => {
-  const { href, icon, isVisible, isActive } = props
+  const { href, icon, isActive } = props
   return (
-    <Link href={href}>
-      <button className="">
-        <div>{icon}</div>
-      </button>
-    </Link>
+    <button
+      className={`rounded-full  p-2 ${
+        isActive
+          ? 'bg-myOrange shadow-xl border-r border-myLightOrange'
+          : 'bg-myDarkViolet'
+      }`}
+    >
+      <Link href={href}>
+        <div
+          className={` text-xl ${
+            isActive ? 'text-myText animate-pulse' : 'text-myViolet'
+          }`}
+        >
+          {icon}
+        </div>
+      </Link>
+    </button>
   )
 }
 
@@ -115,8 +127,6 @@ const Layout = ({ children }) => {
     setToggleMobilMenu(!toggleMobilMenu)
   }
 
-  console.log(toggleMobilMenu)
-
   return (
     <div className="flex w-full">
       {/* Down Bar for mobile device */}
@@ -126,58 +136,79 @@ const Layout = ({ children }) => {
         {/* Mobile menu  */}
         <div
           onClick={handleMobilMenu}
-          className={` bg-myBg border rounded-lg shadow-2xl mb-2 mx-1 flex justify-around ${
-            toggleMobilMenu ? '  slide-in ' : '  slide-out'
+          className={` shadow-customUp bg-myBg border-t border-myDarkViolet rounded-t-2xl  items-center flex justify-between ${
+            toggleMobilMenu ? ' slide-in ' : ' slide-out'
           }`}
         >
-          <div className="border">
-            <MobileNavLink href={'/'} icon={<FaHome />} />
-            <MobileNavLink href={'/games/all-games'} icon={<FaStore />} />
+          <div className="bg-myDarkViolet flex justify-center items-center p-2 m-2 rounded-full">
+            {session ? (
+              <Link href={'/user-profile'}>
+                <span className="text-xl text-green-400 transition-all duration-300">
+                  <FaUserCheck />
+                  <span className="text-myOrange absolute top-1 left-8 text-xs">
+                    <FaCog />
+                  </span>
+                </span>
+              </Link>
+            ) : (
+              <span className="text-red-400">
+                <FaUserMinus />
+              </span>
+            )}
+          </div>
+
+          <div className=" flex w-full justify-center space-x-4">
             <MobileNavLink
+              isActive={'/' === routerPath}
+              href={'/'}
+              icon={<FaHome />}
+            />
+            <MobileNavLink
+              isActive={'/games/all-games' === routerPath}
+              href={'/games/all-games'}
+              icon={<FaStore />}
+            />
+            <MobileNavLink
+              isActive={'/user-librairy' === routerPath}
               href={'/user-librairy'}
               icon={<BsFillCollectionFill />}
             />
-
-            <MobileNavLink href={'/contact'} icon={<MdContactMail />} />
-          </div>
-          <div className="flex items-center">
-            {session ? (
-              <>
-                <span className="text-xl text-green-400 transition-all duration-300">
-                  <FaUserCheck />
-                </span>
-              </>
-            ) : (
-              <>
-                <span className="text-red-400">
-                  <FaUserMinus />
-                </span>
-              </>
-            )}
-            <MobileNavLink href={'/user-profile'} icon={<FaCog />} />
-            {session ? (
-              <button onClick={logoutHandler} className="">
-                <HiOutlineLogout />
-              </button>
-            ) : (
-              <Link href={'/signin'} className="">
-                <HiOutlineLogin />
-              </Link>
-            )}
-
+            <MobileNavLink
+              isActive={'/contact' === routerPath}
+              href={'/contact'}
+              icon={<MdContactMail />}
+            />
             <button onClick={handleDarktheme} className="">
               {toggleDarktheme ? (
-                <span>
+                <span className=" text-myDarkViolet">
                   <FaMoon />
                 </span>
               ) : (
-                <span>
+                <span className="text-myOrange">
                   <FaSun />
                 </span>
               )}
             </button>
           </div>
+
+          <div className="m-1">
+            {session ? (
+              <button
+                onClick={logoutHandler}
+                className=" pt-1 text-2xl text-pink-600"
+              >
+                <HiOutlineLogout />
+              </button>
+            ) : (
+              <Link href={'/signin'} className="">
+                <span className=" text-2xl text-myLightOrange">
+                  <HiOutlineLogin />
+                </span>
+              </Link>
+            )}
+          </div>
         </div>
+
         {/* button  */}
         {!toggleMobilMenu && (
           <div className=" flex justify-center">
