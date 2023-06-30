@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
-import { BsFillCollectionFill } from 'react-icons/bs'
+import { BsFillCollectionFill, BsThreeDots } from 'react-icons/bs'
 import { RiMenuUnfoldFill } from 'react-icons/ri'
 import { HiOutlineLogout, HiOutlineLogin } from 'react-icons/hi'
 import {
@@ -80,20 +80,24 @@ const NavLink = (props) => {
   )
 }
 
+const MobileNavLink = (props) => {
+  const { href, icon, isVisible, isActive } = props
+  return (
+    <Link href={href}>
+      <button className="">
+        <div>{icon}</div>
+      </button>
+    </Link>
+  )
+}
+
 const Layout = ({ children }) => {
   const { data: session, status } = useSession()
-  const [toggleSidebar, setToggleSidebar] = useState(true)
+  const [toggleSidebar, setToggleSidebar] = useState(false)
+  const [toggleMobilMenu, setToggleMobilMenu] = useState(false)
   const [toggleDarktheme, setToggleDarktheme] = useState(true)
-  // const loading = status === 'loading'
-
   const router = useRouter()
   const routerPath = router.pathname
-
-  // console.log(router)
-  // console.log(session)
-  // console.log(status)
-  // console.log(test)
-  // console.log(routerPath)
 
   const logoutHandler = () => {
     signOut()
@@ -107,14 +111,92 @@ const Layout = ({ children }) => {
     setToggleDarktheme(!toggleDarktheme)
   }
 
+  const handleMobilMenu = () => {
+    setToggleMobilMenu(!toggleMobilMenu)
+  }
+
+  console.log(toggleMobilMenu)
+
   return (
     <div className="flex w-full">
+      {/* Down Bar for mobile device */}
+      <div
+        className={`sm:hidden block fixed bottom-0 left-0 w-full h-max z-30`}
+      >
+        {/* Mobile menu  */}
+        <div
+          onClick={handleMobilMenu}
+          className={` bg-myBg border rounded-lg shadow-2xl mb-2 mx-1 flex justify-around ${
+            toggleMobilMenu ? '  slide-in ' : '  slide-out'
+          }`}
+        >
+          <div className="border">
+            <MobileNavLink href={'/'} icon={<FaHome />} />
+            <MobileNavLink href={'/games/all-games'} icon={<FaStore />} />
+            <MobileNavLink
+              href={'/user-librairy'}
+              icon={<BsFillCollectionFill />}
+            />
+
+            <MobileNavLink href={'/contact'} icon={<MdContactMail />} />
+          </div>
+          <div className="flex items-center">
+            {session ? (
+              <>
+                <span className="text-xl text-green-400 transition-all duration-300">
+                  <FaUserCheck />
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="text-red-400">
+                  <FaUserMinus />
+                </span>
+              </>
+            )}
+            <MobileNavLink href={'/user-profile'} icon={<FaCog />} />
+            {session ? (
+              <button onClick={logoutHandler} className="">
+                <HiOutlineLogout />
+              </button>
+            ) : (
+              <Link href={'/signin'} className="">
+                <HiOutlineLogin />
+              </Link>
+            )}
+
+            <button onClick={handleDarktheme} className="">
+              {toggleDarktheme ? (
+                <span>
+                  <FaMoon />
+                </span>
+              ) : (
+                <span>
+                  <FaSun />
+                </span>
+              )}
+            </button>
+          </div>
+        </div>
+        {/* button  */}
+        {!toggleMobilMenu && (
+          <div className=" flex justify-center">
+            <button
+              className=" border border-myLightOrange text-myOrange rounded-lg mb-2 p-1 px-2 text-2xl shadow bg-myBg bg-opacity-80"
+              onClick={handleMobilMenu}
+            >
+              <GiGamepadCross />
+            </button>
+          </div>
+        )}
+      </div>
+
       {/* Sidebar */}
       <div
-        className={`text-myText z-20 flex flex-col h-screen bg-myBg pt-3 fixed shadow-customRight ${
+        className={` text-myText z-20  flex-col h-screen bg-myBg pt-3 fixed shadow-customRight ${
           toggleSidebar
-            ? ' w-60 transition-all duration-300'
-            : ' items-center w-20 transition-all duration-300'
+            ? ' w-60 transition-all duration-300 flex'
+            : 'hidden items-center w-20 sm:flex transition-all duration-300'
         }`}
       >
         <div className="space-y-3">
@@ -325,10 +407,12 @@ const Layout = ({ children }) => {
         className={`absolute inset-0  bg-myBg ${
           toggleSidebar
             ? 'left-60 top-16 transition-all duration-500'
-            : 'left-20 top-0 transition-all duration-500'
+            : 'left-0 sm:left-20 top-0 transition-all duration-500'
         }`}
       >
-        <div className="h-full overflow-auto ps-8 pe-8 pt-6">{children}</div>
+        <div className="h-full overflow-auto sm:ps-8 ps-3 sm:pe-8 pe-3 pt-4 pb-20">
+          {children}
+        </div>
       </div>
     </div>
   )
