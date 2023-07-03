@@ -85,9 +85,7 @@ const MobileNavLink = (props) => {
   return (
     <button
       className={`rounded-full  p-2 ${
-        isActive
-          ? 'bg-myOrange shadow-xl border-r border-myLightOrange'
-          : 'bg-myDarkViolet'
+        isActive ? 'bg-myOrange shadow-xl' : 'bg-myDarkViolet'
       }`}
     >
       <Link href={href}>
@@ -128,7 +126,7 @@ const Layout = ({ children }) => {
   }
 
   return (
-    <div className="flex w-full">
+    <div className="flex w-full dark">
       {/* Down Bar for mobile device */}
       <div
         className={`sm:hidden block fixed bottom-0 left-0 w-full h-max z-30`}
@@ -136,7 +134,7 @@ const Layout = ({ children }) => {
         {/* Mobile menu  */}
         <div
           onClick={handleMobilMenu}
-          className={` shadow-customUp bg-myBg border-t border-myDarkViolet rounded-t-2xl  items-center flex justify-between ${
+          className={` shadow-customUp bg-myBg  border-t border-myDarkViolet rounded-t-2xl  items-center flex justify-between ${
             toggleMobilMenu ? ' slide-in ' : ' slide-out'
           }`}
         >
@@ -224,10 +222,14 @@ const Layout = ({ children }) => {
 
       {/* Sidebar */}
       <div
-        className={` text-myText z-20  flex-col h-screen bg-myBg pt-3 fixed shadow-customRight ${
+        className={`  z-20 flex-col h-screen pt-3 fixed shadow-customRight ${
           toggleSidebar
-            ? ' w-60 transition-all duration-300 flex'
+            ? ' w-60 transition-all duration-300 '
             : 'hidden items-center w-20 sm:flex transition-all duration-300'
+        } ${
+          toggleDarktheme
+            ? 'dark:bg-myBg text-myText'
+            : 'bg-myLightBg text-myLightText'
         }`}
       >
         <div className="space-y-3">
@@ -279,7 +281,7 @@ const Layout = ({ children }) => {
                     </span>
                   ) : (
                     <span
-                      className={`flex items-center text-2xl transition-all duration-300 ${
+                      className={`flex items-center text-2xl text-myOrange transition-all duration-300 ${
                         toggleSidebar && ' transition-all duration-300 text-xl '
                       }`}
                     >
@@ -296,16 +298,13 @@ const Layout = ({ children }) => {
                 <p className="flex items-center p-2 ps-4 mb-10 space-x-3 rounded-md">
                   {session ? (
                     <>
-                      {toggleSidebar ? (
-                        <span className="text-xl text-green-400 transition-all duration-300">
-                          <FaUserCheck />
-                        </span>
-                      ) : (
-                        <span className="text-2xl text-green-400 transition-all duration-300">
-                          <FaUserCheck />
-                        </span>
-                      )}
-
+                      <span
+                        className={` text-green-700 transition-all duration-300 ${
+                          toggleSidebar ? ' text-xl' : ' ps-1 text-2xl'
+                        }`}
+                      >
+                        <FaUserCheck />
+                      </span>
                       {toggleSidebar && (
                         <span className="ms-2 capitalize ">
                           {session.user.name[0]}

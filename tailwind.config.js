@@ -4,16 +4,21 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}'
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
+        // Dark mode
         myBg: '#393646',
         myText: '#F4EEE0',
         myOrange: '#ECAF38',
         myLightOrange: '#FAD285',
         myViolet: '#AB80AD',
         myDarkViolet: '#4F4557',
-        myBlackDarkViolet: '#403549'
+        myBlackDarkViolet: '#403549',
+        //  Light mode
+        myLightBg: '#F4EEE0',
+        myLightText: '#AB80AD'
       },
       boxShadow: {
         customDown: '16px 8px 16px 0 rgba(0, 0, 0, 0.20)',
