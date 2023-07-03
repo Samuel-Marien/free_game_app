@@ -13,6 +13,7 @@ module.exports = {
         myText: '#F4EEE0',
         myOrange: '#ECAF38',
         myLightOrange: '#FAD285',
+        myDarkOrange: '#B28E46',
         myViolet: '#AB80AD',
         myDarkViolet: '#4F4557',
         myBlackDarkViolet: '#403549',

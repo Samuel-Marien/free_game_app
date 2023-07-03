@@ -19,7 +19,7 @@ import { MdContactMail } from 'react-icons/md'
 import { GiGamepadCross } from 'react-icons/gi'
 
 const NavLink = (props) => {
-  const { href, icon, title, isVisible, isActive } = props
+  const { href, icon, title, isVisible, isActive, isDark } = props
   const [iconBg, setIconBg] = useState('')
 
   const handleMouseEnter = () => {
@@ -39,21 +39,34 @@ const NavLink = (props) => {
       >
         <button
           className={`w-full h-10  flex items-center
-          justify-between  text-myViolet
-           rounded-r-full transition-all duration-300
+          justify-between rounded-r-full transition-all duration-300
            ${
              isVisible &&
              !isActive &&
-             ' hover:bg-myDarkViolet border-l-4 border-myViolet'
+             '  border-l-4 border-myViolet text-myViolet'
            }
+           ${
+             isVisible &&
+             !isActive &&
+             !isDark &&
+             '  border-l-4 hover:border-myDarkOrange hover:text-myDarkOrange'
+           }
+           
             ${
               isActive &&
               isVisible &&
               'focus:text-myText focus:bg-myOrange border-l-4 border-myLightOrange  rounded-sm bg-myOrange'
             } 
             
+              
+              ${
+                isDark && !isVisible
+                  ? 'hover:bg-myDarkViolet'
+                  : 'hover:bg-myLightOrange text-myText'
+              } 
+
             ${isActive && !isVisible && 'border-none '} 
-            ${!isActive && !isVisible && 'border-none  '} 
+            ${!isActive && !isVisible && 'border-none '} 
             `}
         >
           {isVisible && (
@@ -64,7 +77,11 @@ const NavLink = (props) => {
             </span>
           )}
           <div
-            className={`flex items-center m-0.5 rounded-full bg-myBg text-myViolet p-2 hover:bg-myDarkViolet`}
+            className={`flex items-center m-0.5 rounded-full p-2 text-myViolet ${
+              isDark
+                ? 'bg-myBg  hover:bg-myDarkViolet'
+                : ' bg-myLightBg hover:bg-myLightOrange '
+            }`}
           >
             <span
               className={`${isVisible ? 'text-xl' : 'text-2xl p-1'} ${
@@ -332,6 +349,7 @@ const Layout = ({ children }) => {
                 title="Home"
                 isVisible={toggleSidebar}
                 isActive={'/' === routerPath}
+                isDark={toggleDarktheme}
               />
               <NavLink
                 href="/games/all-games"
@@ -339,6 +357,7 @@ const Layout = ({ children }) => {
                 title="Store"
                 isVisible={toggleSidebar}
                 isActive={'/games/all-games' === routerPath}
+                isDark={toggleDarktheme}
               />
               <NavLink
                 href="/user-librairy"
@@ -346,6 +365,7 @@ const Layout = ({ children }) => {
                 title="Library"
                 isVisible={toggleSidebar}
                 isActive={'/user-librairy' === routerPath}
+                isDark={toggleDarktheme}
               />
 
               <div className="pt-10 flex flex-col space-y-4">
@@ -355,6 +375,7 @@ const Layout = ({ children }) => {
                   title="Settings"
                   isVisible={toggleSidebar}
                   isActive={'/user-profile' === routerPath}
+                  isDark={toggleDarktheme}
                 />
                 <NavLink
                   href="/contact"
@@ -362,6 +383,7 @@ const Layout = ({ children }) => {
                   title="Contact"
                   isVisible={toggleSidebar}
                   isActive={'/contact' === routerPath}
+                  isDark={toggleDarktheme}
                 />
               </div>
               <div className="pt-20">
