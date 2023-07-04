@@ -4,7 +4,7 @@ import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
 import { BsFillCollectionFill } from 'react-icons/bs'
-import { RiMenuUnfoldFill } from 'react-icons/ri'
+import { TbArrowAutofitWidth } from 'react-icons/tb'
 import { HiOutlineLogout, HiOutlineLogin } from 'react-icons/hi'
 import {
   FaHome,
@@ -16,14 +16,14 @@ import {
   FaMoon
 } from 'react-icons/fa'
 import { MdContactMail } from 'react-icons/md'
-import { GiGamepadCross } from 'react-icons/gi'
+import { GiGamepadCross, GiCowled } from 'react-icons/gi'
 
 const NavLink = (props) => {
   const { href, icon, title, isVisible, isActive, isDark } = props
   const [iconBg, setIconBg] = useState('')
 
   const handleMouseEnter = () => {
-    setIconBg(' animate-pulse')
+    setIconBg(' animate-pulse text-myOrange')
   }
 
   const handleMouseLeave = () => {
@@ -35,7 +35,7 @@ const NavLink = (props) => {
       <li
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="relative"
+        className="relative hover:-translate-y-0.5 transition-all duration-150"
       >
         <button
           className={`w-full h-10  flex items-center
@@ -43,30 +43,26 @@ const NavLink = (props) => {
            ${
              isVisible &&
              !isActive &&
-             '  border-l-4 border-myViolet text-myViolet'
+             isDark &&
+             '  border-l-4 hover:border-myBlackDarkViolet hover:text-myText hover:bg-myDarkViolet border-myViolet text-myViolet  '
            }
            ${
              isVisible &&
              !isActive &&
              !isDark &&
-             '  border-l-4 hover:border-myDarkOrange hover:text-myDarkOrange'
+             '  border-l-4 hover:border-myDarkOrange hover:text-myDarkOrange hover:bg-myLightOrange border-myViolet text-myViolet'
            }
-           
             ${
               isActive &&
               isVisible &&
               'focus:text-myText focus:bg-myOrange border-l-4 border-myLightOrange  rounded-sm bg-myOrange'
             } 
-            
-              
-              ${
-                isDark && !isVisible
-                  ? 'hover:bg-myDarkViolet'
-                  : 'hover:bg-myLightOrange text-myText'
-              } 
-
-            ${isActive && !isVisible && 'border-none '} 
-            ${!isActive && !isVisible && 'border-none '} 
+            ${
+              isActive &&
+              isVisible &&
+              !isDark &&
+              'focus:text-myText focus:bg-Violet border-l-4 border-myLightOrange  rounded-sm bg-myViolet'
+            } 
             `}
         >
           {isVisible && (
@@ -80,7 +76,7 @@ const NavLink = (props) => {
             className={`flex items-center m-0.5 rounded-full p-2 text-myViolet ${
               isDark
                 ? 'bg-myBg  hover:bg-myDarkViolet'
-                : ' bg-myLightBg hover:bg-myLightOrange '
+                : ' bg-myLightBg hover:bg-myBrown '
             }`}
           >
             <span
@@ -224,7 +220,7 @@ const Layout = ({ children }) => {
           </div>
         </div>
 
-        {/* button  */}
+        {/* Mobile menu button  */}
         {!toggleMobilMenu && (
           <div className=" flex justify-center">
             <button
@@ -265,84 +261,61 @@ const Layout = ({ children }) => {
           {/* Content  */}
           <div className="">
             {/* View Settings  */}
-            <ul className="pt-2 pb-4 space-y-2 ">
-              <li className="rounded-sm">
-                <button
-                  onClick={handleToggleSidebar}
-                  className="flex items-center p-2 ps-4 text-xl cursor-pointer"
-                >
-                  <span
-                    className={`text-2xl transition-all duration-300 ${
-                      toggleSidebar && ' rotate-180 text-xl'
+
+            {!toggleSidebar && (
+              <ul className="pt-10 mb-5 space-y-3">
+                <li className=" h-10 w-10 mx-auto">
+                  <p
+                    className={` text-2xl p-1 border  shadow-xs flex justify-center items-center  rounded-full ${
+                      session
+                        ? 'text-green-600 border-green-600'
+                        : 'text-red-400 border-red-400'
                     }`}
                   >
-                    <RiMenuUnfoldFill />
-                  </span>
-                </button>
-              </li>
-              <li className="rounded-sm">
-                <button
-                  onClick={handleDarktheme}
-                  className="flex p-1.5 ps-4 cursor-pointer"
+                    <span>
+                      <GiCowled />
+                    </span>
+                  </p>
+                </li>
+                <ul
+                  className={`flex  py-5 justify-between ${
+                    toggleDarktheme
+                      ? 'border-b border-t border-myDarkViolet'
+                      : 'border-b border-t border-myOrange'
+                  }`}
                 >
-                  {toggleDarktheme ? (
-                    <span
-                      className={`flex items-center text-2xl transition-all duration-300 ${
-                        toggleSidebar && ' transition-all duration-300 text-xl '
-                      }`}
+                  <li className="">
+                    <button
+                      onClick={handleToggleSidebar}
+                      className="flex items-center  mx-auto text-myViolet cursor-pointer"
                     >
-                      <FaMoon />
-                      {toggleSidebar && (
-                        <span className="ms-3 capitalize text-base">dark</span>
-                      )}
-                    </span>
-                  ) : (
-                    <span
-                      className={`flex items-center text-2xl text-myOrange transition-all duration-300 ${
-                        toggleSidebar && ' transition-all duration-300 text-xl '
-                      }`}
-                    >
-                      <FaSun />
-                      {toggleSidebar && (
-                        <span className="ms-3 capitalize text-base">light</span>
-                      )}
-                    </span>
-                  )}
-                </button>
-              </li>
-
-              <li className="rounded-sm">
-                <p className="flex items-center p-2 ps-4 mb-10 space-x-3 rounded-md">
-                  {session ? (
-                    <>
                       <span
-                        className={` text-green-700 transition-all duration-300 ${
-                          toggleSidebar ? ' text-xl' : ' ps-1 text-2xl'
-                        }`}
+                        className={`text-xl -rotate-90 hover:-rotate-180 transition-all duration-150 `}
                       >
-                        <FaUserCheck />
+                        <TbArrowAutofitWidth />
                       </span>
-                      {toggleSidebar && (
-                        <span className="ms-2 capitalize ">
-                          {session.user.name[0]}
-                        </span>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <span className="text-red-400">
-                        <FaUserMinus />
+                    </button>
+                  </li>
+                  <li className="">
+                    <button
+                      onClick={handleDarktheme}
+                      className="flex items-center mx-auto cursor-pointer hover:-translate-y-1 transition-all duration-150"
+                    >
+                      <span
+                        className={`flex items-center text-xl hover:animate-pulse ${
+                          toggleDarktheme ? ' text-myViolet' : 'text-myOrange'
+                        } `}
+                      >
+                        {toggleDarktheme ? <FaMoon /> : <FaSun />}
                       </span>
-                      {toggleSidebar && (
-                        <span className="ms-2 capitalize">visitor </span>
-                      )}
-                    </>
-                  )}
-                </p>
-              </li>
-            </ul>
+                    </button>
+                  </li>
+                </ul>
+              </ul>
+            )}
+
             {/* Navlinks  */}
-            <ul className="pb-4 flex flex-col space-y-4">
+            <ul className=" flex flex-col space-y-4 ">
               <NavLink
                 href="/"
                 icon={<FaHome />}
@@ -368,7 +341,13 @@ const Layout = ({ children }) => {
                 isDark={toggleDarktheme}
               />
 
-              <div className="pt-10 flex flex-col space-y-4">
+              <div
+                className={`py-5 flex flex-col space-y-4 ${
+                  toggleDarktheme
+                    ? 'border-b border-t border-myDarkViolet'
+                    : 'border-b border-t border-myOrange'
+                }`}
+              >
                 <NavLink
                   href="/user-profile"
                   icon={<FaCog />}
@@ -386,9 +365,9 @@ const Layout = ({ children }) => {
                   isDark={toggleDarktheme}
                 />
               </div>
-              <div className="pt-20">
+              <div className="pt-10 flex justify-center items-center">
                 {session ? (
-                  <li className="rounded-lg border border-myDarkViolet shadow mx-2 bg-myBlackDarkViolet">
+                  <li className="rounded-lg w-max  border border-myDarkViolet shadow  bg-myBlackDarkViolet">
                     <button
                       onClick={logoutHandler}
                       className="flex items-center p-2 space-x-5 rounded-md"
@@ -432,14 +411,24 @@ const Layout = ({ children }) => {
 
       {/* Upbar */}
       {toggleSidebar && (
-        <div className="flex flex-col">
-          <nav className="w-screen z-20 h-16 left-60 top-0 fixed bg-myBg text-myText shadow-customDown">
-            <div className="ps-8 h-full flex items-center">
-              <div className="flex-1 z-30 ">
-                <p className=" flex text-3xl font-bold">
+        <div className="">
+          <nav className="absolute inset-y-0 left-0 w-screen flex justify-start items-center pl-60 pe-12 h-16 bg-myBg text-myText shadow-customDown z-10 ">
+            <div className=" ms-8 h-full flex justify-between  w-full items-center">
+              <div className="flex space-x-3  ">
+                <button
+                  onClick={handleToggleSidebar}
+                  className="flex items-center cursor-pointer"
+                >
+                  <span
+                    className={`text-2xl text-myViolet hover:-rotate-90 transition-all duration-150 `}
+                  >
+                    <TbArrowAutofitWidth />
+                  </span>
+                </button>
+                <p className="flex text-myText text-3xl font-bold">
                   Good Day,{' '}
                   {session ? (
-                    <span className="ms-2 capitalize font-black">
+                    <span className="ms-2 capitalize font-black ">
                       {session.user.name[0]}
                     </span>
                   ) : (
@@ -447,8 +436,44 @@ const Layout = ({ children }) => {
                   )}
                 </p>
               </div>
-              <div className="flex-1 z-30 ">search bar</div>
-              <div className="flex-1 z-30">plop</div>
+              <div>search bar</div>
+              {/* settings */}
+              <div>
+                <ul className="flex  w-max items-center space-x-2 ">
+                  <li className="h-8 w-8  flex items-center justify-center ">
+                    <button
+                      onClick={handleDarktheme}
+                      className="flex cursor-pointer"
+                    >
+                      <span>
+                        {toggleDarktheme ? (
+                          <span className="text-myViolet">
+                            <FaMoon />
+                          </span>
+                        ) : (
+                          <span className="text-myOrange">
+                            <FaSun />
+                          </span>
+                        )}
+                      </span>
+                    </button>
+                  </li>
+
+                  <li className="flex items-center">
+                    <p
+                      className={` text-2xl border-2 rounded-full p-0.5 ${
+                        session
+                          ? 'text-green-700 border-green-700'
+                          : 'text-red-400 border-red-400'
+                      }`}
+                    >
+                      <span>
+                        <GiCowled />
+                      </span>
+                    </p>
+                  </li>
+                </ul>
+              </div>
             </div>
           </nav>
         </div>
