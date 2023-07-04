@@ -266,9 +266,9 @@ const Layout = ({ children }) => {
               <ul className="pt-10 mb-5 space-y-3">
                 <li className=" h-10 w-10 mx-auto">
                   <p
-                    className={` text-2xl p-1 border  shadow-xs flex justify-center items-center  rounded-full ${
+                    className={` text-2xl p-1 border-2  shadow-xs flex justify-center items-center  rounded-full ${
                       session
-                        ? 'text-green-600 border-green-600'
+                        ? 'text-myViolet border-myViolet'
                         : 'text-red-400 border-red-400'
                     }`}
                   >
@@ -365,9 +365,9 @@ const Layout = ({ children }) => {
                   isDark={toggleDarktheme}
                 />
               </div>
-              <div className="pt-10 flex justify-center items-center">
+              <div className="pt-20 flex justify-center items-center">
                 {session ? (
-                  <li className="rounded-lg w-max  border border-myDarkViolet shadow  bg-myBlackDarkViolet">
+                  <li className="rounded-lg w-max shadow-lg hover:shadow-none transition-all duration-300">
                     <button
                       onClick={logoutHandler}
                       className="flex items-center p-2 space-x-5 rounded-md"
@@ -388,7 +388,7 @@ const Layout = ({ children }) => {
                   <li className="rounded-sm">
                     <Link
                       href="/signin"
-                      className="flex items-center p-2 space-x-3 rounded-md"
+                      className="flex items-center p-2 space-x-3 rounded-md  shadow-lg hover:shadow-none transition-all duration-300"
                     >
                       {toggleSidebar && <span>Signin</span>}
                       {toggleSidebar ? (
@@ -412,7 +412,13 @@ const Layout = ({ children }) => {
       {/* Upbar */}
       {toggleSidebar && (
         <div className="">
-          <nav className="absolute inset-y-0 left-0 w-screen flex justify-start items-center pl-60 pe-12 h-16 bg-myBg text-myText shadow-customDown z-10 ">
+          <nav
+            className={`absolute inset-y-0 left-0 w-screen flex justify-start items-center pl-60 pe-12 h-16  shadow-customDown z-10 ${
+              toggleDarktheme
+                ? 'bg-myBg text-myText'
+                : 'bg-myLightBg text-myLightText'
+            }`}
+          >
             <div className=" ms-8 h-full flex justify-between  w-full items-center">
               <div className="flex space-x-3  ">
                 <button
@@ -420,15 +426,15 @@ const Layout = ({ children }) => {
                   className="flex items-center cursor-pointer"
                 >
                   <span
-                    className={`text-2xl text-myViolet hover:-rotate-90 transition-all duration-150 `}
+                    className={` text-base lg:text-2xl text-myViolet hover:-rotate-90 transition-all duration-150 `}
                   >
                     <TbArrowAutofitWidth />
                   </span>
                 </button>
-                <p className="flex text-myText text-3xl font-bold">
+                <p className="flex text-xl lg:text-3xl font-semibold">
                   Good Day,{' '}
                   {session ? (
-                    <span className="ms-2 capitalize font-black ">
+                    <span className="ms-2 capitalize font-black tracking-wide">
                       {session.user.name[0]}
                     </span>
                   ) : (
@@ -436,7 +442,9 @@ const Layout = ({ children }) => {
                   )}
                 </p>
               </div>
-              <div>search bar</div>
+              <div className="hidden lg:block border rounded-xl w-64 h-8 p-1">
+                search bar
+              </div>
               {/* settings */}
               <div>
                 <ul className="flex  w-max items-center space-x-2 ">
@@ -463,7 +471,7 @@ const Layout = ({ children }) => {
                     <p
                       className={` text-2xl border-2 rounded-full p-0.5 ${
                         session
-                          ? 'text-green-700 border-green-700'
+                          ? 'text-myViolet border-myViolet'
                           : 'text-red-400 border-red-400'
                       }`}
                     >
@@ -481,13 +489,19 @@ const Layout = ({ children }) => {
 
       {/* Children */}
       <div
-        className={`absolute inset-0  bg-myBg ${
+        className={`absolute inset-0 ${
           toggleSidebar
             ? 'left-60 top-16 transition-all duration-500'
             : 'left-0 sm:left-20 top-0 transition-all duration-500'
         }`}
       >
-        <div className="h-full overflow-auto sm:ps-8 ps-3 sm:pe-8 pe-3 pt-4 pb-20">
+        <div
+          className={`h-full overflow-auto sm:ps-8 ps-3 sm:pe-8 pe-3 pt-4 pb-20 ${
+            toggleDarktheme
+              ? 'bg-myBg transition-all duration-150'
+              : ' bg-myLightBg transition-all duration-150'
+          }`}
+        >
           {children}
         </div>
       </div>

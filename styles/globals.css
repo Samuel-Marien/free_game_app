@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  background-color: #393646;
-}
-
 @keyframes slideIn {
   0% {
     transform: translateY(-100%);
