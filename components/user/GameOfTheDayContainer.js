@@ -1,11 +1,19 @@
 import React from 'react'
-
+import Image from 'next/image'
 import Link from 'next/link'
 
 const GameCard = (props) => {
-  const { title, genre, platform, id } = props
+  const { title, genre, platform, id, imageSrc } = props
   return (
     <div className="border p-1 rounded bg-slate-100 shadow-md">
+      <Image
+        src={imageSrc}
+        width={500}
+        height={500}
+        // sizes="(max-width: 768px) 100vw"
+        // fill={true}
+        alt="Picture of the author"
+      />
       <h1>{title}</h1>
       <p>{genre}</p>
       <p>{platform}</p>
@@ -23,13 +31,14 @@ const GameCard = (props) => {
 const GameOfTheDayContainer = (props) => {
   const { game } = props
 
-  // console.log(game)
+  console.log(game)
 
   return (
     <div className="">
       <p>Game Of The Day Container</p>
       <div>
         <GameCard
+          imageSrc={game.screenshots[0].image}
           title={game.title}
           genre={game.genre}
           platform={game.platform}

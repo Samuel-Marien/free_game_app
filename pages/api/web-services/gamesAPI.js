@@ -53,15 +53,21 @@ export async function getRandomGame() {
   let data = []
   let oneGameData = []
   let url = process.env.API_URL
+  let oneGameId = 0
 
   try {
     const res = await axios.get(url).then((value) => value.data)
     data = await res
     const getRandomInt = Math.floor(Math.random() * data.length)
     oneGameData = data[getRandomInt]
+    oneGameId = oneGameData.id
+    // console.log(oneGameId)
   } catch (error) {
     console.log(error)
   }
 
-  return oneGameData
+  const result = await getGame(oneGameId)
+  console.log(result)
+
+  return result
 }
