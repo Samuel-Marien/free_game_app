@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
+import NavLink from './NavLink'
+import MobileNavLink from './MobileNavLink'
+
 import { BsFillCollectionFill } from 'react-icons/bs'
 import { TbArrowAutofitWidth } from 'react-icons/tb'
 import { HiOutlineLogout, HiOutlineLogin } from 'react-icons/hi'
@@ -17,102 +20,6 @@ import {
 } from 'react-icons/fa'
 import { MdContactMail } from 'react-icons/md'
 import { GiGamepadCross, GiCowled } from 'react-icons/gi'
-
-const NavLink = (props) => {
-  const { href, icon, title, isVisible, isActive, isDark } = props
-  const [iconBg, setIconBg] = useState('')
-
-  const handleMouseEnter = () => {
-    setIconBg(' animate-pulse text-myOrange')
-  }
-
-  const handleMouseLeave = () => {
-    setIconBg('')
-  }
-
-  return (
-    <Link href={href}>
-      <li
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        className="relative hover:-translate-y-0.5 transition-all duration-150"
-      >
-        <button
-          className={`w-full h-10  flex items-center
-          justify-between rounded-r-full transition-all duration-300
-           ${
-             isVisible &&
-             !isActive &&
-             isDark &&
-             '  border-l-4 hover:border-myBlackDarkViolet hover:text-myText hover:bg-myDarkViolet border-myViolet text-myViolet  '
-           }
-           ${
-             isVisible &&
-             !isActive &&
-             !isDark &&
-             '  border-l-4 hover:border-myDarkOrange hover:text-myDarkOrange hover:bg-myLightOrange border-myViolet text-myViolet'
-           }
-            ${
-              isActive &&
-              isVisible &&
-              'focus:text-myText focus:bg-myOrange border-l-4 border-myLightOrange  rounded-sm bg-myOrange'
-            } 
-            ${
-              isActive &&
-              isVisible &&
-              !isDark &&
-              'focus:text-myText focus:bg-Violet border-l-4 border-myLightOrange  rounded-sm bg-myViolet'
-            } 
-            `}
-        >
-          {isVisible && (
-            <span
-              className={`font-semibold ms-2 ${isActive && ' text-myText'}`}
-            >
-              {title}
-            </span>
-          )}
-          <div
-            className={`flex items-center m-0.5 rounded-full p-2 text-myViolet ${
-              isDark
-                ? 'bg-myBg  hover:bg-myDarkViolet'
-                : ' bg-myLightBg hover:bg-myBrown '
-            }`}
-          >
-            <span
-              className={`${isVisible ? 'text-xl' : 'text-2xl p-1'} ${
-                isActive && ' text-myOrange'
-              }${iconBg}`}
-            >
-              {icon}
-            </span>
-          </div>
-        </button>
-      </li>
-    </Link>
-  )
-}
-
-const MobileNavLink = (props) => {
-  const { href, icon, isActive } = props
-  return (
-    <button
-      className={`rounded-full  p-2 ${
-        isActive ? 'bg-myOrange shadow-xl' : 'bg-myDarkViolet'
-      }`}
-    >
-      <Link href={href}>
-        <div
-          className={` text-xl ${
-            isActive ? 'text-myText animate-pulse' : 'text-myViolet'
-          }`}
-        >
-          {icon}
-        </div>
-      </Link>
-    </button>
-  )
-}
 
 const Layout = ({ children }) => {
   const { data: session, status } = useSession()

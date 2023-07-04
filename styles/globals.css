@@ -13,6 +13,7 @@
   }
 }
 
+/* Mobile device menu animation */
 @keyframes slideOut {
   0% {
     transform: translateY(0%);
