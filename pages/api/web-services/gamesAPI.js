@@ -51,23 +51,21 @@ export async function getSuggestedGames(genresString) {
 
 export async function getRandomGame() {
   let data = []
+  let allGamesDatas = []
   let oneGameData = []
   let url = process.env.API_URL
-  let oneGameId = 0
 
   try {
     const res = await axios.get(url).then((value) => value.data)
     data = await res
-    const getRandomInt = Math.floor(Math.random() * data.length)
-    oneGameData = data[getRandomInt]
-    oneGameId = oneGameData.id
-    // console.log(oneGameId)
+    for (let i = 0; i < 2; i++) {
+      const getRandomInt = Math.floor(Math.random() * data.length)
+      oneGameData = data[getRandomInt]
+      allGamesDatas.push(oneGameData)
+    }
   } catch (error) {
     console.log(error)
   }
 
-  const result = await getGame(oneGameId)
-  console.log(result)
-
-  return result
+  return allGamesDatas
 }
