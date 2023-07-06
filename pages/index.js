@@ -199,8 +199,26 @@ export async function getServerSideProps(context) {
 
   // ********************************
   // *** GAME OF THE DAY ***
-
+  let arrayOfIds = []
   const gameOfTheDay = await getRandomGame()
+
+  const gamesOfTheDayIds = gameOfTheDay.filter((item) =>
+    arrayOfIds.push(item.id)
+  )
+  // console.log(arrayOfIds)
+
+  let owners = []
+  const existingOwners = await client
+    .db()
+    .collection('owners')
+    .findOne({ gameId: arrayOfIds[0] })
+  if (existingOwners) {
+    owners = JSON.parse(JSON.stringify(existingOwners.owners))
+  } else {
+    owners = null
+  }
+
+  console.log(owners)
 
   return {
     props: {

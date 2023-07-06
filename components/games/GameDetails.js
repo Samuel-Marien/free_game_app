@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { addGame, addGameByUser } from '../../helper/game'
 
 const GameDetails = (props) => {
@@ -7,6 +8,7 @@ const GameDetails = (props) => {
   const [userErrorMessage, setUserErrorMessage] = useState('')
   const [userSuccessMessage, setUserSuccessMessage] = useState('')
 
+  const router = useRouter()
   // console.log(game)
 
   const handleSave = async (game) => {
@@ -14,6 +16,7 @@ const GameDetails = (props) => {
       const result = await addGame(game)
       await addGameByUser(game)
       setUserSuccessMessage(result.message)
+      router.push(`/games/details-game?id=${game.id}`)
       // console.log(result.message)
     } catch (error) {
       setUserErrorMessage(error.message)

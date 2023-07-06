@@ -11,14 +11,6 @@ const GameCard = (props) => {
   return (
     <div className="grid grid-cols-2 gap-0 rounded-lg bg-myDarkViolet text-myText shadow-lg hover:shadow-none">
       <div className=" ">
-        <div className=" absolute pt-0.5 flex text-myText items-center ">
-          <p className=" scale-75 rounded-2xl p-1 bg-myDarkViolet w-max text-xs ">
-            {genre}
-          </p>
-          <div className="scale-75 rounded-2xl p-0.5 bg-myDarkViolet w-max ">
-            {platform === 'PC (Windows)' ? <AiFillWindows /> : <CgBrowser />}
-          </div>
-        </div>
         <div className="rounded-l-lg overflow-hidden ">
           <Image
             src={imageSrc}
@@ -30,25 +22,32 @@ const GameCard = (props) => {
         </div>
       </div>
 
-      <div className=" py-1 px-2">
+      <div className="flex flex-col justify-around py-1 px-2">
         <h1 className="text-2xl font-bold text-center">{title}</h1>
         <p className="text-myText font-thin">
           {shortDescription.slice(0, 60)}
           {shortDescription.length > 60 && '...'}
         </p>
-
-        <Link
-          href={{ pathname: `/games/details-game`, query: { id: id } }}
-          className="w-full mt-3 mb-1 rounded shadow bg-green-300 hover:bg-green-600 hover:text-green-100"
-        >
-          Detail
-        </Link>
-        <Link
-          href={gameUrl}
-          className="w-full mt-3 mb-1 rounded shadow bg-green-300 hover:bg-green-600 hover:text-green-100"
-        >
-          Play!
-        </Link>
+        <div className="flex text-myText items-center space-x-2 ">
+          <p className="  rounded-2xl p-1 bg-myBg w-max text-xs ">{genre}</p>
+          <div className=" rounded-2xl p-1 bg-myBg w-max text-center">
+            {platform === 'PC (Windows)' ? <AiFillWindows /> : <CgBrowser />}
+          </div>
+        </div>
+        <div>
+          <Link
+            href={{ pathname: `/games/details-game`, query: { id: id } }}
+            className="w-full mt-3 mb-1 rounded shadow bg-green-300 hover:bg-green-600 hover:text-green-100"
+          >
+            Detail
+          </Link>
+          <Link
+            href={gameUrl}
+            className="w-full mt-3 mb-1 rounded shadow bg-green-300 hover:bg-green-600 hover:text-green-100"
+          >
+            Play!
+          </Link>
+        </div>
       </div>
     </div>
   )
@@ -57,7 +56,7 @@ const GameCard = (props) => {
 const GameOfTheDayContainer = (props) => {
   const { game } = props
 
-  console.log(game)
+  // console.log(game)
 
   return (
     <div className="">
