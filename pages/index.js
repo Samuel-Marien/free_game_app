@@ -207,18 +207,22 @@ export async function getServerSideProps(context) {
   )
   // console.log(arrayOfIds)
 
-  let owners = []
-  const existingOwners = await client
-    .db()
-    .collection('owners')
-    .findOne({ gameId: arrayOfIds[0] })
-  if (existingOwners) {
-    owners = JSON.parse(JSON.stringify(existingOwners.owners))
-  } else {
-    owners = null
+  for (let i = 0; i < 2; i++) {
+    let owners = []
+    const existingOwners = await client
+      .db()
+      .collection('owners')
+      .findOne({ gameId: arrayOfIds[i] })
+    if (existingOwners) {
+      owners = JSON.parse(JSON.stringify(existingOwners.owners))
+    } else {
+      owners = null
+    }
+    const gameOwners = owners ? owners.length : 0
+    gameOfTheDay[i]['owners'] = gameOwners
   }
 
-  console.log(owners)
+  console.log(gameOfTheDay)
 
   return {
     props: {

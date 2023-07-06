@@ -4,10 +4,19 @@ import Link from 'next/link'
 
 import { AiFillWindows } from 'react-icons/ai'
 import { CgBrowser } from 'react-icons/cg'
+import { BsFillCollectionFill } from 'react-icons/bs'
 
 const GameCard = (props) => {
-  const { title, genre, platform, id, imageSrc, shortDescription, gameUrl } =
-    props
+  const {
+    title,
+    genre,
+    platform,
+    id,
+    imageSrc,
+    shortDescription,
+    gameUrl,
+    owners
+  } = props
   return (
     <div className="grid grid-cols-2 gap-0 rounded-lg bg-myDarkViolet text-myText shadow-lg hover:shadow-none">
       <div className=" ">
@@ -28,11 +37,23 @@ const GameCard = (props) => {
           {shortDescription.slice(0, 60)}
           {shortDescription.length > 60 && '...'}
         </p>
-        <div className="flex text-myText items-center space-x-2 ">
-          <p className="  rounded-2xl p-1 bg-myBg w-max text-xs ">{genre}</p>
-          <div className=" rounded-2xl p-1 bg-myBg w-max text-center">
-            {platform === 'PC (Windows)' ? <AiFillWindows /> : <CgBrowser />}
+        <div className="flex justify-between text-myText items-center ">
+          <div className="flex space-x-2">
+            <p className="  rounded-2xl p-1 px-2 bg-myBg w-max text-xs ">
+              {genre}
+            </p>
+
+            <div className=" rounded-2xl p-1 bg-myBg w-max text-center">
+              {platform === 'PC (Windows)' ? <AiFillWindows /> : <CgBrowser />}
+            </div>
           </div>
+
+          <p className=" flex items-center rounded-2xl p-1 px-2 bg-myBg w-max text-xs">
+            <span className="me-1">
+              <BsFillCollectionFill />
+            </span>
+            + {owners} add in library
+          </p>
         </div>
         <div>
           <Link
@@ -73,6 +94,7 @@ const GameOfTheDayContainer = (props) => {
               id={game.id}
               shortDescription={game.short_description}
               gameUrl={game.game_url}
+              owners={game.owners}
             />
           )
         })}
