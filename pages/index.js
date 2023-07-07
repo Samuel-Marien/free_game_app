@@ -222,7 +222,7 @@ export async function getServerSideProps(context) {
     gameOfTheDay[i]['owners'] = gameOwners
   }
 
-  console.log(gameOfTheDay)
+  // console.log(gameOfTheDay)
 
   return {
     props: {
