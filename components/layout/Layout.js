@@ -146,7 +146,7 @@ const Layout = ({ children }) => {
       <div
         className={`  z-20 flex-col h-screen pt-3 fixed shadow-customRight ${
           toggleSidebar
-            ? ' w-60 transition-all duration-300 '
+            ? 'w-60 transition-all duration-300 '
             : 'hidden items-center w-20 sm:flex transition-all duration-300'
         } ${
           toggleDarktheme

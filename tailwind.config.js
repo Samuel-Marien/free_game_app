@@ -12,7 +12,7 @@ module.exports = {
         myBg: '#393646',
         myText: '#F4EEE0',
         myOrange: '#ECAF38',
-        myBrown: '#D3CCBA',
+        myBrown: '#e6e1d8',
         myLightOrange: '#FAD285',
         myDarkOrange: '#B28E46',
         myLightViolet: '#EBCEED',

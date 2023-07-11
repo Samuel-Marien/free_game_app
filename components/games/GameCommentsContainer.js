@@ -6,7 +6,7 @@ import GameComments from './GameComments'
 const GameCommentsContainer = (props) => {
   const { gameTitle, comments, currentUser } = props
 
-  console.log(currentUser)
+  // console.log(currentUser)
 
   return (
     <div>

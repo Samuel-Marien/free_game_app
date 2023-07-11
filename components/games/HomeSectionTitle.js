@@ -8,7 +8,7 @@ const HomeSectionTitle = (props) => {
         {icon}
       </span>
       <p
-        className={`lg:text-4xl text-2xl font-bold ${
+        className={`lg:text-3xl text-xl font-bold ${
           isDark ? 'text-myText' : 'dark:text-myDarkViolet'
         }`}
       >

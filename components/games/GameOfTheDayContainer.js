@@ -13,14 +13,16 @@ const GameOfTheDayContainer = (props) => {
   const { toggleDarktheme } = useContext(Context)
 
   // console.log(toggleDarktheme)
+  console.log(game)
 
   return (
     <div className="">
       <HomeSectionTitle
         icon={<GiGamepadCross />}
-        title="Games of the day"
+        title="Discover random games"
         isDark={toggleDarktheme}
       />
+
       <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
         {game.map((game) => {
           return (
