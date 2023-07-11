@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
+
+import Context from '../context/appContext'
 
 import NavLink from './NavLink'
 import MobileNavLink from './MobileNavLink'
@@ -25,9 +27,10 @@ const Layout = ({ children }) => {
   const { data: session, status } = useSession()
   const [toggleSidebar, setToggleSidebar] = useState(false)
   const [toggleMobilMenu, setToggleMobilMenu] = useState(false)
-  const [toggleDarktheme, setToggleDarktheme] = useState(true)
   const router = useRouter()
   const routerPath = router.pathname
+
+  const { toggleDarktheme, setToggleDarktheme } = useContext(Context)
 
   const logoutHandler = () => {
     signOut()

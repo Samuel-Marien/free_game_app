@@ -5,10 +5,10 @@ import Link from 'next/link'
 import { AiFillWindows } from 'react-icons/ai'
 import { CgBrowser } from 'react-icons/cg'
 import { BsFillCollectionFill } from 'react-icons/bs'
-import { GiGamepadCross, GiCowled } from 'react-icons/gi'
+import { GiGamepadCross } from 'react-icons/gi'
 import { AiFillCode } from 'react-icons/ai'
 
-const GameCard = (props) => {
+const GameCardOfTheDay = (props) => {
   const {
     title,
     genre,
@@ -18,7 +18,8 @@ const GameCard = (props) => {
     shortDescription,
     gameUrl,
     owners,
-    developer
+    developer,
+    isDark
   } = props
   const [icon, setIcon] = useState('')
   const [infos, setInfos] = useState('opacity-0 transition-all duration-500')
@@ -41,23 +42,37 @@ const GameCard = (props) => {
   }
 
   return (
-    <div className="grid xl:grid-cols-2 grid-cols-1 gap-0 rounded-lg bg-myDarkViolet text-myText shadow-xl hover:shadow-none transition-all duration-300">
+    <div
+      className={`grid xl:grid-cols-2 grid-cols-1 gap-0 rounded-lg shadow-xl hover:shadow-none transition-all duration-300 ${
+        isDark ? 'bg-myDarkViolet text-myText' : 'bg-myBrown text-myDarkViolet'
+      }`}
+    >
       <div
         onMouseEnter={handleMouseEnterImage}
         onMouseLeave={handleMouseLeaveImage}
         className=" "
       >
-        <div className="lg:rounded-l-lg lg:rounded-r-none rounded-t-lg overflow-hidden ">
+        <div className="xl:rounded-l-lg xl:rounded-tr-none rounded-t-lg overflow-hidden ">
           {/* Pills  */}
           <div
-            className={` absolute z-20 p-0.5 space-x-9 flex justify-between text-myText items-center ${infos}`}
+            className={`hidden xl:flex absolute z-20 p-0.5 space-x-9  justify-between  items-center ${infos} ${
+              isDark ? 'text-myText' : 'text-myDarkViolet'
+            }`}
           >
             <div className="flex space-x-2">
-              <p className="  rounded-2xl p-1 px-2 bg-myBg w-max text-xs ">
+              <p
+                className={`rounded-2xl p-1 px-2 w-max text-xs ${
+                  isDark ? 'bg-myBg ' : 'bg-myText'
+                }`}
+              >
                 {genre}
               </p>
 
-              <div className=" rounded-2xl p-1 bg-myBg w-max text-center">
+              <div
+                className={`rounded-2xl p-1 w-max text-center ${
+                  isDark ? 'bg-myBg ' : 'bg-myText'
+                }`}
+              >
                 {platform === 'PC (Windows)' ? (
                   <AiFillWindows />
                 ) : (
@@ -66,44 +81,97 @@ const GameCard = (props) => {
               </div>
             </div>
 
-            <p className=" flex items-center rounded-2xl p-1 px-2 bg-myBg w-max text-xs">
+            <p
+              className={`flex items-center rounded-2xl p-1 px-2 w-max text-xs ${
+                isDark ? 'bg-myBg ' : 'bg-myText'
+              }`}
+            >
               <span className="me-1">
                 <BsFillCollectionFill />
               </span>
               + {owners} add in library
             </p>
           </div>
+
           <div className="hover:scale-105 transition-all duration-500">
             <Image
               src={imageSrc}
               priority
-              width={500}
-              height={500}
+              width={600}
+              height={600}
               alt={`Picture of ${title}`}
             />
           </div>
         </div>
       </div>
+      {/* tablet & mobil device  */}
+      <div
+        className={`xl:hidden flex absolute z-20 p-0.5 space-x-9  justify-between  items-center  ${
+          isDark ? 'text-myText' : 'text-myDarkViolet'
+        }`}
+      >
+        <div className="flex space-x-2">
+          <p
+            className={`rounded-2xl p-1 px-2 w-max text-xs ${
+              isDark ? 'bg-myBg ' : 'bg-myText'
+            }`}
+          >
+            {genre}
+          </p>
+
+          <div
+            className={`rounded-2xl p-1 w-max text-center ${
+              isDark ? 'bg-myBg ' : 'bg-myText'
+            }`}
+          >
+            {platform === 'PC (Windows)' ? <AiFillWindows /> : <CgBrowser />}
+          </div>
+        </div>
+
+        <p
+          className={`flex items-center rounded-2xl p-1 px-2 w-max text-xs ${
+            isDark ? 'bg-myBg ' : 'bg-myText'
+          }`}
+        >
+          <span className="me-1">
+            <BsFillCollectionFill />
+          </span>
+          + {owners} add in library
+        </p>
+      </div>
+      {/* tablet & mobil device end */}
 
       <div className="flex flex-col justify-between p-2">
         <div>
           <h1 className="lg:text-2xl text-xl font-bold">{title}</h1>
-          <p className="flex items-center text-myViolet lg:text-sm text-xs">
+          <p
+            className={`flex items-center mt-1 lg:text-sm text-xs ${
+              isDark ? 'text-myViolet' : 'text-myDarkOrange'
+            }`}
+          >
             <span className="me-1">
               <AiFillCode />
             </span>
             {developer}
           </p>
-          <p className="text-myText font-thin mt-1 lg:text-base text-sm">
+          <p
+            className={`  mt-1 lg:text-base text-sm ${
+              isDark ? 'text-myText' : 'text-myDarkViolet'
+            }`}
+          >
             {shortDescription.slice(0, 80)}
             {shortDescription.length > 80 && '...'}
           </p>
         </div>
 
-        <div className="flex justify-between space-x-3 lg:mt-0 mt-4">
+        <div className="flex justify-between space-x-3 xl:mt-0 mt-4">
           <Link
             href={{ pathname: `/games/details-game`, query: { id: id } }}
-            className=" uppercase shadow font-bold rounded px-2 py-1 border text-myViolet border-myViolet hover:text-myOrange hover:border-myOrange hover:shadow-none transition-all duration-150"
+            className={`uppercase shadow-none font-bold rounded px-2 py-1 border  hover:shadow transition-all duration-150 ${
+              isDark
+                ? 'text-myViolet border-myViolet hover:text-myOrange hover:border-myOrange'
+                : 'text-myDarkOrange border-myDarkOrange hover:text-myViolet hover:border-myViolet hover:bg-myDarkViolet'
+            }`}
           >
             about
           </Link>
@@ -129,41 +197,4 @@ const GameCard = (props) => {
   )
 }
 
-const GameOfTheDayContainer = (props) => {
-  const { game } = props
-
-  console.log(game)
-
-  return (
-    <div className="">
-      <div className="flex items-center mb-5">
-        <span className="lg:text-4xl text-2xl me-2 text-myViolet -rotate-12">
-          <GiGamepadCross />
-        </span>
-        <p className="lg:text-4xl text-2xl font-bold text-myText">
-          Games of the day
-        </p>
-      </div>
-      <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-        {game.map((game) => {
-          return (
-            <GameCard
-              key={game.id}
-              imageSrc={game.thumbnail}
-              title={game.title}
-              genre={game.genre}
-              platform={game.platform}
-              id={game.id}
-              shortDescription={game.short_description}
-              gameUrl={game.game_url}
-              owners={game.owners}
-              developer={game.developer}
-            />
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
-export default GameOfTheDayContainer
+export default GameCardOfTheDay

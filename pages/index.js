@@ -12,8 +12,8 @@ import {
 
 import SuggestedContainer from '../components/user/SuggestedContainer'
 import RecentlyAddedContainer from '../components/user/RecentlyAddedContainer'
-import CommunautyRecoContainer from '../components/user/CommunautyRecoContainer'
-import GameOfTheDayContainer from '../components/user/GameOfTheDayContainer'
+import CommunautyRecoContainer from '../components/games/CommunautyRecoContainer'
+import GameOfTheDayContainer from '../components/games/GameOfTheDayContainer'
 
 export default function Home(data) {
   const { data: session, status } = useSession()
