@@ -41,13 +41,13 @@ const GameCard = (props) => {
   }
 
   return (
-    <div className="grid lg:grid-cols-2 grid-cols-1 gap-0 rounded-lg bg-myDarkViolet text-myText shadow-xl hover:shadow-none transition-all duration-300">
+    <div className="grid xl:grid-cols-2 grid-cols-1 gap-0 rounded-lg bg-myDarkViolet text-myText shadow-xl hover:shadow-none transition-all duration-300">
       <div
         onMouseEnter={handleMouseEnterImage}
         onMouseLeave={handleMouseLeaveImage}
         className=" "
       >
-        <div className="lg:rounded-l-lg rounded-t-lg overflow-hidden ">
+        <div className="lg:rounded-l-lg lg:rounded-r-none rounded-t-lg overflow-hidden ">
           {/* Pills  */}
           <div
             className={` absolute z-20 p-0.5 space-x-9 flex justify-between text-myText items-center ${infos}`}
