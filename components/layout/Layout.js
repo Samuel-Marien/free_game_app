@@ -27,10 +27,9 @@ const Layout = ({ children }) => {
   const { data: session, status } = useSession()
   const [toggleSidebar, setToggleSidebar] = useState(false)
   const [toggleMobilMenu, setToggleMobilMenu] = useState(false)
+  const { toggleDarktheme, setToggleDarktheme } = useContext(Context)
   const router = useRouter()
   const routerPath = router.pathname
-
-  const { toggleDarktheme, setToggleDarktheme } = useContext(Context)
 
   const logoutHandler = () => {
     signOut()
@@ -174,12 +173,16 @@ const Layout = ({ children }) => {
 
             {!toggleSidebar && (
               <ul className="pt-10 mb-5 space-y-3">
-                <li className=" h-10 w-10 mx-auto">
+                <li className=" h-10 w-10 mx-auto ">
+                  {session ? (
+                    <span className="absolute right-6 top-30 h-2 w-2 rounded-full bg-green-300"></span>
+                  ) : (
+                    <span className="absolute right-6 top-30 h-2 w-2 rounded-full bg-red-500"></span>
+                  )}
+
                   <p
-                    className={` text-2xl p-1 border-2  shadow-xs flex justify-center items-center  rounded-full ${
-                      session
-                        ? 'text-myViolet border-myViolet'
-                        : 'text-red-400 border-red-400'
+                    className={`flex justify-center items-center text-2xl border rounded-full p-1.5 text-myViolet ${
+                      session ? ' border-green-300' : ' border-red-500'
                     }`}
                   >
                     <span>
@@ -187,6 +190,16 @@ const Layout = ({ children }) => {
                     </span>
                   </p>
                 </li>
+                {session ? (
+                  <span className="text-xs pl-1.5 text-myViolet capitalize">
+                    samuel
+                  </span>
+                ) : (
+                  <span className="text-xs pl-2 text-red-500 capitalize">
+                    visitor
+                  </span>
+                )}
+
                 <ul
                   className={`flex  py-5 justify-between ${
                     toggleDarktheme
@@ -378,11 +391,15 @@ const Layout = ({ children }) => {
                   </li>
 
                   <li className="flex items-center">
+                    {session ? (
+                      <span className="absolute right-11 top-5 h-2 w-2 rounded-full bg-green-300"></span>
+                    ) : (
+                      <span className="absolute right-11 top-5 h-2 w-2 rounded-full bg-red-500"></span>
+                    )}
+
                     <p
-                      className={` text-2xl border-2 rounded-full p-0.5 ${
-                        session
-                          ? 'text-myViolet border-myViolet'
-                          : 'text-red-400 border-red-400'
+                      className={` text-2xl border rounded-full p-0.5 text-myViolet ${
+                        session ? ' border-green-300' : ' border-red-500'
                       }`}
                     >
                       <span>
