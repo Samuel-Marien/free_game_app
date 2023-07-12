@@ -13,7 +13,7 @@ const GameOfTheDayContainer = (props) => {
   const { toggleDarktheme } = useContext(Context)
 
   // console.log(toggleDarktheme)
-  console.log(game)
+  // console.log(game)
 
   return (
     <div className="">
@@ -23,7 +23,7 @@ const GameOfTheDayContainer = (props) => {
         isDark={toggleDarktheme}
       />
 
-      <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-4 mt-5">
         {game.map((game) => {
           return (
             <GameCardOfTheDay

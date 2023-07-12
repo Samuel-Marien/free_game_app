@@ -10,7 +10,7 @@ import {
   getRandomGame
 } from './api/web-services/gamesAPI'
 
-import SuggestedContainer from '../components/user/SuggestedContainer'
+import SuggestedContainer from '../components/games/SuggestedContainer'
 import RecentlyAddedContainer from '../components/user/RecentlyAddedContainer'
 import CommunautyRecoContainer from '../components/games/CommunautyRecoContainer'
 import GameOfTheDayContainer from '../components/games/GameOfTheDayContainer'
@@ -31,11 +31,15 @@ export default function Home(data) {
       </Head>
 
       <main className="container mx-auto px-2 xl:px-4">
-        <GameOfTheDayContainer game={data.pageProps.gameOfTheDay} />
-        <SuggestedContainer
-          user={session && session}
-          suggestedGames={data.pageProps.suggestedGames}
-        />
+        <div>
+          <GameOfTheDayContainer game={data.pageProps.gameOfTheDay} />
+        </div>
+        <div className="mt-10">
+          <SuggestedContainer
+            user={session && session}
+            suggestedGames={data.pageProps.suggestedGames}
+          />
+        </div>
         <RecentlyAddedContainer
           recentlyAddedGames={data.pageProps.recentlyAddedGames}
         />
@@ -96,7 +100,7 @@ export async function getServerSideProps(context) {
   // console.log(result)
 
   const apiData = await getSuggestedGames(result)
-  const suggestedGames = apiData.slice(0, 3)
+  const suggestedGames = apiData.slice(0, 5)
 
   // ********************************
   // *** RECENTLY ADDED GAMES ***
