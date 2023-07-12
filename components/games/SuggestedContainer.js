@@ -41,7 +41,7 @@ const SuggestedContainer = (props) => {
   const { user, suggestedGames } = props
   const { toggleDarktheme } = useContext(Context)
 
-  console.log(suggestedGames)
+  // console.log(suggestedGames)
 
   return (
     <div>
@@ -56,7 +56,7 @@ const SuggestedContainer = (props) => {
             <span className="text-2xl me-2 ">
               <GiGamepad />
             </span>
-            Based on your preferences and games you've recently played!
+            Based on your preferences and games you&apos;ve recently played!
           </p>
         ) : (
           <p className="flex items-center py-1 text-red-400">
@@ -64,7 +64,7 @@ const SuggestedContainer = (props) => {
               <GiGamepad />
             </span>
             Log In to view your personalized recommendations! Discover games
-            you'll love.
+            you&apos;ll love.
           </p>
         )}
       </div>

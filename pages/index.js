@@ -9,6 +9,7 @@ import {
   getGame,
   getRandomGame
 } from './api/web-services/gamesAPI'
+import { getGameByName } from './api/web-services/igbdAPI'
 
 import SuggestedContainer from '../components/games/SuggestedContainer'
 import RecentlyAddedContainer from '../components/user/RecentlyAddedContainer'
@@ -101,6 +102,12 @@ export async function getServerSideProps(context) {
 
   const apiData = await getSuggestedGames(result)
   const suggestedGames = apiData.slice(0, 5)
+
+  // ********************************
+  // *** SUGGESTED GAMES VIDEOS ***
+  const myName = suggestedGames[0].title
+  const media = await getGameByName(myName)
+  console.log(media)
 
   // ********************************
   // *** RECENTLY ADDED GAMES ***
@@ -233,7 +240,8 @@ export async function getServerSideProps(context) {
       suggestedGames,
       recentlyAddedGames,
       communityRecommendedGames,
-      gameOfTheDay
+      gameOfTheDay,
+      media
     }
   }
 }

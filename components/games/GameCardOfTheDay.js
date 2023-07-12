@@ -26,7 +26,7 @@ const GameCardOfTheDay = (props) => {
 
   const handleMouseEnter = () => {
     setIcon(
-      'translate-x-2 border-none rotate-90 scale-110 text-myDarkViolet transition-all duration-500'
+      'translate-x-2 border-myViolet rotate-90 scale-110 text-myDarkViolet transition-all duration-500'
     )
   }
 
