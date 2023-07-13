@@ -9,7 +9,7 @@ import {
   getGame,
   getRandomGame
 } from './api/web-services/gamesAPI'
-// import { getGameByName } from './api/web-services/igbdAPI'
+import { getGameByName } from './api/web-services/igbdAPI'
 
 import SuggestedContainer from '../components/games/SuggestedContainer'
 import RecentlyAddedContainer from '../components/user/RecentlyAddedContainer'
@@ -19,7 +19,7 @@ import GameOfTheDayContainer from '../components/games/GameOfTheDayContainer'
 export default function Home(data) {
   const { data: session, status } = useSession()
 
-  // console.log(data.pageProps)
+  console.log(data.pageProps)
   // console.log(session)
   // console.log(status)
 
@@ -105,8 +105,8 @@ export async function getServerSideProps(context) {
 
   // ********************************
   // *** SUGGESTED GAMES VIDEOS ***
-  // const myName = suggestedGames[0].title
-  // const media = await getGameByName(myName)
+  const myName = suggestedGames[0].title
+  const media = await getGameByName(myName)
   // console.log(media)
 
   // ********************************
@@ -240,8 +240,8 @@ export async function getServerSideProps(context) {
       suggestedGames,
       recentlyAddedGames,
       communityRecommendedGames,
-      gameOfTheDay
-      // media
+      gameOfTheDay,
+      media
     }
   }
 }
