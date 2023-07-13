@@ -105,9 +105,9 @@ export async function getServerSideProps(context) {
 
   // ********************************
   // *** SUGGESTED GAMES VIDEOS ***
-  const myName = suggestedGames[0].title
-  const media = await getGameByName(myName)
-  console.log(media)
+  // const myName = suggestedGames[0].title
+  // const media = await getGameByName(myName)
+  // console.log(media)
 
   // ********************************
   // *** RECENTLY ADDED GAMES ***
