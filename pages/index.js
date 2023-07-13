@@ -9,7 +9,7 @@ import {
   getGame,
   getRandomGame
 } from './api/web-services/gamesAPI'
-import { getGameByName } from './api/web-services/igbdAPI'
+// import { getGameByName } from './api/web-services/igbdAPI'
 
 import SuggestedContainer from '../components/games/SuggestedContainer'
 import RecentlyAddedContainer from '../components/user/RecentlyAddedContainer'
@@ -240,8 +240,8 @@ export async function getServerSideProps(context) {
       suggestedGames,
       recentlyAddedGames,
       communityRecommendedGames,
-      gameOfTheDay,
-      media
+      gameOfTheDay
+      // media
     }
   }
 }
