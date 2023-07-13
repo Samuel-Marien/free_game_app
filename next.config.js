@@ -6,6 +6,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'www.freetogame.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.api.igdb.com'
       }
     ]
   }
