@@ -9,7 +9,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'www.api.igdb.com'
+        hostname: 'api.igdb.com'
       }
     ]
   }
