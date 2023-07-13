@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -12,19 +12,42 @@ import { CgBrowser } from 'react-icons/cg'
 
 const SuggestedCard = (props) => {
   const { title, platform, id, imageSrc, videoSrc } = props
+  const [showVideo, setShowVideo] = useState(false)
+
+  const handleMouseEnterImage = () => {
+    setShowVideo(true)
+  }
+  const handleMouseLeaveImage = () => {
+    setShowVideo(false)
+  }
+
   return (
-    <Link href={{ pathname: `/games/details-game`, query: { id: id } }}>
+    <div
+      onMouseEnter={handleMouseEnterImage}
+      onMouseLeave={handleMouseLeaveImage}
+      href={{ pathname: `/games/details-game`, query: { id: id } }}
+    >
       <div className=" rounded-b-md bg-myDarkViolet shadow-md hover:shadow-2xl rounded-t-lg overflow-hidden transition-all duration-500">
-        <div className="hover:scale-105 transition-all duration-500 relative ">
-          <Image
-            className="rounded-t-lg"
-            src={imageSrc}
-            priority
-            width={300}
-            height={200}
-            alt={`Picture of ${title}`}
-          />
-        </div>
+        {showVideo ? (
+          <div className="flex justify-center items-center rounded-t-lg">
+            <iframe
+              className="w-full h-full"
+              style={{ minWidth: '200px', minHeight: '50px' }}
+              src={`https://www.youtube.com/embed/${videoSrc}?autoplay=1&mute=1&controls=0`}
+            ></iframe>
+          </div>
+        ) : (
+          <div className="hover:scale-105  transition-all duration-500 relative ">
+            <Image
+              className="rounded-t-lg"
+              src={imageSrc}
+              priority
+              width={400}
+              height={400}
+              alt={`Picture of ${title}`}
+            />
+          </div>
+        )}
 
         <h1 className="flex pt-2 justify-between rounded-b-md text-myText p-1.5 text-sm font-semibold">
           {title}
@@ -33,7 +56,7 @@ const SuggestedCard = (props) => {
           </span>
         </h1>
       </div>
-    </Link>
+    </div>
   )
 }
 
@@ -78,6 +101,7 @@ const SuggestedContainer = (props) => {
               platform={game.platform}
               id={game.id}
               imageSrc={game.thumbnail}
+              videoSrc={game.video}
             />
           )
         })}

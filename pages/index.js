@@ -104,9 +104,23 @@ export async function getServerSideProps(context) {
   const suggestedGames = apiData.slice(0, 5)
 
   // ********************************
-  // *** SUGGESTED GAMES VIDEOS ***
-  const myName = suggestedGames[0].title
-  const media = await getGameByName(myName)
+  // *** SUGGESTED GAMES ADD ONE VIDEO (by game) ***
+
+  let media = null
+  for (let i = 0; i < suggestedGames.length; i++) {
+    let currentGameTitle = suggestedGames[i].title
+    try {
+      media = await getGameByName(currentGameTitle)
+      if (media.video !== undefined) {
+        suggestedGames[i]['video'] = media.video
+      } else {
+        suggestedGames[i]['video'] = null
+      }
+    } catch (error) {
+      // suggestedGames[i]['media'] = null
+    }
+  }
+
   // console.log(media)
 
   // ********************************
@@ -240,8 +254,7 @@ export async function getServerSideProps(context) {
       suggestedGames,
       recentlyAddedGames,
       communityRecommendedGames,
-      gameOfTheDay,
-      media
+      gameOfTheDay
     }
   }
 }
