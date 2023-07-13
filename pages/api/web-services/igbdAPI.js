@@ -7,51 +7,32 @@ const headers = {
 }
 
 export async function getGameByName(name) {
-  const res = await fetch(
-    `https://api.igdb.com/v4/games?fields=*&limit=2&search=${name}`,
-    {
-      method: 'POST',
-      headers: headers
-    }
-  )
-    .then((response) => response.json())
-    .catch((err) => {
-      console.error(err)
-    })
+  try {
+    const res = await fetch(
+      `https://api.igdb.com/v4/games?fields=*&limit=2&search=${name}`,
+      {
+        method: 'POST',
+        headers: headers
+      }
+    )
+      .then((response) => response.json())
+      .catch((err) => {
+        console.error(err)
+      })
 
-  const videosIds = res
-    .map((video) => video.videos)
-    .filter((video) => video !== undefined)
-    .flat()
+    const videosIds = res
+      .map((video) => video.videos)
+      .filter((video) => video !== undefined)
+      .flat()
 
-  // const screenShotsIds = res
-  //   .map((screenshot) => screenshot.screenshots)
-  //   .filter((video) => video !== undefined)
-  //   .flat()
+    // Get one video
+    const videoUrl = await getVideosUrls(videosIds[0])
+    const videoUrlSanitized = videoUrl[0].video_id
 
-  // const artworksIds = res
-  //   .map((artwork) => artwork.artworks)
-  //   .filter((artwork) => artwork !== undefined)
-  //   .flat()
-
-  // console.log(res)
-  // console.log(videosIds)
-  // console.log(screenShotsIds)
-  // console.log(artworksIds)
-
-  // Get array of artworks
-  // let artworksUrlsTemp = []
-  // for (let i = 0; i < artworksIds.length; i++) {
-  //   artworksUrlsTemp.push(await getArtworksUrls(artworksIds[i]))
-  // }
-
-  // console.log(artworksUrlsTemp)
-
-  // Get one video (more fast)
-  const videoUrl = await getVideosUrls(videosIds[0])
-  const videoUrlSanitized = videoUrl[0].video_id
-  // return { video: videoUrlSanitized, artworks: artworksUrlsTemp }
-  return { video: videoUrlSanitized }
+    return { video: videoUrlSanitized }
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 export async function getVideosUrls(id) {
@@ -86,3 +67,26 @@ export async function getArtworksUrls(id) {
   // console.log(res)
   return res
 }
+
+// const screenShotsIds = res
+//   .map((screenshot) => screenshot.screenshots)
+//   .filter((video) => video !== undefined)
+//   .flat()
+
+// const artworksIds = res
+//   .map((artwork) => artwork.artworks)
+//   .filter((artwork) => artwork !== undefined)
+//   .flat()
+
+// console.log(res)
+// console.log(videosIds)
+// console.log(screenShotsIds)
+// console.log(artworksIds)
+
+// Get array of artworks
+// let artworksUrlsTemp = []
+// for (let i = 0; i < artworksIds.length; i++) {
+//   artworksUrlsTemp.push(await getArtworksUrls(artworksIds[i]))
+// }
+
+// console.log(artworksUrlsTemp)
