@@ -4,7 +4,7 @@ const HomeSectionTitle = (props) => {
   const { icon, title, isDark } = props
   return (
     <div className="flex items-center ">
-      <span className="lg:text-3xl text-2xl me-2 text-myViolet -rotate-12">
+      <span className="lg:text-4xl text-2xl me-2 text-myViolet -rotate-12">
         {icon}
       </span>
       <p

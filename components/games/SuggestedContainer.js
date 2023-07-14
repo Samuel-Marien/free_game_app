@@ -6,12 +6,28 @@ import Context from '../context/appContext'
 
 import HomeSectionTitle from './HomeSectionTitle'
 
-import { GiVintageRobot, GiGamepad } from 'react-icons/gi'
+import {
+  GiVintageRobot,
+  GiGamepad,
+  GiPlayButton,
+  GiPauseButton
+} from 'react-icons/gi'
 import { AiFillWindows } from 'react-icons/ai'
 import { CgBrowser } from 'react-icons/cg'
 
+const MyIframe = (props) => {
+  const { videoSrc, controls, start, height } = props
+  return (
+    <iframe
+      className=""
+      height={height}
+      src={`https://www.youtube.com/embed/${videoSrc}?autoplay=1&mute=1&fs=0&iv_load_policy=3&controls=${controls}&showinfo=0&modestbranding=1&start=${start}&rel=0`}
+    ></iframe>
+  )
+}
+
 const SuggestedCard = (props) => {
-  const { title, platform, id, imageSrc, videoSrc, isDark } = props
+  const { title, platform, id, imageSrc, videoSrc, isDark, gameUrl } = props
   const [showVideo, setShowVideo] = useState(false)
   const [showButton, setShowButton] = useState(false)
 
@@ -30,10 +46,7 @@ const SuggestedCard = (props) => {
   }
 
   return (
-    <div
-    // onMouseEnter={handleMouseEnterImage}
-    // onMouseLeave={handleMouseLeaveImage}
-    >
+    <div>
       {/* Upside (image and video)  */}
       <div
         onMouseEnter={handleMouseEnterImage}
@@ -42,11 +55,24 @@ const SuggestedCard = (props) => {
       >
         {showVideo ? (
           <div className=" flex justify-center items-center rounded-t-lg  overflow-hidden">
-            <iframe
-              disabled
-              height="185"
-              src={`https://www.youtube.com/embed/${videoSrc}?autoplay=1&mute=1&fs=0&iv_load_policy=3&controls=0&showinfo=0&modestbranding=1&start=15&rel=0`}
-            ></iframe>
+            {/* large device view  */}
+            <div className="hidden sm:block">
+              <MyIframe
+                height={185}
+                videoSrc={videoSrc}
+                controls={0}
+                start={15}
+              />
+            </div>
+            {/* mobile device view  */}
+            <div className="sm:hidden block">
+              <MyIframe
+                height={185}
+                videoSrc={videoSrc}
+                controls={2}
+                start={0}
+              />
+            </div>
           </div>
         ) : (
           <div>
@@ -62,7 +88,16 @@ const SuggestedCard = (props) => {
           </div>
         )}
       </div>
-
+      <div className="relative flex justify-center">
+        <button
+          onClick={() => setShowVideo(!showVideo)}
+          className={`flex justify-center items-center  absolute -top-3 ms-4 rounded-full  text-2xl p-1.5 ${
+            isDark ? 'text-white bg-myDarkViolet' : ' text-myViolet bg-myBrown'
+          }`}
+        >
+          {showVideo ? <GiPauseButton /> : <GiPlayButton />}
+        </button>
+      </div>
       {/* Down side  */}
       <div
         onMouseEnter={handleMouseEnterText}
@@ -73,31 +108,12 @@ const SuggestedCard = (props) => {
             : 'bg-myBrown text-myDarkViolet'
         }`}
       >
-        <h1
-          className={`flex justify-between rounded-b-md p-1.5 text-sm font-semibold `}
+        <Link
+          href={{ pathname: `/games/details-game`, query: { id: id } }}
+          className={`flex justify-between rounded-b-md p-1.5 text-sm font-semibold  w-full `}
         >
-          {!showButton ? (
-            <span
-              className={`${
-                !showButton
-                  ? ' suggestedSlide-in '
-                  : ' suggestedSlide-out hidden'
-              }`}
-            >
-              {title}
-            </span>
-          ) : (
-            <span
-              className={`${
-                !showButton
-                  ? ' suggestedSlide-in '
-                  : ' suggestedSlide-out hidden'
-              }`}
-            >
-              {title}
-            </span>
-          )}
-        </h1>
+          {title}
+        </Link>
         <div>
           {showButton ? (
             <div
@@ -106,26 +122,37 @@ const SuggestedCard = (props) => {
               }`}
             >
               <Link
-                className="border border-myViolet text-myViolet hover:bg-myText hover:border-none rounded-md hover:rounded p-0.5  px-1 hover:shadow-lg shadow-none transition-all duration-300"
-                href={{ pathname: `/games/details-game`, query: { id: id } }}
+                href={gameUrl}
+                className="bg-myOrange text-myText hover:bg-myViolet hover:text-myText rounded-md hover:rounded p-0.5  px-1 hover:shadow-lg shadow-none transition-all duration-300"
               >
-                About
-              </Link>
-              <button className="bg-myOrange text-myText hover:bg-myViolet hover:text-myText rounded-md hover:rounded p-0.5  px-1 hover:shadow-lg shadow-none transition-all duration-300">
                 Play!
-              </button>
+              </Link>
             </div>
           ) : (
-            <div
-              className={`rounded-full shadow-sm text-base p-1  ${
-                isDark ? 'bg-myBg ' : 'bg-myText border'
-              } ${
-                showButton
-                  ? ' scale-100 transition-all duration-150 '
-                  : ' scale-110 transition-all duration-150 '
-              }`}
-            >
-              {platform === 'PC (Windows)' ? <AiFillWindows /> : <CgBrowser />}
+            <div className="flex">
+              <div
+                className={`rounded-full shadow-sm text-base p-1 hidden xl:block ${
+                  isDark ? 'bg-myBg ' : 'bg-myText border'
+                } ${
+                  showButton
+                    ? ' scale-100 transition-all duration-150 '
+                    : ' scale-110 transition-all duration-150 '
+                }`}
+              >
+                {platform === 'PC (Windows)' ? (
+                  <AiFillWindows />
+                ) : (
+                  <CgBrowser />
+                )}
+              </div>
+              <div className="xl:hidden block">
+                <Link
+                  href={gameUrl}
+                  className="bg-myOrange text-myText hover:bg-myViolet hover:text-myText rounded-md hover:rounded p-0.5  px-1 hover:shadow-lg shadow-none transition-all duration-300"
+                >
+                  Play!
+                </Link>
+              </div>
             </div>
           )}
         </div>
@@ -138,7 +165,7 @@ const SuggestedContainer = (props) => {
   const { user, suggestedGames } = props
   const { toggleDarktheme } = useContext(Context)
 
-  // console.log(suggestedGames)
+  console.log(suggestedGames)
   // console.log(user.user.name[0])
 
   const userNameSanitize =
@@ -149,12 +176,12 @@ const SuggestedContainer = (props) => {
     <div>
       <HomeSectionTitle
         icon={<GiVintageRobot />}
-        title="Personalized Recommendations"
+        title="Recommendations"
         isDark={toggleDarktheme}
       />
       <div className="mb-5 ">
         {user ? (
-          <p className="flex items-center py-1 text-myOrange">
+          <p className="flex items-center py-1 text-xs sm:text-base text-myOrange">
             <span className="text-2xl me-2 ">
               <GiGamepad />
             </span>
@@ -201,6 +228,7 @@ const SuggestedContainer = (props) => {
                 imageSrc={game.thumbnail}
                 videoSrc={game.video}
                 isDark={toggleDarktheme}
+                gameUrl={game.game_url}
               />
             )
           })}
