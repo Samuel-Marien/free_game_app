@@ -101,10 +101,10 @@ export async function getServerSideProps(context) {
   // console.log(result)
 
   const apiData = await getSuggestedGames(result)
-  const suggestedGames = apiData.slice(0, 5)
+  const suggestedGames = apiData.slice(0, 4)
 
   // ********************************
-  // *** SUGGESTED GAMES ADD ONE VIDEO (by game) ***
+  // *** SUGGESTED GAMES => ADD ONE VIDEO (by game) ***
 
   let media = null
   for (let i = 0; i < suggestedGames.length; i++) {
@@ -117,7 +117,7 @@ export async function getServerSideProps(context) {
         suggestedGames[i]['video'] = null
       }
     } catch (error) {
-      // suggestedGames[i]['media'] = null
+      console.error(error)
     }
   }
 

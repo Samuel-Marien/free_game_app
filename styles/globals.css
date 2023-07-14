@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Mobile device menu animation */
 @keyframes slideIn {
   0% {
     transform: translateY(-100%);
@@ -13,7 +14,6 @@
   }
 }
 
-/* Mobile device menu animation */
 @keyframes slideOut {
   0% {
     transform: translateY(0%);
@@ -31,4 +31,35 @@
 
 .slide-out {
   animation: slideOut 300ms forwards;
+}
+
+/* Suggested Card animation  */
+@keyframes SuggestedslideIn {
+  0% {
+    transform: translateY(-50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes SuggestedslideOut {
+  0% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.suggestedSlide-in {
+  animation: SuggestedslideIn 400ms forwards;
+}
+
+.suggestedSlide-out {
+  animation: SuggestedslideOut 400ms forwards;
 }

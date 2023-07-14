@@ -192,7 +192,7 @@ const Layout = ({ children }) => {
                 </li>
                 {session ? (
                   <span className="text-xs pl-1.5 text-myViolet capitalize">
-                    samuel
+                    {session.user.name[0]}
                   </span>
                 ) : (
                   <span className="text-xs pl-2 text-red-500 capitalize">
