@@ -6,7 +6,7 @@ const headers = {
   Authorization: process.env.IGBD_AUTH
 }
 
-export async function getGameByName(name) {
+export async function getVideoByGameName(name) {
   try {
     const res = await fetch(
       `https://api.igdb.com/v4/games?fields=*&limit=2&search=${name}`,
@@ -49,6 +49,48 @@ export async function getVideosUrls(id) {
     })
 
   return res
+}
+
+export async function getArtworksByGameName(name) {
+  try {
+    const res = await fetch(
+      `https://api.igdb.com/v4/games?fields=*&limit=2&search=${name}`,
+      {
+        method: 'POST',
+        headers: headers
+      }
+    )
+      .then((response) => response.json())
+      .catch((err) => {
+        console.error(err)
+      })
+
+    const artworksIds = res
+      .map((artworks) => artworks.artworks)
+      .filter((artworks) => artworks !== [])
+
+      .flat()
+
+    // console.log(artworksIds)
+
+    // Get one artworks
+    let artworksSanitized = ''
+    try {
+      const myArtworksurl = await getArtworksUrls(artworksIds[0])
+      if (myArtworksurl === undefined) {
+        artworksSanitized = 'no data'
+      } else {
+        artworksSanitized =
+          myArtworksurl[0].url.replace('t_thumb', 't_screenshot_huge') || null
+      }
+
+      return { artworks: artworksSanitized }
+    } catch (error) {
+      console.error(error)
+    }
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 export async function getArtworksUrls(id) {

@@ -167,7 +167,7 @@ const SuggestedContainer = (props) => {
   const { user, suggestedGames } = props
   const { toggleDarktheme } = useContext(Context)
 
-  console.log(suggestedGames)
+  // console.log(suggestedGames)
   // console.log(user.user.name[0])
 
   const userNameSanitize =

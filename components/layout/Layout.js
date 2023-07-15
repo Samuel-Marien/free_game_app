@@ -27,9 +27,11 @@ const Layout = ({ children }) => {
   const { data: session, status } = useSession()
   const [toggleSidebar, setToggleSidebar] = useState(false)
   const [toggleMobilMenu, setToggleMobilMenu] = useState(false)
-  const { toggleDarktheme, setToggleDarktheme } = useContext(Context)
+  const { toggleDarktheme, setToggleDarktheme, bgImage } = useContext(Context)
   const router = useRouter()
   const routerPath = router.pathname
+
+  console.log(bgImage)
 
   const logoutHandler = () => {
     signOut()
@@ -48,10 +50,10 @@ const Layout = ({ children }) => {
   }
 
   return (
-    <div className="flex w-full dark">
+    <div className="flex w-full dark ">
       {/* Down Bar for mobile device */}
       <div
-        className={`sm:hidden block fixed bottom-0 left-0 w-full h-max z-30`}
+        className={`sm:hidden block fixed bottom-0 left-0 w-full h-max z-30 `}
       >
         {/* Mobile menu  */}
         <div
@@ -423,6 +425,12 @@ const Layout = ({ children }) => {
         }`}
       >
         <div
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), #393646), url(${bgImage})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundBlendMode: 'multiply'
+          }}
           className={`h-full overflow-auto sm:ps-8 ps-3 sm:pe-8 pe-3 pt-4 pb-20 ${
             toggleDarktheme
               ? 'bg-myBg transition-all duration-150'
