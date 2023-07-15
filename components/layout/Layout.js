@@ -426,10 +426,14 @@ const Layout = ({ children }) => {
       >
         <div
           style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), #393646), url(${bgImage})`,
+            backgroundImage: `${
+              toggleDarktheme
+                ? `linear-gradient(rgba(57,54,70, 0.9), #393646), url(${bgImage})`
+                : `linear-gradient(rgba(244,238,224, 0.8), #e6e1d8), url(${bgImage})`
+            }`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
-            backgroundBlendMode: 'multiply'
+            position: 'relative'
           }}
           className={`h-full overflow-auto sm:ps-8 ps-3 sm:pe-8 pe-3 pt-4 pb-20 ${
             toggleDarktheme
