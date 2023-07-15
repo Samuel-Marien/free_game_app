@@ -63,3 +63,13 @@
 .suggestedSlide-out {
   animation: SuggestedslideOut 400ms forwards;
 }
+
+@media (max-width: 640px) {
+  .suggestedSlide-in {
+    animation: none;
+  }
+
+  .suggestedSlide-out {
+    animation: none;
+  }
+}

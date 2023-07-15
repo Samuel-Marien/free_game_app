@@ -14,6 +14,7 @@ import {
 } from 'react-icons/gi'
 import { AiFillWindows } from 'react-icons/ai'
 import { CgBrowser } from 'react-icons/cg'
+import { FaLink } from 'react-icons/fa'
 
 const MyIframe = (props) => {
   const { videoSrc, controls, start, height } = props
@@ -91,7 +92,7 @@ const SuggestedCard = (props) => {
       <div className="relative flex justify-center">
         <button
           onClick={() => setShowVideo(!showVideo)}
-          className={`flex justify-center items-center  absolute -top-3 ms-4 rounded-full  text-2xl p-1.5 ${
+          className={`flex justify-center items-center  absolute -top-4 ms-4 rounded-full text-xl p-1.5 ${
             isDark ? 'text-white bg-myDarkViolet' : ' text-myViolet bg-myBrown'
           }`}
         >
@@ -104,14 +105,17 @@ const SuggestedCard = (props) => {
         onMouseLeave={handleMouseLeaveText}
         className={`flex h-12 justify-between items-center rounded-b-md  p-1.5 text-sm font-semibold ${
           isDark
-            ? 'bg-myDarkViolet  text-myText'
+            ? 'bg-myDarkViolet text-myText'
             : 'bg-myBrown text-myDarkViolet'
         }`}
       >
         <Link
           href={{ pathname: `/games/details-game`, query: { id: id } }}
-          className={`flex justify-between rounded-b-md p-1.5 text-sm font-semibold  w-full `}
+          className={`flex  items-center rounded-b-md p-1.5 text-sm font-semibold h-full`}
         >
+          <span className="text-myViolet text-xs me-2">
+            <FaLink />
+          </span>
           {title}
         </Link>
         <div>
@@ -134,9 +138,7 @@ const SuggestedCard = (props) => {
                 className={`rounded-full shadow-sm text-base p-1 hidden xl:block ${
                   isDark ? 'bg-myBg ' : 'bg-myText border'
                 } ${
-                  showButton
-                    ? ' scale-100 transition-all duration-150 '
-                    : ' scale-110 transition-all duration-150 '
+                  !showButton ? '  suggestedSlide-in' : '  suggestedSlide-out'
                 }`}
               >
                 {platform === 'PC (Windows)' ? (
