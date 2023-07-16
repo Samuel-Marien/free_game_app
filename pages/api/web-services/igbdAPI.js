@@ -77,7 +77,8 @@ export async function getArtworksByGameName(name) {
     let artworksSanitized = ''
     try {
       const myArtworksurl = await getArtworksUrls(artworksIds[0])
-      if (myArtworksurl === undefined) {
+      // console.log(myArtworksurl)
+      if (myArtworksurl[0] === undefined || myArtworksurl[0].status === 400) {
         artworksSanitized = 'no data'
       } else {
         artworksSanitized =
