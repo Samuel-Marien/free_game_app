@@ -78,11 +78,15 @@ export async function getArtworksByGameName(name) {
     try {
       const myArtworksurl = await getArtworksUrls(artworksIds[0])
       // console.log(myArtworksurl)
-      if (myArtworksurl[0] === undefined || myArtworksurl[0].status === 400) {
+      if (myArtworksurl[0] === undefined) {
         artworksSanitized = 'no data'
       } else {
-        artworksSanitized =
-          myArtworksurl[0].url.replace('t_thumb', 't_screenshot_huge') || null
+        if (myArtworksurl[0].url) {
+          artworksSanitized =
+            myArtworksurl[0].url.replace('t_thumb', 't_screenshot_huge') || null
+        } else {
+          artworksSanitized = 'no data'
+        }
       }
 
       return { artworks: artworksSanitized }
@@ -110,26 +114,3 @@ export async function getArtworksUrls(id) {
   // console.log(res)
   return res
 }
-
-// const screenShotsIds = res
-//   .map((screenshot) => screenshot.screenshots)
-//   .filter((video) => video !== undefined)
-//   .flat()
-
-// const artworksIds = res
-//   .map((artwork) => artwork.artworks)
-//   .filter((artwork) => artwork !== undefined)
-//   .flat()
-
-// console.log(res)
-// console.log(videosIds)
-// console.log(screenShotsIds)
-// console.log(artworksIds)
-
-// Get array of artworks
-// let artworksUrlsTemp = []
-// for (let i = 0; i < artworksIds.length; i++) {
-//   artworksUrlsTemp.push(await getArtworksUrls(artworksIds[i]))
-// }
-
-// console.log(artworksUrlsTemp)

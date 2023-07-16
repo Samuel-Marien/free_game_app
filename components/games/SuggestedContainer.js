@@ -22,7 +22,7 @@ const MyIframe = (props) => {
     <iframe
       className=""
       height={height}
-      src={`https://www.youtube.com/embed/${videoSrc}?autoplay=1&mute=1&fs=0&iv_load_policy=3&controls=${controls}&showinfo=0&modestbranding=1&start=${start}&rel=0`}
+      src={`https://www.youtube-nocookie.com/embed/${videoSrc}?autoplay=1&mute=1&fs=0&iv_load_policy=3&controls=${controls}&showinfo=0&modestbranding=1&start=${start}&rel=0`}
     ></iframe>
   )
 }

@@ -31,9 +31,9 @@ export default function Home(data) {
   // console.log(status)
 
   useEffect(() => {
-    if (data.pageProps.gameOfTheDayArtworks !== null) {
+    if (data.pageProps.gameOfTheDayArtworks.artworks !== 'no data') {
       setBgImage(data.pageProps.gameOfTheDayArtworks.artworks)
-    } else if (data.pageProps.gameOfTheDayArtworksTwo !== null) {
+    } else if (data.pageProps.gameOfTheDayArtworksTwo.artworks !== 'no data') {
       setBgImage(data.pageProps.gameOfTheDayArtworksTwo.artworks)
     } else {
       for (let i = 0; i < data.pageProps.artworks.length; i++) {
