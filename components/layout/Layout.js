@@ -26,12 +26,13 @@ import { GiGamepadCross, GiCowled } from 'react-icons/gi'
 const Layout = ({ children }) => {
   const { data: session, status } = useSession()
   const [toggleSidebar, setToggleSidebar] = useState(false)
-  const [toggleMobilMenu, setToggleMobilMenu] = useState(false)
+  const [showUserMobileMenu, setShowUserMobileMenu] = useState(false)
+  const [toggleMobilMenu, setToggleMobilMenu] = useState(true)
   const { toggleDarktheme, setToggleDarktheme, bgImage } = useContext(Context)
   const router = useRouter()
   const routerPath = router.pathname
 
-  console.log(bgImage)
+  // console.log(bgImage)
 
   const logoutHandler = () => {
     signOut()
@@ -49,85 +50,143 @@ const Layout = ({ children }) => {
     setToggleMobilMenu(!toggleMobilMenu)
   }
 
+  const handleShowUserMobileMenu = () => {
+    setShowUserMobileMenu(!showUserMobileMenu)
+  }
+
   return (
-    <div className="flex w-full dark ">
+    <div className="flex w-full dark">
       {/* Down Bar for mobile device */}
       <div
         className={`sm:hidden block fixed bottom-0 left-0 w-full h-max z-30 `}
       >
         {/* Mobile menu  */}
         <div
-          onClick={handleMobilMenu}
-          className={` shadow-customUp bg-myBg  border-t border-myDarkViolet rounded-t-2xl  items-center flex justify-between ${
-            toggleMobilMenu ? ' slide-in ' : ' slide-out'
-          }`}
+          className={` shadow-customUp border-t rounded-t-2xl py-1.5 items-center flex justify-between ${
+            toggleDarktheme
+              ? 'bg-myBg border-myDarkViolet'
+              : 'bg-myText border-myBrown'
+          } ${toggleMobilMenu ? ' slide-in ' : ' slide-out'}`}
         >
-          <div className="bg-myDarkViolet flex justify-center items-center p-2 m-2 rounded-full">
-            {session ? (
-              <Link href={'/user-profile'}>
-                <span className="text-xl text-green-400 transition-all duration-300">
-                  <FaUserCheck />
-                  <span className="text-myOrange absolute top-1 left-8 text-xs">
-                    <FaCog />
+          <button
+            onClick={handleShowUserMobileMenu}
+            className={` ms-2 flex justify-center items-center rounded-full z-30 ${
+              toggleDarktheme ? 'bg-myDarkViolet' : 'bg-myBrown'
+            }`}
+          >
+            <div className=" h-8 w-8 ">
+              {session ? (
+                <span className="absolute left-7 h-2 w-2 rounded-full bg-green-300"></span>
+              ) : (
+                <span className="absolute left-7  h-2 w-2 rounded-full bg-red-400"></span>
+              )}
+
+              <p
+                className={`h-8 w-8  flex justify-center items-center  border rounded-full  text-myViolet ${
+                  session ? ' border-green-300' : ' border-red-400'
+                }`}
+              >
+                <span>
+                  <GiCowled />
+                </span>
+              </p>
+            </div>
+          </button>
+
+          {/* Menu for settings signin etc... in mobile view  */}
+          {showUserMobileMenu && (
+            <div
+              className={`absolute  shadow-customRight h-36 w-24 rounded-tr-full ${
+                toggleDarktheme ? 'bg-myBg' : 'bg-myText'
+              }`}
+            >
+              <button
+                onClick={handleDarktheme}
+                className="absolute top-2 left-2 text-xl"
+              >
+                {toggleDarktheme ? (
+                  <span className=" text-myDarkViolet">
+                    <FaMoon />
                   </span>
+                ) : (
+                  <span className="text-myOrange">
+                    <FaSun />
+                  </span>
+                )}
+              </button>
+
+              <Link
+                className={`absolute left-10 top-6 text-xl  rounded-full p-1 ${
+                  toggleDarktheme ? 'bg-myDarkViolet' : 'bg-myBrown'
+                }`}
+                href={'/user-profile'}
+              >
+                <span className="text-myViolet  ">
+                  <FaCog />
                 </span>
               </Link>
-            ) : (
-              <span className="text-red-400">
-                <FaUserMinus />
-              </span>
-            )}
-          </div>
 
-          <div className=" flex w-full justify-center space-x-4">
+              <div className="pt-1 absolute left-16 top-14 ">
+                {session ? (
+                  <button
+                    onClick={logoutHandler}
+                    className="  text-2xl text-red-400 "
+                  >
+                    <HiOutlineLogout />
+                  </button>
+                ) : (
+                  <Link href={'/signin'} className="">
+                    <span className=" text-2xl text-myLightOrange">
+                      <HiOutlineLogin />
+                    </span>
+                  </Link>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Mobile NavLinks  */}
+          <div
+            className={`flex w-full justify-center space-x-4  ${
+              showUserMobileMenu
+                ? 'ms-14 transition-all duration-300'
+                : 'ms-none transition-all duration-300'
+            }`}
+          >
             <MobileNavLink
               isActive={'/' === routerPath}
               href={'/'}
               icon={<FaHome />}
+              isDark={toggleDarktheme}
             />
             <MobileNavLink
               isActive={'/games/all-games' === routerPath}
               href={'/games/all-games'}
               icon={<FaStore />}
+              isDark={toggleDarktheme}
             />
             <MobileNavLink
               isActive={'/user-librairy' === routerPath}
               href={'/user-librairy'}
               icon={<BsFillCollectionFill />}
+              isDark={toggleDarktheme}
             />
             <MobileNavLink
               isActive={'/contact' === routerPath}
               href={'/contact'}
               icon={<MdContactMail />}
+              isDark={toggleDarktheme}
             />
-            <button onClick={handleDarktheme} className="">
-              {toggleDarktheme ? (
-                <span className=" text-myDarkViolet">
-                  <FaMoon />
-                </span>
-              ) : (
-                <span className="text-myOrange">
-                  <FaSun />
-                </span>
-              )}
-            </button>
-          </div>
-
-          <div className="m-1">
-            {session ? (
-              <button
-                onClick={logoutHandler}
-                className=" pt-1 text-2xl text-pink-600"
+            <button
+              onClick={handleMobilMenu}
+              className="flex items-center text-myViolet cursor-pointer"
+            >
+              <span
+                className={`text-xl -rotate-90 hover:-rotate-180 transition-all duration-150`}
               >
-                <HiOutlineLogout />
-              </button>
-            ) : (
-              <Link href={'/signin'} className="">
-                <span className=" text-2xl text-myLightOrange">
-                  <HiOutlineLogin />
-                </span>
-              </Link>
-            )}
+                <TbArrowAutofitWidth />
+              </span>
+            </button>
           </div>
         </div>
 
