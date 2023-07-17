@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import { SessionProvider } from 'next-auth/react'
 import Layout from '../components/layout/Layout.js'
 
@@ -11,6 +12,7 @@ function MyApp({ Component, ...pageProps }) {
       <Provider>
         <Layout>
           <Component {...pageProps} />
+          <Analytics />
         </Layout>
       </Provider>
     </SessionProvider>
