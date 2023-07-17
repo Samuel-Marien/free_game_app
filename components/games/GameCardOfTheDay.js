@@ -161,7 +161,7 @@ const GameCardOfTheDay = (props) => {
       {/* Right side  */}
       <div className="flex flex-col justify-between p-2">
         <div>
-          <h1 className="lg:text-xl text-base font-bold line-clamp-1">
+          <h1 className="lg:text-xl font-myTitle text-base font-bold line-clamp-1">
             {title}
           </h1>
           <p

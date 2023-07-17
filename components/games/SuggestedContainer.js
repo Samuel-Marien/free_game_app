@@ -8,6 +8,7 @@ import HomeSectionTitle from './HomeSectionTitle'
 
 import {
   GiVintageRobot,
+  GiGamepadCross,
   GiGamepad,
   GiPlayButton,
   GiPauseButton
@@ -177,18 +178,19 @@ const SuggestedContainer = (props) => {
   return (
     <div>
       <HomeSectionTitle
-        icon={<GiVintageRobot />}
+        icon={<GiGamepadCross />}
         title="Recommendations"
         isDark={toggleDarktheme}
       />
       <div className="mb-5 ">
         {user ? (
-          <p className="flex items-center py-1 text-xs sm:text-base text-myOrange">
-            <span className="text-2xl me-2 ">
-              <GiGamepad />
-            </span>
+          <p
+            className={`flex items-center py-1  text-xs sm:text-base  ${
+              toggleDarktheme ? 'text-myViolet' : 'text-myBg'
+            }`}
+          >
             {suggestedGames.length < 1
-              ? `Ooops!... ${userNameSanitize}, save games in your library, so that we can find your future treasures.`
+              ? `Oops!... Hey ${userNameSanitize} save games in your library, so that we can find your future treasures.`
               : 'Based on your preferences and games you have recently added in your library.'}
           </p>
         ) : (

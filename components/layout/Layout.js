@@ -48,7 +48,7 @@ const Layout = ({ children }) => {
   }
 
   return (
-    <div className="flex w-full dark">
+    <div className="flex w-full dark ">
       {/* Down Bar for mobile device */}
       <div
         className={`sm:hidden block fixed bottom-0 left-0 w-full h-max z-30 `}
@@ -400,7 +400,7 @@ const Layout = ({ children }) => {
 
       {/* Upbar */}
       {toggleSidebar && (
-        <div className="">
+        <div className=" font-myTitle ">
           <nav
             className={`absolute inset-y-0 left-0 w-screen flex justify-start items-center pl-60 pe-12 h-16  shadow-customDown z-10 ${
               toggleDarktheme

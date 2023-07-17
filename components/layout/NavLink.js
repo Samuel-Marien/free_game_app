@@ -14,7 +14,7 @@ const NavLink = (props) => {
   }
 
   return (
-    <Link href={href}>
+    <Link href={href} className="font-myTitle">
       <li
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

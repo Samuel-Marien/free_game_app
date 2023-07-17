@@ -4,11 +4,11 @@ const HomeSectionTitle = (props) => {
   const { icon, title, isDark } = props
   return (
     <div className="flex items-center ">
-      <span className="lg:text-4xl text-2xl me-2 text-myViolet -rotate-12">
+      <span className="lg:text-4xl text-3xl me-2 text-myOrange -rotate-12">
         {icon}
       </span>
       <p
-        className={`lg:text-3xl text-xl font-bold ${
+        className={`lg:text-3xl text-xl font-bold font-myTitle ${
           isDark ? 'text-myText' : 'dark:text-myDarkViolet'
         }`}
       >
