@@ -73,3 +73,8 @@
     animation: none;
   }
 }
+
+.sidebar-image {
+  filter: invert(50%);
+  /* background-color: #ab80ad; */
+}

@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
@@ -11,15 +12,7 @@ import MobileNavLink from './MobileNavLink'
 import { BsFillCollectionFill } from 'react-icons/bs'
 import { TbArrowAutofitWidth } from 'react-icons/tb'
 import { HiOutlineLogout, HiOutlineLogin } from 'react-icons/hi'
-import {
-  FaHome,
-  FaStore,
-  FaCog,
-  FaUserMinus,
-  FaUserCheck,
-  FaSun,
-  FaMoon
-} from 'react-icons/fa'
+import { FaHome, FaStore, FaCog, FaSun, FaMoon } from 'react-icons/fa'
 import { MdContactMail } from 'react-icons/md'
 import { GiGamepadCross, GiCowled } from 'react-icons/gi'
 
@@ -349,12 +342,24 @@ const Layout = ({ children }) => {
                   isDark={toggleDarktheme}
                 />
               </div>
-              <div className="pt-20 flex justify-center items-center">
+              {toggleSidebar && (
+                <div className=" pt-10  flex justify-center items-center  ">
+                  <Image
+                    className="sidebar-image opacity-20"
+                    src="/images/computer.png"
+                    width={200}
+                    height={200}
+                    alt="Picture of computer"
+                  />
+                </div>
+              )}
+
+              <div className="pt-20  w-full flex justify-center items-center">
                 {session ? (
-                  <li className="rounded-lg w-max shadow-lg hover:shadow-none transition-all duration-300">
+                  <li className="rounded-lg w-full border border-myViolet shadow-xl mx-2 hover:shadow-none hover:border-red-400 transition-all duration-300">
                     <button
                       onClick={logoutHandler}
-                      className="flex items-center p-2 space-x-5 rounded-md"
+                      className="flex items-center justify-center w-full p-2 space-x-5 rounded-md"
                     >
                       {toggleSidebar && <span>Log out</span>}
                       {toggleSidebar ? (
@@ -369,10 +374,10 @@ const Layout = ({ children }) => {
                     </button>
                   </li>
                 ) : (
-                  <li className="rounded-sm">
+                  <li className="rounded-sm w-full mx-2">
                     <Link
                       href="/signin"
-                      className="flex items-center p-2 space-x-3 rounded-md  shadow-lg hover:shadow-none transition-all duration-300"
+                      className="flex border  items-center justify-center p-2 space-x-3 rounded-md border-myViolet shadow-lg hover:shadow-none hover:border-green-400 transition-all duration-300"
                     >
                       {toggleSidebar && <span>Signin</span>}
                       {toggleSidebar ? (
