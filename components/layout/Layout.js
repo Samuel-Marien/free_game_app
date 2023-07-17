@@ -231,12 +231,12 @@ const Layout = ({ children }) => {
                   {session ? (
                     <span className="absolute right-6 top-30 h-2 w-2 rounded-full bg-green-300"></span>
                   ) : (
-                    <span className="absolute right-6 top-30 h-2 w-2 rounded-full bg-red-500"></span>
+                    <span className="absolute right-6 top-30 h-2 w-2 rounded-full bg-red-400"></span>
                   )}
 
                   <p
                     className={`flex justify-center items-center text-2xl border rounded-full p-1.5 text-myViolet ${
-                      session ? ' border-green-300' : ' border-red-500'
+                      session ? ' border-green-300' : ' border-red-400'
                     }`}
                   >
                     <span>
@@ -249,7 +249,7 @@ const Layout = ({ children }) => {
                     {session.user.name[0]}
                   </span>
                 ) : (
-                  <span className="text-xs pl-2 text-red-500 capitalize">
+                  <span className="text-xs pl-3 text-red-400 capitalize">
                     visitor
                   </span>
                 )}
@@ -496,6 +496,7 @@ const Layout = ({ children }) => {
                 : `linear-gradient(rgba(244,238,224, 0.8), #e6e1d8), url(${bgImage})`
             }`,
             backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'top center',
             backgroundSize: 'cover',
             position: 'relative'
           }}

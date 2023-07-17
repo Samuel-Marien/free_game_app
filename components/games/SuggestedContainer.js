@@ -195,9 +195,6 @@ const SuggestedContainer = (props) => {
           </p>
         ) : (
           <p className="flex items-center py-1 text-red-400">
-            <span className="text-2xl me-2 text-red-400">
-              <GiGamepad />
-            </span>
             Log In to view your personalized recommendations! Discover games
             you&apos;ll love.
           </p>
