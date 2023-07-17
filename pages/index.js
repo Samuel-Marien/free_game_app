@@ -26,6 +26,7 @@ export default function Home(data) {
   const { bgImage, setBgImage } = useContext(Context)
 
   // console.log(data.pageProps)
+  // console.log(data.pageProps.gameOfTheDayArtworks)
   // console.log(session)
   // console.log(status)
 
@@ -34,17 +35,11 @@ export default function Home(data) {
   useEffect(() => {
     if (data.pageProps.gameOfTheDayArtworks.artworks !== 'no data') {
       setBgImage(data.pageProps.gameOfTheDayArtworks.artworks)
-    } else if (data.pageProps.gameOfTheDayArtworksTwo.artworks !== 'no data') {
-      setBgImage(data.pageProps.gameOfTheDayArtworksTwo.artworks)
+      return
     } else {
       setBgImage('/images/default_bg.jpg')
     }
-  }, [
-    bgImage,
-    setBgImage,
-    data.pageProps.gameOfTheDayArtworks,
-    data.pageProps.gameOfTheDayArtworksTwo
-  ])
+  }, [bgImage, setBgImage, data.pageProps.gameOfTheDayArtworks])
 
   return (
     <div className="">
@@ -273,10 +268,6 @@ export async function getServerSideProps(context) {
 
   let gameOfTheDayArtworks =
     (await getArtworksByGameName(gameOfTheDay[0].title)) || null
-  let gameOfTheDayArtworksTwo =
-    (await getArtworksByGameName(gameOfTheDay[1].title)) || null
-
-  // console.log(gameOfTheDay[0].title)
 
   const endTime = performance.now()
   const loadTime = endTime - startTime
@@ -289,7 +280,6 @@ export async function getServerSideProps(context) {
       communityRecommendedGames,
       gameOfTheDay,
       gameOfTheDayArtworks,
-      gameOfTheDayArtworksTwo,
       loadTime
     }
   }
