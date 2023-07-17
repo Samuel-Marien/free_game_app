@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export async function getAllGames(platform, category, sorted) {
+export async function getAllGames(platform, category, sorted, numOfGames) {
   let data = []
   let url = ''
   // console.log(platform, category, sorted)
@@ -15,10 +15,10 @@ export async function getAllGames(platform, category, sorted) {
     // data = await res
     data = await res
   } catch (error) {
-    // console.log(error)
+    console.log(error)
   }
 
-  return data
+  return data.slice(0, numOfGames)
 }
 
 export async function getGame(gameId) {
@@ -35,7 +35,7 @@ export async function getGame(gameId) {
   return data
 }
 
-export async function getSuggestedGames(genresString) {
+export async function getSuggestedGames(genresString, numOfGames) {
   let data = []
   let url = `${process.env.API_URL_MULTI_TAGS}${genresString}&platform=all&sort-by=relevance`
 
@@ -46,7 +46,7 @@ export async function getSuggestedGames(genresString) {
     console.log(error)
   }
 
-  return data
+  return data.slice(0, numOfGames)
 }
 
 export async function getRandomGame() {

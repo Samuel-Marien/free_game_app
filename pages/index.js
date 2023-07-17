@@ -26,9 +26,10 @@ export default function Home(data) {
   const { bgImage, setBgImage } = useContext(Context)
 
   // console.log(data.pageProps)
-  // console.log(data.pageProps.gameOfTheDayArtworks.artworks)
   // console.log(session)
   // console.log(status)
+
+  console.log('Temps de chargement de la page :', data.pageProps.loadTime, 'ms')
 
   useEffect(() => {
     if (data.pageProps.gameOfTheDayArtworks.artworks !== 'no data') {
@@ -36,17 +37,11 @@ export default function Home(data) {
     } else if (data.pageProps.gameOfTheDayArtworksTwo.artworks !== 'no data') {
       setBgImage(data.pageProps.gameOfTheDayArtworksTwo.artworks)
     } else {
-      for (let i = 0; i < data.pageProps.artworks.length; i++) {
-        if (data.pageProps.artworks[i]) {
-          setBgImage(data.pageProps.artworks[i].artworks)
-          return
-        }
-      }
+      setBgImage('/images/default_bg.jpg')
     }
   }, [
     bgImage,
     setBgImage,
-    data.pageProps.artworks,
     data.pageProps.gameOfTheDayArtworks,
     data.pageProps.gameOfTheDayArtworksTwo
   ])
@@ -63,6 +58,7 @@ export default function Home(data) {
         <div>
           <GameOfTheDayContainer game={data.pageProps.gameOfTheDay} />
         </div>
+
         <div className="mt-10">
           <SuggestedContainer
             user={session && session}
@@ -82,6 +78,7 @@ export default function Home(data) {
 }
 
 export async function getServerSideProps(context) {
+  const startTime = performance.now()
   const session = await getSession({ req: context.req })
   // console.log(session)
 
@@ -126,10 +123,8 @@ export async function getServerSideProps(context) {
   }
 
   const result = classementRedondance(genresAvailableTemp)
-  // console.log(result)
 
-  const apiData = await getSuggestedGames(result)
-  const suggestedGames = apiData.slice(0, 4)
+  const suggestedGames = await getSuggestedGames(result, 4)
 
   // ********************************
   // *** SUGGESTED GAMES => ADD ONE VIDEO (by game) ***
@@ -149,29 +144,15 @@ export async function getServerSideProps(context) {
     }
   }
 
-  // console.log(media)
-
   // ********************************
   // *** RECENTLY ADDED GAMES ***
   const getRecentlyAddedGames = await getAllGames(
     recentlyAddedPlatform,
     'all',
-    'release-date'
+    'release-date',
+    8
   )
-  const recentlyAddedGames = getRecentlyAddedGames.slice(0, 8)
-
-  // ********************************
-  // *** ARTWORKS FROM RECENTLY ADDED GAMES ***
-  let artworks = []
-  for (let i = 0; i < 2; i++) {
-    // for (let i = 0; i < recentlyAddedGames.length; i++) {
-    if (recentlyAddedGames[i] !== undefined) {
-      const myArtworks =
-        (await getArtworksByGameName(recentlyAddedGames[i].title)) || null
-
-      artworks.push(myArtworks)
-    }
-  }
+  const recentlyAddedGames = getRecentlyAddedGames
 
   // ********************************
   // *** COMMUNAUTY RECOMMENDED GAMES ***
@@ -269,7 +250,6 @@ export async function getServerSideProps(context) {
   const gamesOfTheDayIds = gameOfTheDay.filter((item) =>
     arrayOfIds.push(item.id)
   )
-  // console.log(arrayOfIds)
 
   for (let i = 0; i < 2; i++) {
     let owners = []
@@ -298,15 +278,19 @@ export async function getServerSideProps(context) {
 
   // console.log(gameOfTheDay[0].title)
 
+  const endTime = performance.now()
+  const loadTime = endTime - startTime
+  // console.log('Temps de chargement de la page :', loadTime, 'ms')
+
   return {
     props: {
       suggestedGames,
       recentlyAddedGames,
       communityRecommendedGames,
       gameOfTheDay,
-      artworks,
       gameOfTheDayArtworks,
-      gameOfTheDayArtworksTwo
+      gameOfTheDayArtworksTwo,
+      loadTime
     }
   }
 }
