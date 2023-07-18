@@ -18,7 +18,7 @@ import {
 import Context from '../components/context/appContext'
 import Hero from '../components/Hero'
 import SuggestedContainer from '../components/games/SuggestedContainer'
-import RecentlyAddedContainer from '../components/user/RecentlyAddedContainer'
+import RecentlyAddedContainer from '../components/games/RecentlyAddedContainer'
 import CommunautyRecoContainer from '../components/games/CommunautyRecoContainer'
 import GameOfTheDayContainer from '../components/games/GameOfTheDayContainer'
 
@@ -27,7 +27,7 @@ export default function Home(data) {
   const { bgImage, setBgImage } = useContext(Context)
   const [toggleBrowseGame, setToggleBrowseGame] = useState(false)
 
-  // console.log(data.pageProps)
+  console.log(data.pageProps)
   // console.log(data.pageProps.gameOfTheDayArtworks)
   // console.log(session)
   // console.log(status)
@@ -78,9 +78,12 @@ export default function Home(data) {
             suggestedGames={data.pageProps.suggestedGames}
           />
         </div>
-        <RecentlyAddedContainer
-          recentlyAddedGames={data.pageProps.recentlyAddedGames}
-        />
+        <div className="mt-10">
+          <RecentlyAddedContainer
+            recentlyAddedGames={data.pageProps.recentlyAddedGames}
+          />
+        </div>
+
         <CommunautyRecoContainer
           communautyReco={data.pageProps.communityRecommendedGames}
         />
