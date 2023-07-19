@@ -40,7 +40,9 @@ const GameDetails = (props) => {
       <p>developer: {game.developer}</p>
       <p>genre: {game.genre}</p>
       <p>release date: {game.release_date}</p>
-      <Link href={game.game_url}>game_url: {game.game_url}</Link>
+      <Link target="_blank" href={game.game_url}>
+        game_url: {game.game_url}
+      </Link>
       <button
         onClick={() => handleSave(game)}
         className="w-full mt-3 mb-1 rounded shadow bg-slate-300 hover:bg-slate-600 hover:text-slate-100"

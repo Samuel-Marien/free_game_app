@@ -185,6 +185,7 @@ const GameCardOfTheDay = (props) => {
 
         <div className="flex text-base justify-between space-x-3 xl:mt-0 mt-4">
           <Link
+            target="_blank"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             href={gameUrl}

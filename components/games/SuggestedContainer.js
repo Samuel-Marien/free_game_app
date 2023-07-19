@@ -127,6 +127,7 @@ const SuggestedCard = (props) => {
               }`}
             >
               <Link
+                target="_blank"
                 href={gameUrl}
                 className="bg-myOrange text-myText hover:bg-myViolet hover:text-myText rounded-md hover:rounded p-0.5  px-1 hover:shadow-lg shadow-none transition-all duration-300"
               >
