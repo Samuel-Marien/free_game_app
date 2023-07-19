@@ -8,8 +8,8 @@ import Context from '../context/appContext'
 import HomeSectionTitle from './HomeSectionTitle'
 
 import { GiGamepadCross } from 'react-icons/gi'
-import { BsCalendarPlus, BsChatSquareText } from 'react-icons/bs'
-import { AiFillWindows, AiFillCode, AiOutlineFileDone } from 'react-icons/ai'
+import { BsCalendarPlus } from 'react-icons/bs'
+import { AiFillWindows } from 'react-icons/ai'
 import { CgBrowser } from 'react-icons/cg'
 
 const RecentlyAddedCard = (props) => {
@@ -21,7 +21,8 @@ const RecentlyAddedCard = (props) => {
     imageUrl,
     releaseDate,
     description,
-    gameUrl
+    gameUrl,
+    isDark
   } = props
 
   return (
@@ -43,10 +44,18 @@ const RecentlyAddedCard = (props) => {
         </div>
       </Link>
       {/* Right side  */}
-      <div className=" flex flex-col justify-between p-2 bg-myDarkViolet bg-opacity-80 xl:rounded-r-lg rounded-br-lg rounded-bl-lg xl:rounded-bl-none">
+      <div
+        className={`flex flex-col justify-between p-2  xl:rounded-r-lg rounded-br-lg rounded-bl-lg xl:rounded-bl-none ${
+          isDark ? 'bg-myDarkViolet bg-opacity-80' : 'bg-myBrown bg-opacity-80'
+        }`}
+      >
         <div>
           {/* Title  */}
-          <h1 className="text-myText font-myTitle font-semibold lg:text-2xl sm:text-xl text-base line-clamp-1">
+          <h1
+            className={` font-myTitle font-semibold lg:text-2xl sm:text-xl text-base line-clamp-1 ${
+              isDark ? 'text-myText' : 'text-myDarkViolet'
+            }`}
+          >
             {title}
           </h1>
 
@@ -55,7 +64,11 @@ const RecentlyAddedCard = (props) => {
             {/* Release date & Pills  */}
             <div className="flex space-x-2 pt-1">
               {/* Release date  */}
-              <p className=" flex items-center text-myText font-thin lg:text-sm text-xs px-2 shadow p-1 rounded-xl bg-myBlackDarkViolet">
+              <p
+                className={`flex items-center text-myText font-thin lg:text-sm text-xs px-2 shadow p-1 rounded-xl  ${
+                  isDark ? ' bg-myBlackDarkViolet' : ' bg-myDarkViolet'
+                }`}
+              >
                 <span className="me-1">
                   <BsCalendarPlus />
                 </span>
@@ -64,10 +77,18 @@ const RecentlyAddedCard = (props) => {
 
               {/* Pills  */}
               <div className="flex space-x-2 ">
-                <p className="text-xs flex items-center text-myText uppercase px-2 shadow p-1 rounded-xl bg-myBlackDarkViolet w-max">
+                <p
+                  className={`text-xs flex items-center text-myText uppercase px-2 shadow p-1 rounded-xl w-max ${
+                    isDark ? ' bg-myBlackDarkViolet' : ' bg-myDarkViolet'
+                  }`}
+                >
                   {genre}
                 </p>
-                <p className="text-base text-myText uppercase flex justify-center items-center shadow p-1 rounded-full bg-myBlackDarkViolet w-max">
+                <p
+                  className={`text-base text-myText uppercase flex justify-center items-center shadow p-1 rounded-full  w-max  ${
+                    isDark ? ' bg-myBlackDarkViolet' : ' bg-myDarkViolet'
+                  }`}
+                >
                   {platform === 'PC (Windows)' ? (
                     <AiFillWindows />
                   ) : (
@@ -78,7 +99,11 @@ const RecentlyAddedCard = (props) => {
             </div>
 
             {/* Descriptiion  */}
-            <div className="text-myText md:text-sm text-xs pt-1 ">
+            <div
+              className={` md:text-sm text-xs pt-1 ${
+                isDark ? 'text-myText' : 'text-myDarkViolet'
+              }`}
+            >
               <p className=" 2xl:line-clamp-3 xl:xl:line-clamp-2 line-clamp-1">
                 {description}
               </p>
@@ -152,6 +177,7 @@ const RecentlyAddedContainer = (props) => {
               releaseDate={game.release_date}
               description={game.short_description}
               gameUrl={game.game_url}
+              isDark={toggleDarktheme}
             />
           )
         })}
