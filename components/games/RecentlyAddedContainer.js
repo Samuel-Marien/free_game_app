@@ -20,16 +20,15 @@ const RecentlyAddedCard = (props) => {
     id,
     imageUrl,
     releaseDate,
-    developer,
-    publisher,
     description,
     gameUrl
   } = props
+
   return (
-    <div className="grid grid-cols-2 shadow-md hover:shadow-none transition-none duration-300">
+    <div className="grid grid-cols-1 xl:grid-cols-2 rounded-lg shadow-md hover:shadow-none transition-none duration-300">
       {/* Left Side  */}
       <Link
-        className=" overflow-hidden rounded-l-lg"
+        className=" overflow-hidden xl:rounded-l-lg xl:rounded-tr-none rounded-t-lg"
         href={{ pathname: `/games/details-game`, query: { id: id } }}
       >
         <div>
@@ -38,35 +37,25 @@ const RecentlyAddedCard = (props) => {
             src={imageUrl}
             priority
             width={600}
-            height={500}
+            height={600}
             alt={title}
           />
         </div>
       </Link>
       {/* Right side  */}
-      <div className=" flex flex-col justify-between p-2 bg-myDarkViolet bg-opacity-80 rounded-r-lg">
+      <div className=" flex flex-col justify-between p-2 bg-myDarkViolet bg-opacity-80 xl:rounded-r-lg rounded-br-lg rounded-bl-lg xl:rounded-bl-none">
         <div>
           {/* Title  */}
-          <h1 className="text-myText font-myTitle font-semibold text-2xl line-clamp-1">
+          <h1 className="text-myText font-myTitle font-semibold lg:text-2xl sm:text-xl text-base line-clamp-1">
             {title}
           </h1>
 
           {/* Infos  */}
-          <div className="space-y-1">
-            {/* dev & publisher  */}
-            {/* <div className="flex items-center text-sm space-x-2 text-myViolet">
-              <p className="flex items-center">
-                <span className="me-1">
-                  <AiFillCode />
-                </span>
-                {developer} ({publisher})
-              </p>
-            </div> */}
-
+          <div className="space-y-1 ">
             {/* Release date & Pills  */}
             <div className="flex space-x-2 pt-1">
               {/* Release date  */}
-              <p className=" flex items-center text-myText font-thin text-sm px-2 shadow p-1 rounded-xl bg-myBlackDarkViolet">
+              <p className=" flex items-center text-myText font-thin lg:text-sm text-xs px-2 shadow p-1 rounded-xl bg-myBlackDarkViolet">
                 <span className="me-1">
                   <BsCalendarPlus />
                 </span>
@@ -89,8 +78,10 @@ const RecentlyAddedCard = (props) => {
             </div>
 
             {/* Descriptiion  */}
-            <div className="text-myText text-sm pt-1 ">
-              <p className=" line-clamp-2   ">{description}</p>
+            <div className="text-myText md:text-sm text-xs pt-1 ">
+              <p className=" 2xl:line-clamp-3 xl:xl:line-clamp-2 line-clamp-1">
+                {description}
+              </p>
             </div>
           </div>
         </div>
@@ -98,7 +89,7 @@ const RecentlyAddedCard = (props) => {
         {/* Play button  */}
         <div className=" w-full flex justify-end">
           <Link
-            className="bg-myOrange rounded shadow-lg p-1 mt-1 px-2 text-myText"
+            className=" uppercase bg-myOrange font-myTitle font-semibold text-center w-full md:w-max rounded shadow-lg p-1 md:mt-2 mt-4 px-2 text-myText text-sm hover:bg-myViolet hover:text-myBlackDarkViolet hover:shadow-none transition-all duration-300"
             target="_blank"
             href={gameUrl}
           >
@@ -128,7 +119,7 @@ const RecentlyAddedContainer = (props) => {
         title="Recently added"
         isDark={toggleDarktheme}
       />
-      <div className="flex space-x-3 my-2">
+      {/* <div className="flex space-x-3 my-2">
         <button
           onClick={() => handleCHangePlatform('pc')}
           className="p-1 rounded border cursor-pointer shadow-md hover:shadow-none"
@@ -147,8 +138,8 @@ const RecentlyAddedContainer = (props) => {
         >
           ALL
         </button>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
+      </div> */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
         {recentlyAddedGames.map((game) => {
           return (
             <RecentlyAddedCard
@@ -159,8 +150,6 @@ const RecentlyAddedContainer = (props) => {
               id={game.id}
               imageUrl={game.thumbnail}
               releaseDate={game.release_date}
-              developer={game.developer}
-              publisher={game.publisher}
               description={game.short_description}
               gameUrl={game.game_url}
             />
